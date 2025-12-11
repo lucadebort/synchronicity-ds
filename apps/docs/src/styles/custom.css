@@ -227,6 +227,7 @@ nav.sidebar a[aria-current="page"] {
 /* ------------------------------------------------------------
    Component Preview Containers
    ------------------------------------------------------------ */
+/* Component Preview - Single theme */
 .component-preview {
   padding: 2rem;
   border-radius: 12px;
@@ -240,15 +241,96 @@ nav.sidebar a[aria-current="page"] {
 
 .component-preview.dark {
   background: #0a0a0f;
+  color: #e8e6e3;
 }
 
 .component-preview.light {
   background: #faf8f3;
+  color: #2a2520;
+}
+
+.component-preview.true-black {
+  background: #000000;
+  color: #e8e6e3;
 }
 
 .preview-row {
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+/* Theme Showcase - All three themes side by side */
+.theme-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-hairline);
+  background: var(--sl-color-hairline);
+}
+
+.theme-showcase .theme-panel {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-showcase .theme-panel.light {
+  background: #faf8f3;
+  color: #2a2520;
+}
+
+.theme-showcase .theme-panel.dark {
+  background: #0a0a0f;
+  color: #e8e6e3;
+}
+
+.theme-showcase .theme-panel.true-black {
+  background: #000000;
+  color: #e8e6e3;
+}
+
+.theme-showcase .theme-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+}
+
+/* Light theme specific button colors */
+.theme-panel.light .sync-button-primary {
+  background: #886a00;
+  color: #faf8f3;
+}
+
+.theme-panel.light .sync-button-primary:hover {
+  background: #6b5300;
+}
+
+.theme-panel.light .sync-button-secondary {
+  color: #886a00;
+  border-color: #886a00;
+}
+
+.theme-panel.light .sync-button-ghost {
+  color: #2a2520;
+}
+
+.theme-panel.light .sync-button-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive theme showcase */
+@media (max-width: 640px) {
+  .theme-showcase {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ------------------------------------------------------------

@@ -1,0 +1,432 @@
+---
+title: Input
+description: Text input field for user data entry
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Input
+
+Input fields allow users to enter and edit text. They're used for forms, search, and any text-based interaction.
+
+## Theme Showcase
+
+<div class="theme-showcase">
+  <div class="theme-panel light">
+    <span class="theme-label">Light</span>
+    <input class="sync-input" type="text" placeholder="Enter your question..." />
+  </div>
+  <div class="theme-panel dark">
+    <span class="theme-label">Dark</span>
+    <input class="sync-input" type="text" placeholder="Enter your question..." />
+  </div>
+  <div class="theme-panel true-black">
+    <span class="theme-label">True Black</span>
+    <input class="sync-input" type="text" placeholder="Enter your question..." />
+  </div>
+</div>
+
+---
+
+## States
+
+### Default
+
+<div class="component-preview dark">
+  <input class="sync-input" type="text" placeholder="What guidance do you seek?" />
+</div>
+
+```tsx
+<Input placeholder="What guidance do you seek?" />
+```
+
+### Focused
+
+<div class="component-preview dark">
+  <input class="sync-input sync-input-focused" type="text" placeholder="Focused state" value="My question is..." />
+</div>
+
+```tsx
+<Input
+  placeholder="What guidance do you seek?"
+  value={question}
+  onChangeText={setQuestion}
+/>
+```
+
+### Error
+
+<div class="component-preview dark">
+  <div class="input-wrapper">
+    <input class="sync-input sync-input-error" type="text" value="Invalid input" />
+    <span class="input-error-text">Please enter a valid question</span>
+  </div>
+</div>
+
+```tsx
+<Input
+  value={question}
+  error="Please enter a valid question"
+/>
+```
+
+### Disabled
+
+<div class="component-preview dark">
+  <input class="sync-input sync-input-disabled" type="text" placeholder="Disabled input" disabled />
+</div>
+
+```tsx
+<Input placeholder="Disabled input" disabled />
+```
+
+---
+
+## Sizes
+
+<div class="component-preview dark" style="flex-direction: column; gap: 12px; align-items: stretch;">
+  <input class="sync-input sync-input-sm" type="text" placeholder="Small (36px)" />
+  <input class="sync-input sync-input-md" type="text" placeholder="Medium (44px)" />
+  <input class="sync-input sync-input-lg" type="text" placeholder="Large (52px)" />
+</div>
+
+| Size | Height | Font Size | Usage |
+|------|--------|-----------|-------|
+| `sm` | 36px | 13px | Compact forms, filters |
+| `md` | 44px | 15px | Default, most cases |
+| `lg` | 52px | 17px | Primary inputs, search |
+
+---
+
+## With Label
+
+<div class="component-preview dark">
+  <div class="input-field">
+    <label class="input-label">Your Question</label>
+    <input class="sync-input" type="text" placeholder="What would you like to know?" />
+    <span class="input-hint">Be specific and open-minded</span>
+  </div>
+</div>
+
+```tsx
+<Input
+  label="Your Question"
+  placeholder="What would you like to know?"
+  hint="Be specific and open-minded"
+/>
+```
+
+---
+
+## Multiline (TextArea)
+
+<div class="component-preview dark">
+  <textarea class="sync-input sync-textarea" placeholder="Describe your situation in detail..."></textarea>
+</div>
+
+```tsx
+<Input
+  multiline
+  numberOfLines={4}
+  placeholder="Describe your situation in detail..."
+/>
+```
+
+---
+
+## With Icon
+
+<div class="component-preview dark preview-row">
+  <div class="input-with-icon">
+    <span class="input-icon">🔍</span>
+    <input class="sync-input sync-input-icon-left" type="text" placeholder="Search hexagrams..." />
+  </div>
+  <div class="input-with-icon">
+    <input class="sync-input sync-input-icon-right" type="text" placeholder="Search..." />
+    <span class="input-icon">⌘K</span>
+  </div>
+</div>
+
+```tsx
+<Input
+  icon={<SearchIcon />}
+  iconPosition="left"
+  placeholder="Search hexagrams..."
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | - | Input value |
+| `placeholder` | `string` | - | Placeholder text |
+| `label` | `string` | - | Label above input |
+| `hint` | `string` | - | Helper text below input |
+| `error` | `string` | - | Error message |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input size |
+| `disabled` | `boolean` | `false` | Disable input |
+| `multiline` | `boolean` | `false` | Enable textarea mode |
+| `numberOfLines` | `number` | `1` | Lines for multiline |
+| `icon` | `ReactNode` | - | Icon element |
+| `iconPosition` | `'left' \| 'right'` | `'left'` | Icon placement |
+| `onChangeText` | `(text: string) => void` | - | Text change handler |
+| `onFocus` | `() => void` | - | Focus handler |
+| `onBlur` | `() => void` | - | Blur handler |
+
+### Tokens Used
+
+```ts
+import { input } from '@synchronicity/tokens/components';
+
+// Background per theme
+input.background.light      // #faf8f3
+input.background.dark       // #12121a
+input.background.trueBlack  // #000000
+
+// Text
+input.text.light           // #1a1814
+input.text.dark            // #f8f9fa
+
+// Placeholder
+input.placeholder.light    // #8c8579
+input.placeholder.dark     // #6c757d
+
+// Border
+input.border.color.default.dark  // #24242f
+input.border.color.focus         // #d4af37
+input.border.color.error         // #ef4444
+input.border.radius              // 8
+
+// Sizing
+input.height.md            // 44
+input.padding.horizontal   // 16
+```
+
+---
+
+## Usage Guidelines
+
+### Do
+
+- Use clear, descriptive placeholders
+- Provide labels for important fields
+- Show validation errors clearly
+- Use appropriate input types (email, number, etc.)
+
+### Don't
+
+- Use placeholder as the only label
+- Show error before user interacts
+- Make inputs too wide for their content
+- Require specific formats without examples
+
+<Aside type="tip">
+For contemplative applications, inputs should feel inviting rather than demanding. Use soft placeholder text and gentle focus states.
+</Aside>
+
+---
+
+## Accessibility
+
+- **Label association**: Labels are programmatically linked to inputs
+- **Error announcement**: Screen readers announce errors
+- **Focus indicator**: 2px gold outline
+- **Touch target**: Minimum 44px height
+- **Placeholder contrast**: 4.5:1 minimum
+
+```tsx
+<Input
+  label="Your Question"
+  accessibilityLabel="Enter your question for the I Ching reading"
+  accessibilityHint="Type the question you want guidance on"
+  error={error}
+/>
+```
+
+---
+
+## Complete Example
+
+```tsx
+import { Input, Button } from '@synchronicity/react-native';
+import { useState } from 'react';
+
+function QuestionForm({ onSubmit }) {
+  const [question, setQuestion] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = () => {
+    if (question.trim().length < 10) {
+      setError('Please enter a more detailed question');
+      return;
+    }
+    setError('');
+    onSubmit(question);
+  };
+
+  return (
+    <View style={styles.form}>
+      <Input
+        label="Your Question"
+        placeholder="What guidance do you seek today?"
+        hint="Be specific and reflect on what matters most"
+        value={question}
+        onChangeText={setQuestion}
+        error={error}
+        multiline
+        numberOfLines={3}
+        size="lg"
+      />
+
+      <Button
+        variant="primary"
+        onPress={handleSubmit}
+        disabled={!question.trim()}
+        style={{ marginTop: 16 }}
+      >
+        Cast Hexagram
+      </Button>
+    </View>
+  );
+}
+```
+
+<style>{`
+  .sync-input {
+    width: 100%;
+    max-width: 300px;
+    height: 44px;
+    padding: 0 16px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    background: #12121a;
+    border: 1px solid #2a2a38;
+    border-radius: 8px;
+    color: #e8e6e3;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .sync-input::placeholder {
+    color: #6a6a7a;
+  }
+
+  .sync-input:focus,
+  .sync-input-focused {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  }
+
+  .sync-input-error {
+    border-color: #ef4444;
+  }
+
+  .sync-input-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  }
+
+  .sync-input-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .sync-input-sm { height: 36px; font-size: 13px; padding: 0 12px; }
+  .sync-input-md { height: 44px; font-size: 15px; }
+  .sync-input-lg { height: 52px; font-size: 17px; padding: 0 20px; }
+
+  .sync-textarea {
+    height: auto;
+    min-height: 100px;
+    padding: 12px 16px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .input-error-text {
+    font-size: 13px;
+    color: #ef4444;
+  }
+
+  .input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .input-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e8e6e3;
+  }
+
+  .input-hint {
+    font-size: 13px;
+    color: #8a8a9a;
+  }
+
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    font-size: 14px;
+    color: #6a6a7a;
+    pointer-events: none;
+  }
+
+  .input-with-icon .input-icon:first-child {
+    left: 12px;
+  }
+
+  .input-with-icon .input-icon:last-child {
+    right: 12px;
+  }
+
+  .sync-input-icon-left {
+    padding-left: 40px;
+  }
+
+  .sync-input-icon-right {
+    padding-right: 50px;
+  }
+
+  /* Light theme */
+  .theme-panel.light .sync-input {
+    background: #faf8f3;
+    border-color: #e0dcd0;
+    color: #2a2520;
+  }
+
+  .theme-panel.light .sync-input::placeholder {
+    color: #8a7f75;
+  }
+
+  .theme-panel.light .sync-input:focus {
+    border-color: #886a00;
+    box-shadow: 0 0 0 3px rgba(136, 106, 0, 0.1);
+  }
+
+  /* True black theme */
+  .theme-panel.true-black .sync-input {
+    background: #000000;
+    border-color: #1a1a1a;
+  }
+`}</style>

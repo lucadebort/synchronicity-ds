@@ -1,0 +1,460 @@
+---
+title: TabBar
+description: Bottom navigation for switching between main app sections
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# TabBar
+
+The TabBar provides primary navigation between main sections of the app. It uses a minimal design with gold accent indicators and haptic feedback.
+
+## Theme Showcase
+
+<div class="theme-showcase">
+  <div class="theme-panel light">
+    <span class="theme-label">Light</span>
+    <div class="sync-tabbar">
+      <div class="tab active">
+        <div class="indicator active"></div>
+        <span class="tab-label active">CAST</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">BROWSE</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">LEARN</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">HISTORY</span>
+      </div>
+    </div>
+  </div>
+  <div class="theme-panel dark">
+    <span class="theme-label">Dark</span>
+    <div class="sync-tabbar">
+      <div class="tab active">
+        <div class="indicator active"></div>
+        <span class="tab-label active">CAST</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">BROWSE</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">LEARN</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">HISTORY</span>
+      </div>
+    </div>
+  </div>
+  <div class="theme-panel true-black">
+    <span class="theme-label">True Black</span>
+    <div class="sync-tabbar true-black">
+      <div class="tab active">
+        <div class="indicator active"></div>
+        <span class="tab-label active">CAST</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">BROWSE</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">LEARN</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">HISTORY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+## Anatomy
+
+<div class="component-preview dark">
+  <div class="tabbar-anatomy">
+    <div class="sync-tabbar">
+      <div class="tab active">
+        <div class="indicator active"></div>
+        <span class="tab-label active">CAST</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">BROWSE</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">LEARN</span>
+      </div>
+      <div class="tab">
+        <div class="indicator"></div>
+        <span class="tab-label">HISTORY</span>
+      </div>
+    </div>
+    <div class="anatomy-labels">
+      <div class="anatomy-item">
+        <span class="anatomy-number">1</span>
+        <span class="anatomy-text">Gold indicator dot (active)</span>
+      </div>
+      <div class="anatomy-item">
+        <span class="anatomy-number">2</span>
+        <span class="anatomy-text">Uppercase label</span>
+      </div>
+      <div class="anatomy-item">
+        <span class="anatomy-number">3</span>
+        <span class="anatomy-text">Touch target (full width)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+| Element | Active | Inactive |
+|---------|--------|----------|
+| **Indicator** | 4×4px gold dot | Hidden |
+| **Label** | Gold, medium weight | Gray, regular weight |
+| **Touch** | Full tab area responds | Full tab area responds |
+
+---
+
+## Tab States
+
+### Inactive
+
+<div class="component-preview dark">
+  <div class="tab-state">
+    <div class="indicator"></div>
+    <span class="tab-label">BROWSE</span>
+  </div>
+</div>
+
+Default state for unselected tabs.
+
+### Active
+
+<div class="component-preview dark">
+  <div class="tab-state">
+    <div class="indicator active"></div>
+    <span class="tab-label active">CAST</span>
+  </div>
+</div>
+
+Currently selected tab with gold indicator and label.
+
+### Pressed
+
+<div class="component-preview dark">
+  <div class="tab-state pressed">
+    <div class="indicator"></div>
+    <span class="tab-label">LEARN</span>
+  </div>
+</div>
+
+Visual feedback during touch (70% opacity).
+
+---
+
+## Behavior
+
+### Haptic Feedback
+
+The TabBar triggers selection haptics on every tap:
+
+```tsx
+const onPress = () => {
+  haptics.selection(); // Light haptic feedback
+  navigation.navigate(route.name);
+};
+```
+
+### Safe Area
+
+The TabBar automatically adjusts for device safe areas (notch, home indicator):
+
+```tsx
+const bottomPadding = insets.bottom > 0
+  ? insets.bottom
+  : theme.spacing.compact;
+```
+
+| Device | Bottom Padding |
+|--------|----------------|
+| iPhone with Face ID | ~34px |
+| iPhone with Home Button | 12px (fallback) |
+| Android | 12px (fallback) |
+
+---
+
+## Specifications
+
+| Property | Value |
+|----------|-------|
+| Base Height | 64px |
+| Label Size | 11px |
+| Letter Spacing | 0.5px (wide) |
+| Indicator Size | 4×4px |
+| Background | Surface @ 95% opacity |
+| Border Top | 1px border color |
+
+---
+
+## API Reference
+
+### Props
+
+The TabBar receives standard React Navigation bottom tab props:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `state` | `TabNavigationState` | Current navigation state |
+| `descriptors` | `BottomTabDescriptorMap` | Tab configuration |
+| `navigation` | `NavigationProp` | Navigation object |
+
+### Usage
+
+```tsx
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CustomTabBar } from '@synchronicity/react-native';
+
+const Tab = createBottomTabNavigator();
+
+function Navigation() {
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen name="Cast" component={CastScreen} />
+      <Tab.Screen name="Browse" component={BrowseScreen} />
+      <Tab.Screen name="Learn" component={LearnScreen} />
+      <Tab.Screen name="History" component={HistoryScreen} />
+    </Tab.Navigator>
+  );
+}
+```
+
+---
+
+## Design Decisions
+
+### Text-Only Labels
+
+We use text labels instead of icons for several reasons:
+
+1. **Clarity**: Words are unambiguous
+2. **Accessibility**: Better for screen readers
+3. **Contemplative design**: Less visual noise
+4. **Brand**: Unique, memorable navigation
+
+### Minimal Indicator
+
+The small gold dot is chosen over:
+- Underlines (too heavy)
+- Background fills (too prominent)
+- Icon changes (we don't use icons)
+
+The dot is subtle but clearly visible, drawing the eye without demanding it.
+
+### Uppercase Labels
+
+Uppercase with wide letter spacing creates:
+- Visual rhythm
+- Clear separation from content
+- Intentional, ceremonial feel
+
+---
+
+## Accessibility
+
+- **Role**: Each tab is `accessibilityRole="button"`
+- **Label**: Clear text description
+- **State**: `accessibilityState={{ selected: isFocused }}`
+- **Hint**: "Navigate to {label} tab"
+- **Touch target**: Full tab width, 64px+ height
+
+```tsx
+<TouchableOpacity
+  accessibilityRole="button"
+  accessibilityLabel="Cast"
+  accessibilityState={{ selected: true }}
+  accessibilityHint="Navigate to Cast tab"
+>
+  ...
+</TouchableOpacity>
+```
+
+---
+
+## Complete Example
+
+```tsx
+import { CustomTabBar } from '@synchronicity/react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+function AppNavigator() {
+  return (
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+      }}
+    >
+      <Tab.Screen
+        name="Cast"
+        component={CastScreen}
+        options={{ title: 'Cast' }}
+      />
+      <Tab.Screen
+        name="Browse"
+        component={BrowseScreen}
+        options={{ title: 'Browse' }}
+      />
+      <Tab.Screen
+        name="Learn"
+        component={LearnScreen}
+        options={{ title: 'Learn' }}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{ title: 'History' }}
+      />
+    </Tab.Navigator>
+  );
+}
+```
+
+<style>{`
+  .sync-tabbar {
+    display: flex;
+    background: rgba(18, 18, 26, 0.95);
+    border-top: 1px solid #2a2a38;
+    padding: 12px 0 20px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .sync-tabbar.true-black {
+    background: rgba(0, 0, 0, 0.95);
+    border-top-color: #1a1a1a;
+  }
+
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: opacity 0.1s ease;
+  }
+
+  .tab:active, .tab.pressed {
+    opacity: 0.7;
+  }
+
+  .indicator {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background: transparent;
+  }
+
+  .indicator.active {
+    background: #d4af37;
+  }
+
+  .tab-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #6a6a7a;
+    transition: color 0.15s ease;
+  }
+
+  .tab-label.active {
+    color: #d4af37;
+    font-weight: 500;
+  }
+
+  /* Light theme */
+  .theme-panel.light .sync-tabbar {
+    background: rgba(245, 242, 234, 0.95);
+    border-top-color: #e0dcd0;
+  }
+
+  .theme-panel.light .tab-label {
+    color: #8a7f75;
+  }
+
+  .theme-panel.light .tab-label.active {
+    color: #886a00;
+  }
+
+  .theme-panel.light .indicator.active {
+    background: #886a00;
+  }
+
+  /* Tab state demo */
+  .tab-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 32px;
+  }
+
+  /* Anatomy */
+  .tabbar-anatomy {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .anatomy-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .anatomy-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .anatomy-number {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #d4af37;
+    color: #0a0a0f;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .anatomy-text {
+    font-size: 13px;
+    color: #b8b6b3;
+  }
+`}</style>

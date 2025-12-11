@@ -1,0 +1,461 @@
+---
+title: HexagramVisual
+description: Visual representation of I Ching hexagrams with animated transitions
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# HexagramVisual
+
+The HexagramVisual component renders I Ching hexagrams using the traditional six-line format. It supports changing lines, animated transitions, and multiple sizes.
+
+## Theme Showcase
+
+<div class="theme-showcase">
+  <div class="theme-panel light">
+    <span class="theme-label">Light</span>
+    <div class="hexagram-visual">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+    </div>
+  </div>
+  <div class="theme-panel dark">
+    <span class="theme-label">Dark</span>
+    <div class="hexagram-visual">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+    </div>
+  </div>
+  <div class="theme-panel true-black">
+    <span class="theme-label">True Black</span>
+    <div class="hexagram-visual">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+    </div>
+  </div>
+</div>
+
+---
+
+## Line Types
+
+Hexagrams are composed of two line types:
+
+<div class="component-preview dark preview-row">
+  <div class="line-demo">
+    <div class="hex-line yang" style="width: 80px; height: 6px;"></div>
+    <span class="line-label">Yang (solid)</span>
+  </div>
+  <div class="line-demo">
+    <div class="hex-line yin" style="width: 80px; height: 6px;"></div>
+    <span class="line-label">Yin (broken)</span>
+  </div>
+</div>
+
+| Line | Symbol | Meaning |
+|------|--------|---------|
+| **Yang** | ━━━━━ | Creative, active, light, masculine |
+| **Yin** | ━━ ━━ | Receptive, passive, dark, feminine |
+
+---
+
+## Sizes
+
+<div class="component-preview dark preview-row" style="align-items: flex-end; gap: 32px;">
+  <div class="size-demo">
+    <div class="hexagram-visual tiny">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <span class="size-label">tiny</span>
+  </div>
+  <div class="size-demo">
+    <div class="hexagram-visual small">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <span class="size-label">small</span>
+  </div>
+  <div class="size-demo">
+    <div class="hexagram-visual medium">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <span class="size-label">medium</span>
+  </div>
+  <div class="size-demo">
+    <div class="hexagram-visual large">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <span class="size-label">large</span>
+  </div>
+</div>
+
+| Size | Line Width | Line Height | Gap | Usage |
+|------|------------|-------------|-----|-------|
+| `tiny` | 28px | 2px | 3px | List items, badges |
+| `small` | 40px | 3px | 3px | Cards, thumbnails |
+| `medium` | 60px | 4px | 6px | Default, detail views |
+| `large` | 80px | 5px | 8px | Hero, focus states |
+
+---
+
+## Changing Lines
+
+When a hexagram has changing lines, they're highlighted in gold with optional indicator dots.
+
+<div class="component-preview dark preview-row">
+  <div class="hexagram-with-dots">
+    <div class="hexagram-visual medium">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin changing"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang changing"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <div class="changing-dots">
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+</div>
+
+```tsx
+<HexagramVisual
+  hexagramNumber={1}
+  changingLines={[2, 4]}  // Lines 2 and 4 are changing
+  showChangingDots={true}
+/>
+```
+
+<Aside type="note">
+Changing lines indicate movement from the current hexagram to a future hexagram. Lines are numbered 1-6 from bottom to top.
+</Aside>
+
+---
+
+## Animated Transitions
+
+The component supports smooth animations when transitioning between hexagrams.
+
+<div class="component-preview dark">
+  <div class="animation-demo">
+    <div class="hexagram-visual medium">
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin animation-line"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yang"></div>
+      <div class="hex-line yin"></div>
+      <div class="hex-line yang"></div>
+    </div>
+    <span class="animation-label">Animated transition</span>
+  </div>
+</div>
+
+```tsx
+<HexagramVisual
+  hexagramNumber={1}
+  futureHexagramNumber={2}
+  changingLines={[2]}
+  animationProgress={animatedValue}
+  animated={true}
+/>
+```
+
+The animation:
+1. Current line shrinks to the right
+2. Future line grows from the right
+3. Changing dots fade out during transition
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `hexagramNumber` | `number` | - | Hexagram number (1-64) |
+| `size` | `'tiny' \| 'small' \| 'medium' \| 'large'` | `'medium'` | Visual size |
+| `changingLines` | `number[]` | `[]` | Line positions that are changing (1-6) |
+| `showChangingDots` | `boolean` | `false` | Show indicator dots |
+| `animated` | `boolean` | `false` | Enable animations |
+| `futureHexagramNumber` | `number` | - | Target hexagram for animation |
+| `animationProgress` | `Animated.Value` | - | Animation progress (0-1) |
+
+### Tokens Used
+
+```ts
+// Line colors
+theme.colors.textPrimary   // Standard lines
+theme.colors.goldPrimary   // Changing lines
+
+// Geometry
+theme.radius.subtle        // Line border radius (1px)
+```
+
+---
+
+## Usage Guidelines
+
+### Do
+
+- Use appropriate sizes for context (tiny for lists, large for focus)
+- Show changing lines when they're relevant to the reading
+- Use animation for meaningful transitions
+- Maintain consistent sizing across related views
+
+### Don't
+
+- Mix different sizes in the same context
+- Animate without purpose
+- Show changing dots without changing lines
+- Use hexagram visuals purely decoratively
+
+<Aside type="tip">
+The hexagram visual is a sacred symbol. Display it with appropriate reverence and context.
+</Aside>
+
+---
+
+## Complete Example
+
+```tsx
+import { HexagramVisual } from '@synchronicity/react-native';
+import { useRef, useEffect } from 'react';
+import { Animated } from 'react-native';
+
+function ReadingTransition({ currentHex, futureHex, changingLines }) {
+  const animationProgress = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Animate from current to future hexagram
+    Animated.timing(animationProgress, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, [futureHex]);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Your Reading</Text>
+
+      <HexagramVisual
+        hexagramNumber={currentHex}
+        futureHexagramNumber={futureHex}
+        changingLines={changingLines}
+        animationProgress={animationProgress}
+        showChangingDots={true}
+        size="large"
+        animated
+      />
+
+      <View style={styles.legend}>
+        <View style={styles.legendItem}>
+          <View style={styles.normalLine} />
+          <Text>Static line</Text>
+        </View>
+        <View style={styles.legendItem}>
+          <View style={styles.changingLine} />
+          <Text>Changing line</Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+```
+
+<style>{`
+  .hexagram-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hexagram-visual.tiny { gap: 3px; }
+  .hexagram-visual.small { gap: 3px; }
+  .hexagram-visual.medium { gap: 6px; }
+  .hexagram-visual.large { gap: 8px; }
+
+  .hex-line {
+    border-radius: 1px;
+  }
+
+  .hex-line.yang {
+    background: #e8e6e3;
+  }
+
+  .hex-line.yin {
+    background: linear-gradient(90deg,
+      #e8e6e3 0%,
+      #e8e6e3 37.5%,
+      transparent 37.5%,
+      transparent 62.5%,
+      #e8e6e3 62.5%,
+      #e8e6e3 100%
+    );
+  }
+
+  .hex-line.changing {
+    background: #d4af37 !important;
+  }
+
+  .hex-line.yin.changing {
+    background: linear-gradient(90deg,
+      #d4af37 0%,
+      #d4af37 37.5%,
+      transparent 37.5%,
+      transparent 62.5%,
+      #d4af37 62.5%,
+      #d4af37 100%
+    ) !important;
+  }
+
+  /* Sizes */
+  .hexagram-visual.tiny .hex-line { width: 28px; height: 2px; }
+  .hexagram-visual.small .hex-line { width: 40px; height: 3px; }
+  .hexagram-visual.medium .hex-line { width: 60px; height: 4px; }
+  .hexagram-visual.large .hex-line { width: 80px; height: 5px; }
+
+  /* Light theme */
+  .theme-panel.light .hex-line.yang {
+    background: #2a2520;
+  }
+
+  .theme-panel.light .hex-line.yin {
+    background: linear-gradient(90deg,
+      #2a2520 0%,
+      #2a2520 37.5%,
+      transparent 37.5%,
+      transparent 62.5%,
+      #2a2520 62.5%,
+      #2a2520 100%
+    );
+  }
+
+  .theme-panel.light .hex-line.changing {
+    background: #886a00 !important;
+  }
+
+  /* Line demo */
+  .line-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .line-label {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  /* Size demo */
+  .size-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .size-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8a8a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Changing dots */
+  .hexagram-with-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .changing-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .dot.active {
+    background: #d4af37;
+  }
+
+  /* Animation demo */
+  .animation-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .animation-label {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .animation-line {
+    animation: lineTransition 2s ease-in-out infinite;
+  }
+
+  @keyframes lineTransition {
+    0%, 100% {
+      background: linear-gradient(90deg,
+        #d4af37 0%,
+        #d4af37 37.5%,
+        transparent 37.5%,
+        transparent 62.5%,
+        #d4af37 62.5%,
+        #d4af37 100%
+      );
+    }
+    50% {
+      background: #d4af37;
+    }
+  }
+`}</style>
