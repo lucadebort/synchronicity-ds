@@ -1,0 +1,369 @@
+---
+title: Semantic Tokens
+description: Purpose-driven, theme-aware tokens
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Semantic Tokens
+
+Semantic tokens provide meaning to design values. They describe *what* a value is used for, not *what* it looks like. Most importantly, they adapt automatically to themes.
+
+## Colors
+
+Semantic colors are the primary way to apply color in Synchronicity. They resolve to different primitives based on the active theme.
+
+### Background Colors
+
+| Token | Light | Dark | True Black |
+|-------|-------|------|------------|
+| `background` | cream-10 | void-90 | void-100 |
+| `surface` | cream-20 | void-80 | void-90 |
+| `surface-elevated` | cream-10 | void-70 | void-80 |
+
+```ts
+// Light mode
+lightColors.background      // #faf8f3 (cream-10)
+lightColors.surface         // #f5f2ea (cream-20)
+
+// Dark mode
+darkColors.background       // #0a0a0f (void-90)
+darkColors.surface          // #12121a (void-80)
+
+// True Black
+trueBlackColors.background  // #000000 (void-100)
+trueBlackColors.surface     // #0a0a0f (void-90)
+```
+
+### Text Colors
+
+| Token | Light | Dark | True Black |
+|-------|-------|------|------------|
+| `text-primary` | warm-90 | cool-10 | cool-10 |
+| `text-secondary` | warm-60 | cool-50 | cool-50 |
+| `text-tertiary` | warm-50 | cool-60 | cool-60 |
+| `text-disabled` | warm-40 | cool-70 | cool-70 |
+| `text-inverse` | cool-10 | warm-90 | warm-90 |
+
+### Brand Colors
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `gold-primary` | gold-60 | Primary brand color |
+| `gold-secondary` | gold-50 | Lighter brand accent |
+| `gold-hover` | gold-70 | Hover state |
+| `gold-pressed` | gold-80 | Pressed state |
+| `gold-subtle` | gold-10 | Subtle backgrounds |
+
+<Aside>
+Gold tokens remain consistent across themes to maintain brand identity. Only the surrounding context changes.
+</Aside>
+
+### Border Colors
+
+| Token | Light | Dark | True Black |
+|-------|-------|------|------------|
+| `border` | cream-40 | void-60 | void-70 |
+| `border-subtle` | cream-30 | void-70 | void-80 |
+| `border-strong` | cream-50 | void-50 | void-60 |
+| `border-focus` | gold-60 | gold-60 | gold-60 |
+
+### State Colors
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `success` | #22c55e | Positive feedback |
+| `error` | #ef4444 | Errors, destructive |
+| `warning` | #f59e0b | Caution, attention |
+| `info` | #3b82f6 | Information |
+
+### Complete Color Reference
+
+```ts
+// Light theme colors
+export const lightColors = {
+  // Backgrounds
+  background: '#faf8f3',
+  surface: '#f5f2ea',
+  'surface-elevated': '#faf8f3',
+
+  // Text
+  'text-primary': '#1a1814',
+  'text-secondary': '#6b6459',
+  'text-tertiary': '#8c8579',
+  'text-disabled': '#a9a295',
+  'text-inverse': '#f8f9fa',
+
+  // Gold
+  'gold-primary': '#d4af37',
+  'gold-secondary': '#eec33e',
+  'gold-hover': '#b8962f',
+  'gold-pressed': '#9a7d27',
+  'gold-subtle': '#fef9e7',
+
+  // Borders
+  border: '#ddd8ca',
+  'border-subtle': '#ebe7dc',
+  'border-strong': '#c9c4b5',
+  'border-focus': '#d4af37',
+
+  // States
+  success: '#22c55e',
+  error: '#ef4444',
+  warning: '#f59e0b',
+  info: '#3b82f6',
+};
+```
+
+## Spacing
+
+Semantic spacing maps numeric values to meaningful names.
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `xs` | 4px | Tight gaps, icon spacing |
+| `sm` | 8px | Compact spacing |
+| `md` | 16px | Standard spacing |
+| `lg` | 24px | Generous spacing |
+| `xl` | 32px | Section spacing |
+| `2xl` | 48px | Large sections |
+| `3xl` | 64px | Page sections |
+
+```ts
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  '2xl': 48,
+  '3xl': 64,
+};
+```
+
+## Typography
+
+Semantic type scale with complete text styles.
+
+```ts
+export const typography = {
+  display: {
+    fontSize: 48,
+    fontWeight: '700',
+    lineHeight: 56,
+    letterSpacing: -0.5,
+  },
+  h1: {
+    fontSize: 32,
+    fontWeight: '700',
+    lineHeight: 40,
+    letterSpacing: -0.5,
+  },
+  h2: {
+    fontSize: 24,
+    fontWeight: '600',
+    lineHeight: 32,
+    letterSpacing: 0,
+  },
+  h3: {
+    fontSize: 20,
+    fontWeight: '600',
+    lineHeight: 28,
+    letterSpacing: 0,
+  },
+  'body-lg': {
+    fontSize: 17,
+    fontWeight: '500',
+    lineHeight: 26,
+    letterSpacing: 0,
+  },
+  body: {
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 22,
+    letterSpacing: 0,
+  },
+  'body-sm': {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 18,
+    letterSpacing: 0,
+  },
+  caption: {
+    fontSize: 12,
+    fontWeight: '500',
+    lineHeight: 16,
+    letterSpacing: 0.5,
+  },
+  footnote: {
+    fontSize: 11,
+    fontWeight: '400',
+    lineHeight: 14,
+    letterSpacing: 0,
+  },
+};
+```
+
+## Motion
+
+Combined duration and easing tokens.
+
+```ts
+export const motion = {
+  duration: {
+    instant: 100,
+    fast: 200,
+    normal: 300,
+    slow: 500,
+    slower: 700,
+    slowest: 1000,
+  },
+  easing: {
+    linear: 'linear',
+    easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+    easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+    easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    breath: 'cubic-bezier(0.45, 0, 0.55, 1)',
+  },
+  breathing: {
+    inhale: 3600,
+    hold: 1200,
+    exhale: 4800,
+    total: 9600,
+  },
+};
+```
+
+### Spring Motion
+
+Physics-based animation configs for React Native Reanimated.
+
+```ts
+export const springMotion = {
+  gentle: { damping: 20, stiffness: 100, mass: 1 },
+  bouncy: { damping: 10, stiffness: 150, mass: 0.8 },
+  stiff: { damping: 30, stiffness: 300, mass: 0.5 },
+  slow: { damping: 25, stiffness: 80, mass: 1.2 },
+};
+```
+
+## Border Radius
+
+```ts
+export const radius = {
+  none: 0,
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  '2xl': 24,
+  full: 9999,
+};
+```
+
+## Z-Index
+
+```ts
+export const zIndex = {
+  behind: -1,
+  base: 0,
+  raised: 10,
+  dropdown: 100,
+  sticky: 200,
+  overlay: 300,
+  modal: 400,
+  toast: 500,
+  tooltip: 600,
+};
+```
+
+## Usage
+
+### With createTheme
+
+The recommended approach for components:
+
+```tsx
+import { createTheme } from '@synchronicity/tokens';
+
+const theme = createTheme('dark');
+
+function MyComponent() {
+  return (
+    <View style={{
+      backgroundColor: theme.colors.background,
+      padding: theme.spacing.md,
+    }}>
+      <Text style={{
+        color: theme.colors['text-primary'],
+        ...theme.typography.body,
+      }}>
+        Hello
+      </Text>
+    </View>
+  );
+}
+```
+
+### With ThemeProvider
+
+For app-wide theming:
+
+```tsx
+import { ThemeProvider, useTheme } from '@synchronicity/react-native';
+
+// App root
+function App() {
+  return (
+    <ThemeProvider initialTheme="dark">
+      <MyApp />
+    </ThemeProvider>
+  );
+}
+
+// In any component
+function MyComponent() {
+  const { colors, spacing, typography } = useTheme();
+
+  return (
+    <View style={{
+      backgroundColor: colors.background,
+      padding: spacing.md,
+    }}>
+      <Text style={{
+        color: colors['text-primary'],
+        ...typography.body,
+      }}>
+        Themed content
+      </Text>
+    </View>
+  );
+}
+```
+
+### Direct Import
+
+When you need semantic tokens without the full theme:
+
+<Tabs>
+  <TabItem label="All Semantic">
+```ts
+import * as semantic from '@synchronicity/tokens/semantic';
+
+const darkBg = semantic.colors.dark.background;
+const lightBg = semantic.colors.light.background;
+const space = semantic.spacing.md;
+```
+  </TabItem>
+  <TabItem label="Individual Modules">
+```ts
+import { lightColors, darkColors } from '@synchronicity/tokens/semantic/colors';
+import { spacing } from '@synchronicity/tokens/semantic/spacing';
+import { typography } from '@synchronicity/tokens/semantic/typography';
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip">
+Always use semantic tokens in components. They handle theming automatically and keep your UI consistent.
+</Aside>

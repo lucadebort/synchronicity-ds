@@ -1,0 +1,68 @@
+---
+title: Introduction
+description: Welcome to the Synchronicity Design System
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Introduction
+
+**Synchronicity** is a contemplative design system built for applications that value mindfulness, clarity, and purposeful interaction. It provides a complete set of design tokens, components, and guidelines for building beautiful, accessible React Native applications.
+
+## Philosophy
+
+Design systems are not just about consistency—they're about **intention**. Synchronicity is built on these principles:
+
+### Contemplative Design
+Every element is designed to create calm, focused experiences. From the warm gold accents to the breathing animations, Synchronicity encourages mindful interaction.
+
+### Accessibility First
+WCAG AA compliance is not optional. Every color pairing is tested for contrast, every component includes proper accessibility labels, and every interaction considers users of all abilities.
+
+### Mobile Native
+Built from the ground up for React Native, not adapted from web. Touch targets, haptic feedback, and platform-specific optimizations are core to the system.
+
+### Scalable Architecture
+The 3-tier token system (Primitives → Semantic → Component) ensures your application can grow while maintaining consistency.
+
+## What's Included
+
+### @synchronicity/tokens
+The foundation of the design system:
+- **Color tokens**: Gold spectrum, warm/cool grays, ethereal accents
+- **Typography tokens**: Type scale, weights, line heights
+- **Spacing tokens**: 4px grid system with semantic aliases
+- **Motion tokens**: Durations, easings, spring configs
+- **And more**: Radius, shadows, z-index, opacity, haptics
+
+### @synchronicity/react-native
+React Native components and hooks:
+- **ThemeProvider**: Theme context with light/dark/trueBlack support
+- **Components**: Button, Card, Input (more coming)
+- **Hooks**: useTheme, useColors, useThemeObject
+
+<Aside type="tip">
+Start with the tokens package. You can use it without the components package if you prefer to build your own components.
+</Aside>
+
+## Design Principles
+
+### Gold as the Primary Accent
+Gold (#d4af37) is the signature color of Synchronicity. It represents wisdom, illumination, and value. Use it sparingly for maximum impact.
+
+### Three Themes, One System
+- **Light**: Warm cream backgrounds for daytime use
+- **Dark**: Deep void backgrounds, OLED-optimized
+- **True Black**: Pure black for maximum battery savings
+
+### Breathing Rhythm
+Motion in Synchronicity follows a breathing rhythm:
+- Breath in: 3.6 seconds
+- Hold: 1.2 seconds
+- Breath out: 4.8 seconds
+
+This creates a calming, meditative quality to animations.
+
+## Next Steps
+
+Ready to get started? Head to the [Installation](/getting-started/installation/) guide.

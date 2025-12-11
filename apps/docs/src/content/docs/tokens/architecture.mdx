@@ -1,0 +1,247 @@
+---
+title: Token Architecture
+description: Understanding the 3-tier token system in Synchronicity
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Token Architecture
+
+Synchronicity uses a **3-tier token architecture** that provides flexibility, consistency, and scalability. This system separates raw values from their meaning and usage.
+
+## The Three Tiers
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Component Tokens                         │
+│                                                             │
+│  button.background, card.padding, input.borderColor        │
+│  Specific values for specific components                    │
+├─────────────────────────────────────────────────────────────┤
+│                    Semantic Tokens                          │
+│                                                             │
+│  text-primary, background, accent, spacing-md               │
+│  Purpose-driven, theme-aware tokens                         │
+├─────────────────────────────────────────────────────────────┤
+│                    Primitive Tokens                         │
+│                                                             │
+│  gold-60, void-90, space-4, duration-300                   │
+│  Raw values, theme-agnostic                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Tier 1: Primitives
+
+**Raw design values with no semantic meaning.**
+
+Primitives are the foundation—absolute values that never change based on context or theme. They're named descriptively, not purposefully.
+
+```ts
+// Colors are named by hue and intensity
+gold['gold-60']     // #d4af37
+void['void-90']     // #0a0a0f
+cream['cream-10']   // #faf8f3
+
+// Spacing uses a numeric scale
+spacing['space-4']  // 16
+spacing['space-8']  // 32
+
+// Durations are in milliseconds
+duration['normal']  // 300
+duration['slow']    // 500
+```
+
+<Aside>
+Primitives should rarely be used directly in components. They exist to feed semantic tokens.
+</Aside>
+
+### When to Use Primitives
+
+- Building new semantic tokens
+- One-off exceptions that don't fit semantics
+- Design exploration and prototyping
+
+## Tier 2: Semantic Tokens
+
+**Purpose-driven tokens that adapt to themes.**
+
+Semantic tokens describe *what* a value is used for, not *what* it looks like. They're the primary tokens you'll use in components.
+
+```ts
+// Same token, different values per theme
+lightColors['text-primary']    // warm-90 (#1a1814)
+darkColors['text-primary']     // cool-10 (#f8f9fa)
+trueBlackColors['text-primary'] // cool-10 (#f8f9fa)
+
+// Semantic spacing
+spacing.md  // 16px - standard padding
+spacing.lg  // 24px - generous spacing
+
+// Semantic motion
+motion.duration.normal  // 300ms
+motion.easing.easeOut   // cubic-bezier(0, 0, 0.2, 1)
+```
+
+### Theme Awareness
+
+Semantic color tokens are the key to theming. The same token name resolves to different primitives based on the active theme:
+
+| Token | Light | Dark | True Black |
+|-------|-------|------|------------|
+| `background` | cream-10 | void-90 | void-100 |
+| `surface` | cream-20 | void-80 | void-90 |
+| `text-primary` | warm-90 | cool-10 | cool-10 |
+| `accent` | gold-60 | gold-60 | gold-60 |
+| `border` | cream-40 | void-60 | void-70 |
+
+### When to Use Semantic Tokens
+
+- All standard UI development
+- Any value that should change with themes
+- Maintaining consistency across components
+
+## Tier 3: Component Tokens
+
+**Specific values for specific components.**
+
+Component tokens are the most specific level. They define exact values for particular component states and variants.
+
+```ts
+const button = {
+  primary: {
+    background: semantic.colors.dark['gold-primary'],
+    text: semantic.colors.dark['void-primary'],
+    backgroundHover: primitives.gold['gold-70'],
+    backgroundPressed: primitives.gold['gold-80'],
+  },
+  secondary: {
+    background: 'transparent',
+    text: semantic.colors.dark['gold-primary'],
+    border: semantic.colors.dark['gold-primary'],
+  },
+  // Size variants
+  height: {
+    sm: 36,
+    md: 44,
+    lg: 52,
+  },
+  padding: {
+    sm: semantic.spacing.sm,
+    md: semantic.spacing.md,
+    lg: semantic.spacing.lg,
+  },
+};
+```
+
+### When to Use Component Tokens
+
+- Building the component library itself
+- Ensuring component consistency
+- Documenting component specifications
+
+## Data Flow
+
+Here's how tokens flow from primitives to your UI:
+
+```
+User selects "Dark Mode"
+        ↓
+ThemeProvider sets theme='dark'
+        ↓
+createTheme('dark') called
+        ↓
+Returns semantic tokens with dark values:
+  - background: void-90 (#0a0a0f)
+  - text-primary: cool-10 (#f8f9fa)
+  - gold-primary: gold-60 (#d4af37)
+        ↓
+Components read from theme context
+        ↓
+<Button> uses button.primary.background
+        ↓
+Renders with gold-60 (#d4af37)
+```
+
+## Package Structure
+
+```
+@synchronicity/tokens
+├── src/
+│   ├── primitives/
+│   │   ├── colors.ts      # Gold, grays, ethereal, support
+│   │   ├── spacing.ts     # Space scale
+│   │   ├── typography.ts  # Font sizes, weights, heights
+│   │   ├── duration.ts    # Animation timing
+│   │   ├── easing.ts      # Animation curves
+│   │   └── ...
+│   │
+│   ├── semantic/
+│   │   ├── colors.ts      # Theme-aware color tokens
+│   │   ├── spacing.ts     # Semantic spacing (xs, sm, md...)
+│   │   ├── typography.ts  # Type scale (body, h1, h2...)
+│   │   ├── motion.ts      # Duration + easing combined
+│   │   └── ...
+│   │
+│   ├── components/
+│   │   ├── button.ts      # Button-specific tokens
+│   │   ├── card.ts        # Card-specific tokens
+│   │   ├── input.ts       # Input-specific tokens
+│   │   └── ...
+│   │
+│   └── index.ts           # Main exports + createTheme()
+```
+
+## Importing Tokens
+
+<CardGrid>
+  <Card title="Full Theme" icon="puzzle">
+```ts
+import { createTheme } from '@synchronicity/tokens';
+
+const theme = createTheme('dark');
+// theme.colors, theme.spacing, etc.
+```
+  </Card>
+  <Card title="Semantic Only" icon="list-format">
+```ts
+import * as semantic from '@synchronicity/tokens/semantic';
+
+semantic.colors.dark['text-primary'];
+semantic.spacing.md;
+```
+  </Card>
+  <Card title="Primitives Only" icon="seti:hex">
+```ts
+import * as primitives from '@synchronicity/tokens/primitives';
+
+primitives.gold['gold-60'];
+primitives.spacing['space-4'];
+```
+  </Card>
+  <Card title="Components Only" icon="setting">
+```ts
+import * as components from '@synchronicity/tokens/components';
+
+components.button.height.md;
+components.card.padding;
+```
+  </Card>
+</CardGrid>
+
+## Best Practices
+
+### Do
+
+- Use semantic tokens for all theme-aware values
+- Reference component tokens when building UI components
+- Keep primitives as the single source of truth
+
+### Don't
+
+- Hardcode hex values in components
+- Use primitives directly when semantic tokens exist
+- Create new tokens for one-off values (use primitives instead)
+
+<Aside type="tip">
+When in doubt, use semantic tokens. They handle theming automatically and maintain consistency across your app.
+</Aside>

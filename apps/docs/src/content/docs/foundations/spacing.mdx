@@ -1,0 +1,171 @@
+---
+title: Spacing
+description: The spacing scale and layout system for Synchronicity
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Spacing
+
+Synchronicity uses a base-4 spacing scale that creates harmonious, consistent layouts. The scale provides enough granularity for precise control while maintaining visual rhythm.
+
+## Spacing Scale
+
+<div class="spacing-demo">
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 4px; height: 4px;"></div>
+    <span class="spacing-label">space-1</span>
+    <span class="spacing-value">4px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 8px; height: 8px;"></div>
+    <span class="spacing-label">space-2</span>
+    <span class="spacing-value">8px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 12px; height: 12px;"></div>
+    <span class="spacing-label">space-3</span>
+    <span class="spacing-value">12px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 16px; height: 16px;"></div>
+    <span class="spacing-label">space-4</span>
+    <span class="spacing-value">16px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 20px; height: 20px;"></div>
+    <span class="spacing-label">space-5</span>
+    <span class="spacing-value">20px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 24px; height: 24px;"></div>
+    <span class="spacing-label">space-6</span>
+    <span class="spacing-value">24px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 32px; height: 32px;"></div>
+    <span class="spacing-label">space-8</span>
+    <span class="spacing-value">32px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 40px; height: 40px;"></div>
+    <span class="spacing-label">space-10</span>
+    <span class="spacing-value">40px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 48px; height: 48px;"></div>
+    <span class="spacing-label">space-12</span>
+    <span class="spacing-value">48px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 64px; height: 64px;"></div>
+    <span class="spacing-label">space-16</span>
+    <span class="spacing-value">64px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 80px; height: 80px;"></div>
+    <span class="spacing-label">space-20</span>
+    <span class="spacing-value">80px</span>
+  </div>
+  <div class="spacing-item">
+    <div class="spacing-box" style="width: 96px; height: 96px;"></div>
+    <span class="spacing-label">space-24</span>
+    <span class="spacing-value">96px</span>
+  </div>
+</div>
+
+## Semantic Spacing
+
+Map raw spacing values to semantic purposes:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `xs` | 4px | Tight spacing, icon gaps |
+| `sm` | 8px | Compact elements, inline spacing |
+| `md` | 16px | Standard padding, card spacing |
+| `lg` | 24px | Section spacing, generous padding |
+| `xl` | 32px | Major sections, screen padding |
+| `2xl` | 48px | Hero spacing, large gaps |
+| `3xl` | 64px | Page sections, major dividers |
+
+## Layout Spacing
+
+Specific tokens for common layout patterns:
+
+```ts
+const layout = {
+  screenPadding: 16,      // Horizontal screen margins
+  sectionGap: 32,         // Between major sections
+  cardPadding: 16,        // Inside cards
+  listItemGap: 12,        // Between list items
+  inlineGap: 8,           // Between inline elements
+  iconTextGap: 8,         // Between icon and label
+};
+```
+
+## Touch Targets
+
+Minimum sizes for interactive elements:
+
+| Token | Size | Usage |
+|-------|------|-------|
+| `touch-min` | 44px | Minimum touch target (Apple HIG) |
+| `touch-comfortable` | 48px | Comfortable touch size |
+| `touch-large` | 56px | Primary action buttons |
+
+<Aside type="caution">
+Always ensure touch targets are at least 44x44 points for accessibility. This is especially important for the contemplative nature of Synchronicity where rushed, frustrated tapping should be avoided.
+</Aside>
+
+## Usage in Code
+
+```tsx
+import { useTheme } from '@synchronicity/react-native';
+
+function HexagramCard({ hexagram }) {
+  const { spacing } = useTheme();
+
+  return (
+    <View style={{
+      padding: spacing.md,
+      marginBottom: spacing.lg,
+      gap: spacing.sm,
+    }}>
+      <Text>{hexagram.name}</Text>
+      <Text>{hexagram.description}</Text>
+    </View>
+  );
+}
+```
+
+Or use primitives directly:
+
+```tsx
+import { spacing } from '@synchronicity/tokens/primitives';
+
+const styles = StyleSheet.create({
+  container: {
+    padding: spacing['space-4'],
+    gap: spacing['space-2'],
+  },
+});
+```
+
+## Best Practices
+
+1. **Use the scale** - Avoid arbitrary pixel values; stick to the scale
+2. **Be consistent** - Same spacing for same relationships across screens
+3. **Create breathing room** - Contemplative apps need generous whitespace
+4. **Consider touch** - Interactive elements need adequate spacing
+
+### Spacing Hierarchy
+
+```
+Screen edge padding    → xl (32px)
+Section gaps           → 2xl (48px)
+Card padding           → md (16px)
+List item gaps         → sm (8px)
+Inline element gaps    → xs (4px)
+```
+
+This creates a clear visual hierarchy where major divisions have more space than minor ones.

@@ -1,0 +1,270 @@
+---
+title: Accessibility
+description: Inclusive design principles for Synchronicity
+---
+
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+
+# Accessibility
+
+Synchronicity is designed to be inclusive and accessible to all users. We follow WCAG 2.1 AA guidelines and platform-specific accessibility standards.
+
+## Core Principles
+
+<CardGrid>
+  <Card title="Perceivable" icon="eye">
+    Information and UI components must be presentable in ways users can perceive.
+  </Card>
+  <Card title="Operable" icon="rocket">
+    UI components and navigation must be operable by all users.
+  </Card>
+  <Card title="Understandable" icon="open-book">
+    Information and UI operation must be understandable.
+  </Card>
+  <Card title="Robust" icon="approve-check">
+    Content must be robust enough for diverse assistive technologies.
+  </Card>
+</CardGrid>
+
+## Color Contrast
+
+All color combinations meet WCAG AA standards:
+
+### Text Contrast Ratios
+
+| Combination | Ratio | Status |
+|-------------|-------|--------|
+| Primary text on background (dark) | 15.8:1 | AAA |
+| Primary text on background (light) | 12.1:1 | AAA |
+| Secondary text on background (dark) | 7.2:1 | AAA |
+| Secondary text on background (light) | 4.8:1 | AA |
+| Gold on dark background | 8.4:1 | AAA |
+| Gold (dark) on light background | 5.2:1 | AA |
+
+<Aside type="tip">
+Use the darker gold variants (`gold-80`, `gold-90`) when placing gold text on light backgrounds to maintain contrast.
+</Aside>
+
+### Minimum Requirements
+
+- **Normal text**: 4.5:1 contrast ratio
+- **Large text** (18px+ or 14px+ bold): 3:1 contrast ratio
+- **UI components**: 3:1 contrast ratio against adjacent colors
+
+## Touch Targets
+
+All interactive elements meet minimum touch target sizes:
+
+```ts
+const touchTargets = {
+  minimum: 44,      // Apple HIG minimum (44×44 points)
+  comfortable: 48,  // Comfortable touch size
+  large: 56,        // Primary actions
+};
+```
+
+### Implementation
+
+```tsx
+import { Pressable, StyleSheet } from 'react-native';
+import { touchTargets } from '@synchronicity/tokens';
+
+function IconButton({ icon, onPress, label }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={styles.button}
+      accessibilityLabel={label}
+      accessibilityRole="button"
+    >
+      {icon}
+    </Pressable>
+  );
+}
+
+const styles = StyleSheet.create({
+  button: {
+    minWidth: touchTargets.minimum,
+    minHeight: touchTargets.minimum,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+```
+
+## Screen Reader Support
+
+### Semantic Labels
+
+Always provide meaningful accessibility labels:
+
+```tsx
+// Good
+<Pressable accessibilityLabel="Cast hexagram using three coins">
+  <CoinIcon />
+</Pressable>
+
+// Bad
+<Pressable accessibilityLabel="Button">
+  <CoinIcon />
+</Pressable>
+```
+
+### Accessibility Roles
+
+Use appropriate roles for screen readers:
+
+| Role | Usage |
+|------|-------|
+| `button` | Interactive elements that trigger actions |
+| `link` | Navigation to other screens/pages |
+| `header` | Section headings |
+| `image` | Decorative or informative images |
+| `text` | Static text content |
+| `adjustable` | Sliders, steppers |
+
+### Hints
+
+Provide additional context when needed:
+
+```tsx
+<Pressable
+  accessibilityLabel="Hexagram 1: The Creative"
+  accessibilityHint="Double tap to view full hexagram details"
+  accessibilityRole="button"
+>
+  <HexagramCard />
+</Pressable>
+```
+
+## Motion Accessibility
+
+### Reduced Motion
+
+Always respect the user's reduced motion preference:
+
+```tsx
+import { useReducedMotion } from 'react-native-reanimated';
+import { AccessibilityInfo } from 'react-native';
+
+function AnimatedComponent() {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    // Skip animation or use instant transition
+    return <StaticComponent />;
+  }
+
+  return <AnimatedVersion />;
+}
+```
+
+### Guidelines
+
+- **Essential animations**: Replace with instant state changes
+- **Decorative animations**: Hide completely
+- **Loading indicators**: Use static or minimal animation
+- **Auto-playing content**: Pause by default
+
+<Aside type="caution">
+The breathing animations in Synchronicity should be disabled entirely when reduced motion is enabled. Do not simply reduce their duration—the rhythmic nature could still cause discomfort.
+</Aside>
+
+## Focus Management
+
+### Focus Indicators
+
+Ensure visible focus states for keyboard/switch control users:
+
+```tsx
+const styles = StyleSheet.create({
+  button: {
+    // Default state
+  },
+  buttonFocused: {
+    borderWidth: 2,
+    borderColor: colors.gold['gold-60'],
+    // Or use outline for web
+  },
+});
+```
+
+### Focus Order
+
+Maintain logical focus order that matches visual layout:
+
+```tsx
+<View>
+  <Header accessibilityRole="header" />
+  <MainContent />
+  <NavigationTabs />
+</View>
+```
+
+## Text Accessibility
+
+### Dynamic Type
+
+Support system font size preferences:
+
+```tsx
+import { useWindowDimensions } from 'react-native';
+
+function ResponsiveText({ children, style }) {
+  const { fontScale } = useWindowDimensions();
+
+  return (
+    <Text
+      style={[style, { fontSize: style.fontSize * fontScale }]}
+      allowFontScaling={true}
+      maxFontSizeMultiplier={2}
+    >
+      {children}
+    </Text>
+  );
+}
+```
+
+### Text Spacing
+
+Ensure adequate spacing for readability:
+
+- Line height: At least 1.5× font size for body text
+- Paragraph spacing: At least 2× font size
+- Letter spacing: Not condensed below normal
+
+## Component Checklist
+
+Use this checklist when building components:
+
+- [ ] Sufficient color contrast (4.5:1 for text)
+- [ ] Touch targets at least 44×44 points
+- [ ] Meaningful accessibility labels
+- [ ] Appropriate accessibility roles
+- [ ] Focus indicator visible
+- [ ] Respects reduced motion preference
+- [ ] Supports dynamic type
+- [ ] Keyboard navigable (web)
+- [ ] Screen reader tested
+
+## Testing Tools
+
+### iOS
+- VoiceOver (built-in screen reader)
+- Accessibility Inspector (Xcode)
+
+### Android
+- TalkBack (built-in screen reader)
+- Accessibility Scanner app
+
+### Web
+- axe DevTools browser extension
+- Lighthouse accessibility audit
+- WAVE evaluation tool
+
+## Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [Apple Human Interface Guidelines - Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility)
+- [Android Accessibility Guidelines](https://developer.android.com/guide/topics/ui/accessibility)
+- [React Native Accessibility](https://reactnative.dev/docs/accessibility)

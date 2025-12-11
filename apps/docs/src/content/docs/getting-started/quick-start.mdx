@@ -1,0 +1,201 @@
+---
+title: Quick Start
+description: Get up and running with Synchronicity in minutes
+---
+
+import { Code, Aside } from '@astrojs/starlight/components';
+
+# Quick Start
+
+This guide will help you set up Synchronicity in your React Native application.
+
+## 1. Set Up the Theme Provider
+
+Wrap your app with the `ThemeProvider`:
+
+```tsx
+// App.tsx
+import { ThemeProvider } from '@synchronicity/react-native';
+
+export default function App() {
+  return (
+    <ThemeProvider theme="dark">
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+```
+
+The `theme` prop accepts: `'light'`, `'dark'`, or `'trueBlack'`.
+
+## 2. Use the Theme in Components
+
+Access theme values with the `useTheme` hook:
+
+```tsx
+import { View, Text, StyleSheet } from 'react-native';
+import { useTheme } from '@synchronicity/react-native';
+
+function WelcomeScreen() {
+  const { themeObject, theme, toggleTheme } = useTheme();
+  const { colors, spacing, typography } = themeObject;
+
+  return (
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[
+        styles.title,
+        {
+          color: colors['text-primary'],
+          fontSize: typography['type-heading-lg'].fontSize,
+        }
+      ]}>
+        Welcome
+      </Text>
+      <Text style={{ color: colors['gold-primary'] }}>
+        Current theme: {theme}
+      </Text>
+    </View>
+  );
+}
+```
+
+## 3. Use the Shorthand Hooks
+
+For convenience, use specialized hooks:
+
+```tsx
+import { useColors } from '@synchronicity/react-native';
+
+function MyComponent() {
+  const colors = useColors();
+
+  return (
+    <View style={{ backgroundColor: colors.background }}>
+      <Text style={{ color: colors['text-primary'] }}>
+        Hello, Synchronicity!
+      </Text>
+    </View>
+  );
+}
+```
+
+## 4. Using Tokens Directly
+
+You can also import tokens directly without the hooks:
+
+```tsx
+import { createTheme } from '@synchronicity/tokens';
+
+// Create a theme object
+const darkTheme = createTheme('dark');
+
+// Access values
+console.log(darkTheme.colors.background); // '#0a0a0f'
+console.log(darkTheme.spacing['inset-md']); // 16
+```
+
+Or import specific token categories:
+
+```tsx
+import { gold, spacing } from '@synchronicity/tokens/primitives';
+import { lightColors, darkColors } from '@synchronicity/tokens/semantic';
+
+console.log(gold['gold-60']); // '#d4af37'
+console.log(spacing['space-4']); // 16
+```
+
+## 5. Toggle Themes
+
+The `useTheme` hook provides a `toggleTheme` function:
+
+```tsx
+import { Pressable, Text } from 'react-native';
+import { useTheme } from '@synchronicity/react-native';
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <Pressable onPress={toggleTheme}>
+      <Text>Current: {theme} (tap to change)</Text>
+    </Pressable>
+  );
+}
+```
+
+<Aside>
+`toggleTheme` cycles through: light → dark → trueBlack → light
+</Aside>
+
+## Example: Complete Screen
+
+Here's a complete example putting it all together:
+
+```tsx
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { ThemeProvider, useTheme, Button } from '@synchronicity/react-native';
+
+function HomeScreen() {
+  const { themeObject, theme, toggleTheme } = useTheme();
+  const { colors, spacing, typography } = themeObject;
+
+  return (
+    <View style={[
+      styles.container,
+      {
+        backgroundColor: colors.background,
+        padding: spacing['layout-margin'],
+      }
+    ]}>
+      <Text style={[
+        {
+          color: colors['text-primary'],
+          fontSize: typography['type-heading-lg'].fontSize,
+          fontWeight: typography['type-heading-lg'].fontWeight,
+          marginBottom: spacing['stack-lg'],
+        }
+      ]}>
+        Synchronicity
+      </Text>
+
+      <Text style={{
+        color: colors['text-secondary'],
+        fontSize: typography['type-body-md'].fontSize,
+        marginBottom: spacing['stack-xl'],
+      }}>
+        A contemplative design system
+      </Text>
+
+      <Button
+        kind="primary"
+        accessibilityLabel="Toggle theme"
+        onPress={toggleTheme}
+      >
+        Theme: {theme}
+      </Button>
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider theme="dark">
+      <HomeScreen />
+    </ThemeProvider>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+```
+
+## Next Steps
+
+- Explore the [Foundations](/foundations/overview/) to understand the design principles
+- Check out [Token Architecture](/tokens/architecture/) to learn about the 3-tier system
+- Browse [Components](/components/button/) for ready-to-use UI elements

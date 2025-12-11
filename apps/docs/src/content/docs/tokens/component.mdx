@@ -1,0 +1,426 @@
+---
+title: Component Tokens
+description: Specific tokens for UI components
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Component Tokens
+
+Component tokens are the most specific level of the token hierarchy. They define exact values for specific components, their variants, and states.
+
+## Button
+
+```ts
+export const button = {
+  // Variants
+  primary: {
+    background: '#d4af37',        // gold-60
+    backgroundHover: '#b8962f',   // gold-70
+    backgroundPressed: '#9a7d27', // gold-80
+    text: '#0a0a0f',              // void-90
+  },
+  secondary: {
+    background: 'transparent',
+    backgroundHover: 'rgba(212, 175, 55, 0.1)',
+    backgroundPressed: 'rgba(212, 175, 55, 0.2)',
+    text: '#d4af37',
+    border: '#d4af37',
+  },
+  ghost: {
+    background: 'transparent',
+    backgroundHover: 'rgba(255, 255, 255, 0.05)',
+    backgroundPressed: 'rgba(255, 255, 255, 0.1)',
+    text: '#f8f9fa',              // cool-10
+  },
+
+  // Sizes
+  height: {
+    sm: 36,
+    md: 44,
+    lg: 52,
+  },
+  padding: {
+    horizontal: {
+      sm: 12,
+      md: 16,
+      lg: 24,
+    },
+  },
+  borderRadius: 8,
+  borderWidth: 1,
+
+  // Typography
+  fontSize: {
+    sm: 13,
+    md: 15,
+    lg: 17,
+  },
+  fontWeight: '600',
+
+  // States
+  disabled: {
+    opacity: 0.5,
+  },
+};
+```
+
+### Usage Example
+
+```tsx
+import { button } from '@synchronicity/tokens/components';
+
+const styles = StyleSheet.create({
+  primaryButton: {
+    backgroundColor: button.primary.background,
+    height: button.height.md,
+    paddingHorizontal: button.padding.horizontal.md,
+    borderRadius: button.borderRadius,
+  },
+  primaryButtonText: {
+    color: button.primary.text,
+    fontSize: button.fontSize.md,
+    fontWeight: button.fontWeight,
+  },
+});
+```
+
+## Card
+
+```ts
+export const card = {
+  // Background
+  background: {
+    light: '#f5f2ea',   // cream-20
+    dark: '#12121a',    // void-80
+    trueBlack: '#0a0a0f', // void-90
+  },
+
+  // Layout
+  padding: {
+    sm: 12,
+    md: 16,
+    lg: 24,
+  },
+  borderRadius: 12,
+  gap: 12,
+
+  // Border
+  border: {
+    width: 1,
+    color: {
+      light: '#ddd8ca',   // cream-40
+      dark: '#24242f',    // void-60
+      trueBlack: '#1a1a24', // void-70
+    },
+  },
+
+  // Shadow (subtle gold tint)
+  shadow: {
+    shadowColor: '#d4af37',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+};
+```
+
+### Usage Example
+
+```tsx
+import { card } from '@synchronicity/tokens/components';
+import { useTheme } from '@synchronicity/react-native';
+
+function HexagramCard({ hexagram }) {
+  const { themeName } = useTheme();
+
+  return (
+    <View style={[
+      styles.card,
+      {
+        backgroundColor: card.background[themeName],
+        borderColor: card.border.color[themeName],
+      },
+      card.shadow,
+    ]}>
+      {/* Content */}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    padding: card.padding.md,
+    borderRadius: card.borderRadius,
+    borderWidth: card.border.width,
+    gap: card.gap,
+  },
+});
+```
+
+## Input
+
+```ts
+export const input = {
+  // Background
+  background: {
+    light: '#faf8f3',     // cream-10
+    dark: '#12121a',      // void-80
+    trueBlack: '#000000', // void-100
+  },
+
+  // Text
+  text: {
+    light: '#1a1814',   // warm-90
+    dark: '#f8f9fa',    // cool-10
+    trueBlack: '#f8f9fa',
+  },
+  placeholder: {
+    light: '#8c8579',   // warm-50
+    dark: '#6c757d',    // cool-60
+    trueBlack: '#6c757d',
+  },
+
+  // Border
+  border: {
+    width: 1,
+    color: {
+      default: {
+        light: '#ddd8ca',
+        dark: '#24242f',
+        trueBlack: '#1a1a24',
+      },
+      focus: '#d4af37',   // gold-60
+      error: '#ef4444',
+    },
+    radius: 8,
+  },
+
+  // Sizing
+  height: {
+    sm: 36,
+    md: 44,
+    lg: 52,
+  },
+  padding: {
+    horizontal: 16,
+    vertical: 12,
+  },
+
+  // Typography
+  fontSize: 15,
+  lineHeight: 22,
+};
+```
+
+### Usage Example
+
+```tsx
+import { input } from '@synchronicity/tokens/components';
+
+function TextInput({ error, ...props }) {
+  const { themeName } = useTheme();
+  const [isFocused, setIsFocused] = useState(false);
+
+  const borderColor = error
+    ? input.border.color.error
+    : isFocused
+    ? input.border.color.focus
+    : input.border.color.default[themeName];
+
+  return (
+    <RNTextInput
+      style={[
+        styles.input,
+        {
+          backgroundColor: input.background[themeName],
+          color: input.text[themeName],
+          borderColor,
+        },
+      ]}
+      placeholderTextColor={input.placeholder[themeName]}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      {...props}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  input: {
+    height: input.height.md,
+    paddingHorizontal: input.padding.horizontal,
+    borderWidth: input.border.width,
+    borderRadius: input.border.radius,
+    fontSize: input.fontSize,
+  },
+});
+```
+
+## Modal
+
+```ts
+export const modal = {
+  // Overlay
+  overlay: {
+    background: 'rgba(0, 0, 0, 0.7)',
+  },
+
+  // Container
+  container: {
+    background: {
+      light: '#faf8f3',
+      dark: '#12121a',
+      trueBlack: '#0a0a0f',
+    },
+    borderRadius: 16,
+    padding: 24,
+    maxWidth: 400,
+  },
+
+  // Animation
+  animation: {
+    duration: 300,
+    easing: 'easeOut',
+  },
+};
+```
+
+## List
+
+```ts
+export const list = {
+  // Item
+  item: {
+    height: {
+      sm: 44,
+      md: 56,
+      lg: 72,
+    },
+    padding: {
+      horizontal: 16,
+      vertical: 12,
+    },
+    gap: 12,
+  },
+
+  // Separator
+  separator: {
+    height: 1,
+    color: {
+      light: '#ebe7dc',
+      dark: '#1a1a24',
+      trueBlack: '#12121a',
+    },
+    inset: 16,
+  },
+
+  // Section
+  section: {
+    header: {
+      height: 32,
+      padding: 16,
+      background: {
+        light: '#f5f2ea',
+        dark: '#0a0a0f',
+        trueBlack: '#000000',
+      },
+    },
+  },
+};
+```
+
+## Icon
+
+```ts
+export const icon = {
+  // Sizes
+  size: {
+    xs: 12,
+    sm: 16,
+    md: 20,
+    lg: 24,
+    xl: 32,
+  },
+
+  // Colors
+  color: {
+    default: {
+      light: '#6b6459',
+      dark: '#adb5bd',
+      trueBlack: '#adb5bd',
+    },
+    primary: '#d4af37',
+    muted: {
+      light: '#a9a295',
+      dark: '#6c757d',
+      trueBlack: '#6c757d',
+    },
+  },
+};
+```
+
+## Tab Bar
+
+```ts
+export const tabBar = {
+  height: 49,
+  background: {
+    light: '#f5f2ea',
+    dark: '#0a0a0f',
+    trueBlack: '#000000',
+  },
+  border: {
+    width: 1,
+    color: {
+      light: '#ebe7dc',
+      dark: '#1a1a24',
+      trueBlack: '#12121a',
+    },
+  },
+  item: {
+    activeColor: '#d4af37',
+    inactiveColor: {
+      light: '#8c8579',
+      dark: '#6c757d',
+      trueBlack: '#6c757d',
+    },
+    iconSize: 24,
+    fontSize: 10,
+    gap: 4,
+  },
+};
+```
+
+## Import Patterns
+
+<Tabs>
+  <TabItem label="All Components">
+```ts
+import * as components from '@synchronicity/tokens/components';
+
+const btnHeight = components.button.height.md;
+const cardPadding = components.card.padding.md;
+```
+  </TabItem>
+  <TabItem label="Individual">
+```ts
+import { button } from '@synchronicity/tokens/components/button';
+import { card } from '@synchronicity/tokens/components/card';
+import { input } from '@synchronicity/tokens/components/input';
+```
+  </TabItem>
+  <TabItem label="Via createTheme">
+```ts
+import { createTheme } from '@synchronicity/tokens';
+
+const theme = createTheme('dark');
+const btnTokens = theme.components.button;
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip">
+Component tokens are most useful when building the component library itself. When using pre-built components from `@synchronicity/react-native`, you typically won't need to access these directly.
+</Aside>

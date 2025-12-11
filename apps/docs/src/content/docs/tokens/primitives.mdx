@@ -1,0 +1,393 @@
+---
+title: Primitive Tokens
+description: Raw design values - the foundation of the token system
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Primitive Tokens
+
+Primitives are the raw building blocks of the design system. They're theme-agnostic, absolute values that serve as the foundation for semantic tokens.
+
+## Colors
+
+### Gold Spectrum
+
+The signature color of Synchronicity.
+
+```ts
+export const gold = {
+  'gold-10': '#fef9e7',   // Lightest tint
+  'gold-20': '#fdf0c4',
+  'gold-30': '#fbe69f',
+  'gold-40': '#f7d56b',
+  'gold-50': '#eec33e',
+  'gold-60': '#d4af37',   // Primary gold
+  'gold-70': '#b8962f',
+  'gold-80': '#9a7d27',
+  'gold-90': '#7c641f',
+  'gold-100': '#5e4b17',  // Darkest shade
+};
+```
+
+### Void (Dark Backgrounds)
+
+Deep, cool-toned blacks optimized for OLED displays.
+
+```ts
+export const void_ = {
+  'void-100': '#000000',  // Pure black (OLED)
+  'void-90': '#0a0a0f',   // Primary dark background
+  'void-80': '#12121a',   // Elevated surface
+  'void-70': '#1a1a24',   // Cards, modals
+  'void-60': '#24242f',   // Borders, dividers
+};
+```
+
+### Cream (Light Backgrounds)
+
+Warm, paper-like tones for light mode.
+
+```ts
+export const cream = {
+  'cream-10': '#faf8f3',  // Primary light background
+  'cream-20': '#f5f2ea',  // Elevated surface
+  'cream-30': '#ebe7dc',  // Cards
+  'cream-40': '#ddd8ca',  // Borders
+  'cream-50': '#c9c4b5',  // Disabled states
+};
+```
+
+### Cool Gray
+
+Blue-tinted grays for dark mode text and UI.
+
+```ts
+export const coolGray = {
+  'cool-10': '#f8f9fa',   // Primary text (dark mode)
+  'cool-20': '#e9ecef',
+  'cool-30': '#dee2e6',
+  'cool-40': '#ced4da',
+  'cool-50': '#adb5bd',   // Secondary text
+  'cool-60': '#6c757d',   // Tertiary text
+  'cool-70': '#495057',
+  'cool-80': '#343a40',
+  'cool-90': '#212529',
+};
+```
+
+### Warm Gray
+
+Beige-tinted grays for light mode text and UI.
+
+```ts
+export const warmGray = {
+  'warm-10': '#f0ede6',
+  'warm-20': '#ddd9cf',
+  'warm-30': '#c4bfb3',
+  'warm-40': '#a9a295',
+  'warm-50': '#8c8579',
+  'warm-60': '#6b6459',   // Secondary text (light mode)
+  'warm-70': '#4a453c',
+  'warm-80': '#2d2a24',
+  'warm-90': '#1a1814',   // Primary text (light mode)
+};
+```
+
+### Ethereal
+
+Subtle accent colors for special states.
+
+```ts
+export const ethereal = {
+  mist: '#e8e4f0',   // Mystical purple tint
+  dawn: '#f0e8e4',   // Warm morning glow
+  dusk: '#e4ecf0',   // Cool evening blue
+  sage: '#e4f0e8',   // Natural green
+};
+```
+
+### Support
+
+Semantic colors for feedback states.
+
+```ts
+export const support = {
+  success: '#22c55e',
+  error: '#ef4444',
+  warning: '#f59e0b',
+  info: '#3b82f6',
+};
+```
+
+## Spacing
+
+Base-4 spacing scale for consistent layouts.
+
+```ts
+export const spacing = {
+  'space-0': 0,
+  'space-1': 4,
+  'space-2': 8,
+  'space-3': 12,
+  'space-4': 16,
+  'space-5': 20,
+  'space-6': 24,
+  'space-8': 32,
+  'space-10': 40,
+  'space-12': 48,
+  'space-16': 64,
+  'space-20': 80,
+  'space-24': 96,
+};
+```
+
+## Typography
+
+### Font Size
+
+```ts
+export const fontSize = {
+  xs: 11,      // Footnote
+  sm: 12,      // Caption
+  'body-sm': 13,
+  body: 15,    // Default body
+  'body-lg': 17,
+  h3: 20,
+  h2: 24,
+  h1: 32,
+  display: 48,
+};
+```
+
+### Font Weight
+
+```ts
+export const fontWeight = {
+  regular: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+};
+```
+
+### Line Height
+
+```ts
+export const lineHeight = {
+  xs: 14,
+  sm: 16,
+  'body-sm': 18,
+  body: 22,
+  'body-lg': 26,
+  h3: 28,
+  h2: 32,
+  h1: 40,
+  display: 56,
+};
+```
+
+### Letter Spacing
+
+```ts
+export const letterSpacing = {
+  tight: -0.5,
+  normal: 0,
+  wide: 0.5,
+  wider: 1.0,
+};
+```
+
+### Font Family
+
+```ts
+export const fontFamily = {
+  sans: 'System',
+  serif: 'Georgia',
+  mono: 'Menlo',
+};
+```
+
+## Duration
+
+Animation timing in milliseconds.
+
+```ts
+export const duration = {
+  instant: 100,
+  fast: 200,
+  normal: 300,
+  slow: 500,
+  slower: 700,
+  slowest: 1000,
+};
+```
+
+### Breathing Rhythm
+
+Special durations for meditative animations.
+
+```ts
+export const breathing = {
+  inhale: 3600,   // 3.6 seconds
+  hold: 1200,     // 1.2 seconds
+  exhale: 4800,   // 4.8 seconds
+  total: 9600,    // Full cycle
+};
+```
+
+## Easing
+
+CSS timing functions for animations.
+
+```ts
+export const easing = {
+  linear: 'linear',
+  easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+  easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+  easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  gentleIn: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  gentleOut: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  breath: 'cubic-bezier(0.45, 0, 0.55, 1)',
+};
+```
+
+## Border Radius
+
+```ts
+export const radius = {
+  none: 0,
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  '2xl': 24,
+  full: 9999,
+};
+```
+
+## Z-Index
+
+Layer ordering scale.
+
+```ts
+export const zIndex = {
+  behind: -1,
+  base: 0,
+  raised: 10,
+  dropdown: 100,
+  sticky: 200,
+  overlay: 300,
+  modal: 400,
+  toast: 500,
+  tooltip: 600,
+};
+```
+
+## Opacity
+
+```ts
+export const opacity = {
+  transparent: 0,
+  faint: 0.1,
+  light: 0.3,
+  medium: 0.5,
+  heavy: 0.7,
+  solid: 1,
+};
+```
+
+## Border Width
+
+```ts
+export const borderWidth = {
+  none: 0,
+  thin: 1,
+  medium: 2,
+  thick: 4,
+};
+```
+
+## Touch Targets
+
+Minimum interactive element sizes.
+
+```ts
+export const touchTargets = {
+  minimum: 44,      // Apple HIG minimum
+  comfortable: 48,
+  large: 56,
+};
+```
+
+## Shadows
+
+Gold-tinted shadows for depth.
+
+```ts
+export const shadow = {
+  sm: {
+    shadowColor: '#d4af37',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  md: {
+    shadowColor: '#d4af37',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  lg: {
+    shadowColor: '#d4af37',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+};
+```
+
+## Haptics
+
+iOS haptic feedback patterns.
+
+```ts
+export const haptics = {
+  selection: 'selection',
+  light: 'impactLight',
+  medium: 'impactMedium',
+  heavy: 'impactHeavy',
+  success: 'notificationSuccess',
+  warning: 'notificationWarning',
+  error: 'notificationError',
+};
+```
+
+## Usage
+
+Import primitives when you need raw values:
+
+<Tabs>
+  <TabItem label="All Primitives">
+```ts
+import * as primitives from '@synchronicity/tokens/primitives';
+
+const color = primitives.gold['gold-60'];
+const space = primitives.spacing['space-4'];
+```
+  </TabItem>
+  <TabItem label="Individual Modules">
+```ts
+import { gold, void_ } from '@synchronicity/tokens/primitives/colors';
+import { spacing } from '@synchronicity/tokens/primitives/spacing';
+import { duration } from '@synchronicity/tokens/primitives/duration';
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+Use primitives sparingly in components. Prefer semantic tokens for theme-aware values.
+</Aside>

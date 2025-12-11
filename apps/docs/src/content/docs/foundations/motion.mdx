@@ -1,0 +1,297 @@
+---
+title: Motion
+description: Animation principles and timing for Synchronicity
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Motion
+
+Motion in Synchronicity is inspired by breath—organic, rhythmic, and calming. Animations should feel natural, never jarring or rushed.
+
+## Philosophy
+
+> "Movement follows stillness; stillness follows movement."
+
+Our motion system embodies three principles:
+
+1. **Purposeful** - Every animation serves a function
+2. **Organic** - Movements feel natural, not mechanical
+3. **Contemplative** - Timing encourages mindfulness
+
+## Duration Scale
+
+<div class="duration-demo">
+  <div class="duration-item">
+    <span class="duration-label">instant</span>
+    <span class="duration-value">100ms</span>
+    <span class="duration-use">Micro-interactions, toggles</span>
+  </div>
+  <div class="duration-item">
+    <span class="duration-label">fast</span>
+    <span class="duration-value">200ms</span>
+    <span class="duration-use">Button feedback, hover states</span>
+  </div>
+  <div class="duration-item">
+    <span class="duration-label">normal</span>
+    <span class="duration-value">300ms</span>
+    <span class="duration-use">Standard transitions</span>
+  </div>
+  <div class="duration-item">
+    <span class="duration-label">slow</span>
+    <span class="duration-value">500ms</span>
+    <span class="duration-use">Page transitions, modals</span>
+  </div>
+  <div class="duration-item">
+    <span class="duration-label">slower</span>
+    <span class="duration-value">700ms</span>
+    <span class="duration-use">Complex reveals, emphasis</span>
+  </div>
+  <div class="duration-item">
+    <span class="duration-label">slowest</span>
+    <span class="duration-value">1000ms</span>
+    <span class="duration-use">Meditative transitions</span>
+  </div>
+</div>
+
+## Breathing Rhythm
+
+The signature animation pattern of Synchronicity follows human breathing:
+
+```ts
+const breathing = {
+  inhale: 3600,   // 3.6 seconds - building, gathering
+  hold: 1200,     // 1.2 seconds - stillness, peak
+  exhale: 4800,   // 4.8 seconds - release, calm
+  total: 9600,    // Complete cycle
+};
+```
+
+This 9.6-second cycle creates a meditative rhythm suitable for:
+- Loading states
+- Background animations
+- Ambient UI elements
+- Transition sequences
+
+<Aside type="tip">
+Use the breathing rhythm for ambient animations that run continuously. For user-triggered actions, use the standard duration scale.
+</Aside>
+
+## Easing Functions
+
+### CSS Easings
+
+```ts
+const easing = {
+  linear: 'linear',
+  easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+  easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+  easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+
+  // Contemplative easings
+  gentleIn: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  gentleOut: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  breath: 'cubic-bezier(0.45, 0, 0.55, 1)',
+};
+```
+
+### Spring Motion (React Native)
+
+For more organic, physics-based animations:
+
+```ts
+const spring = {
+  gentle: {
+    damping: 20,
+    stiffness: 100,
+    mass: 1,
+  },
+  bouncy: {
+    damping: 10,
+    stiffness: 150,
+    mass: 0.8,
+  },
+  stiff: {
+    damping: 30,
+    stiffness: 300,
+    mass: 0.5,
+  },
+  slow: {
+    damping: 25,
+    stiffness: 80,
+    mass: 1.2,
+  },
+};
+```
+
+## Animation Patterns
+
+### Fade In
+
+For elements appearing on screen:
+
+<Tabs>
+  <TabItem label="React Native">
+```tsx
+import { useTheme } from '@synchronicity/react-native';
+import Animated, {
+  useAnimatedStyle,
+  withTiming
+} from 'react-native-reanimated';
+
+function FadeIn({ children }) {
+  const { motion } = useTheme();
+
+  const style = useAnimatedStyle(() => ({
+    opacity: withTiming(1, {
+      duration: motion.duration.normal,
+      easing: motion.easing.easeOut,
+    }),
+  }));
+
+  return (
+    <Animated.View style={[{ opacity: 0 }, style]}>
+      {children}
+    </Animated.View>
+  );
+}
+```
+  </TabItem>
+  <TabItem label="CSS">
+```css
+.fade-in {
+  animation: fadeIn 300ms cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+```
+  </TabItem>
+</Tabs>
+
+### Scale Entrance
+
+For cards and modals:
+
+```tsx
+const scaleIn = {
+  from: {
+    opacity: 0,
+    transform: [{ scale: 0.95 }],
+  },
+  to: {
+    opacity: 1,
+    transform: [{ scale: 1 }],
+  },
+  config: {
+    duration: 300,
+    easing: 'easeOut',
+  },
+};
+```
+
+### Breathing Pulse
+
+For meditative loading states:
+
+```tsx
+function BreathingPulse() {
+  const { motion } = useTheme();
+  const opacity = useSharedValue(0.4);
+
+  useEffect(() => {
+    opacity.value = withRepeat(
+      withSequence(
+        // Inhale
+        withTiming(1, { duration: motion.breathing.inhale }),
+        // Hold
+        withDelay(motion.breathing.hold, withTiming(1, { duration: 0 })),
+        // Exhale
+        withTiming(0.4, { duration: motion.breathing.exhale })
+      ),
+      -1, // Infinite
+      false
+    );
+  }, []);
+
+  return (
+    <Animated.View style={{ opacity }}>
+      {/* Content */}
+    </Animated.View>
+  );
+}
+```
+
+## Usage Guidelines
+
+### Do
+
+- Use `easeOut` for elements entering the screen
+- Use `easeIn` for elements leaving the screen
+- Use `spring` for gesture-driven animations
+- Use breathing rhythm for ambient, continuous animations
+- Keep UI feedback animations under 300ms
+
+### Don't
+
+- Use linear easing for UI transitions (feels mechanical)
+- Make users wait through long animations
+- Animate multiple things at once without choreography
+- Use bouncy springs for serious/contemplative contexts
+
+## Reduced Motion
+
+Always respect user preferences for reduced motion:
+
+```tsx
+import { useReducedMotion } from 'react-native-reanimated';
+
+function AnimatedComponent() {
+  const reducedMotion = useReducedMotion();
+  const { motion } = useTheme();
+
+  const duration = reducedMotion ? 0 : motion.duration.normal;
+
+  // Use duration in animations
+}
+```
+
+<Aside type="caution">
+When reduced motion is enabled, either disable animations entirely or reduce them to simple opacity fades under 200ms.
+</Aside>
+
+## Motion Tokens Reference
+
+```ts
+export const motion = {
+  duration: {
+    instant: 100,
+    fast: 200,
+    normal: 300,
+    slow: 500,
+    slower: 700,
+    slowest: 1000,
+  },
+  breathing: {
+    inhale: 3600,
+    hold: 1200,
+    exhale: 4800,
+    total: 9600,
+  },
+  easing: {
+    linear: 'linear',
+    easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
+    easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
+    easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    breath: 'cubic-bezier(0.45, 0, 0.55, 1)',
+  },
+  spring: {
+    gentle: { damping: 20, stiffness: 100, mass: 1 },
+    bouncy: { damping: 10, stiffness: 150, mass: 0.8 },
+    stiff: { damping: 30, stiffness: 300, mass: 0.5 },
+    slow: { damping: 25, stiffness: 80, mass: 1.2 },
+  },
+};
+```

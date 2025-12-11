@@ -1,0 +1,97 @@
+---
+title: Foundations Overview
+description: The design principles and philosophy behind Synchronicity
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+# Foundations
+
+Synchronicity is built on a philosophy of **contemplative design**—creating digital experiences that encourage mindfulness, clarity, and purposeful interaction.
+
+## Core Principles
+
+<CardGrid>
+  <Card title="Intentional Simplicity" icon="pencil">
+    Every element serves a purpose. We remove visual noise to let content breathe and users focus.
+  </Card>
+  <Card title="Warm Luminosity" icon="sun">
+    Gold as the primary accent creates warmth and draws attention without aggression.
+  </Card>
+  <Card title="Rhythmic Motion" icon="star">
+    Animations follow breathing patterns, creating a meditative quality to interactions.
+  </Card>
+  <Card title="Inclusive Access" icon="approve-check">
+    WCAG AA compliance ensures everyone can experience the design as intended.
+  </Card>
+</CardGrid>
+
+## The Three Themes
+
+Synchronicity supports three distinct themes, each crafted for specific contexts:
+
+### Light Mode
+Designed for daytime use and well-lit environments. Features warm cream backgrounds (`#faf8f3`) that reduce eye strain while maintaining excellent readability.
+
+### Dark Mode
+Optimized for low-light environments and OLED displays. Uses deep void backgrounds (`#0a0a0f`) that make gold accents luminous and reduce battery consumption.
+
+### True Black Mode
+Maximum contrast with pure black backgrounds (`#000000`). Ideal for OLED displays seeking maximum battery savings and users who prefer stark contrast.
+
+## Design Language
+
+### Gold as Sacred Accent
+
+Gold (#d4af37) is used sparingly throughout the system. It represents:
+- **Primary actions** - The most important interactive elements
+- **Achievement** - Success states and completions
+- **Value** - Content worth highlighting
+- **Wisdom** - Knowledge and insight
+
+### Breathing Rhythm
+
+Motion in Synchronicity follows a breathing pattern:
+
+| Phase | Duration | Purpose |
+|-------|----------|---------|
+| Inhale | 3.6s | Building anticipation, gathering energy |
+| Hold | 1.2s | Moment of stillness, completion |
+| Exhale | 4.8s | Release, resolution, calm |
+
+This 9.6-second cycle can be used for loading states, transitions, and meditative UI elements.
+
+### Color Temperature
+
+Colors shift temperature based on theme:
+- **Light mode**: Warm grays (beige undertones) for a cozy, paper-like feel
+- **Dark mode**: Cool grays (blue undertones) for a deep, void-like quality
+
+## Architecture
+
+The design system follows a **3-tier token architecture**:
+
+```
+┌─────────────────────────────────────────┐
+│           Component Tokens              │  ← Specific component values
+│         (button, card, input)           │
+├─────────────────────────────────────────┤
+│           Semantic Tokens               │  ← Theme-aware, purpose-driven
+│    (text-primary, background, accent)   │
+├─────────────────────────────────────────┤
+│          Primitive Tokens               │  ← Raw values, theme-agnostic
+│      (gold-60, space-4, void-90)        │
+└─────────────────────────────────────────┘
+```
+
+This architecture enables:
+- **Scalability**: Add new themes without touching components
+- **Consistency**: Single source of truth for values
+- **Flexibility**: Override at any level as needed
+
+## Next Steps
+
+- [Colors](/foundations/colors/) - Explore the color system
+- [Typography](/foundations/typography/) - Learn about type scale
+- [Spacing](/foundations/spacing/) - Understand the spacing system
+- [Motion](/foundations/motion/) - Discover animation patterns

@@ -1,0 +1,631 @@
+/* ============================================================
+   Synchronicity Design System - Starlight Theme Customization
+
+   Works WITH Starlight's built-in theming, not against it.
+   All colors WCAG AA compliant.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Dark Mode (Default) - Starlight Variables
+   ------------------------------------------------------------ */
+:root {
+  /* Accent colors - Gold */
+  --sl-color-accent-low: #1f1a0a;
+  --sl-color-accent: #d4af37;
+  --sl-color-accent-high: #f4cf67;
+
+  /* Background scale - OLED optimized */
+  --sl-color-bg: #0a0a0f;
+  --sl-color-bg-nav: #0a0a0f;
+  --sl-color-bg-sidebar: #0a0a0f;
+  --sl-color-bg-inline-code: #1a1a24;
+
+  /* Hairline borders */
+  --sl-color-hairline: #2a2a38;
+  --sl-color-hairline-light: #1a1a24;
+  --sl-color-hairline-shade: #3a3a48;
+
+  /* Gray scale for dark mode (cool-toned) */
+  --sl-color-gray-1: #e8e6e3;
+  --sl-color-gray-2: #b8b6b3;
+  --sl-color-gray-3: #8a8a9a;
+  --sl-color-gray-4: #6a6a7a;
+  --sl-color-gray-5: #3a3a48;
+  --sl-color-gray-6: #1a1a24;
+  --sl-color-gray-7: #0a0a0f;
+
+  /* Text - using Starlight's text variables */
+  --sl-color-text: #e8e6e3;
+  --sl-color-text-accent: #d4af37;
+
+  /* White/Black */
+  --sl-color-white: #e8e6e3;
+  --sl-color-black: #0a0a0f;
+}
+
+/* ------------------------------------------------------------
+   Light Mode - Starlight Variables
+   ------------------------------------------------------------ */
+:root[data-theme='light'] {
+  /* Accent colors - Darker gold for contrast */
+  --sl-color-accent-low: #f5f0e0;
+  --sl-color-accent: #7a5f00;
+  --sl-color-accent-high: #5a4500;
+
+  /* Background scale - Warm cream */
+  --sl-color-bg: #faf8f3;
+  --sl-color-bg-nav: #f5f2ea;
+  --sl-color-bg-sidebar: #f5f2ea;
+  --sl-color-bg-inline-code: #eeebe2;
+
+  /* Hairline borders */
+  --sl-color-hairline: #e0dcd0;
+  --sl-color-hairline-light: #eeebe2;
+  --sl-color-hairline-shade: #dacfc5;
+
+  /* Gray scale for light mode (warm-toned) - INVERTED for light */
+  --sl-color-gray-1: #2a2520;
+  --sl-color-gray-2: #4a453c;
+  --sl-color-gray-3: #6b5f55;
+  --sl-color-gray-4: #8a7f75;
+  --sl-color-gray-5: #dacfc5;
+  --sl-color-gray-6: #eeebe2;
+  --sl-color-gray-7: #faf8f3;
+
+  /* Text */
+  --sl-color-text: #2a2520;
+  --sl-color-text-accent: #6b4f00;
+
+  /* White/Black - inverted for light mode */
+  --sl-color-white: #2a2520;
+  --sl-color-black: #faf8f3;
+}
+
+/* ------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------ */
+:root {
+  --sl-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, monospace;
+
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ------------------------------------------------------------
+   Focus States - Accessible
+   ------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--sl-color-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.3);
+}
+
+:root[data-theme='light'] ::selection {
+  background: rgba(122, 95, 0, 0.2);
+}
+
+/* ------------------------------------------------------------
+   Links
+   ------------------------------------------------------------ */
+a {
+  transition: color 0.15s ease;
+}
+
+/* ------------------------------------------------------------
+   Hero Section Enhancement
+   ------------------------------------------------------------ */
+.hero {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    var(--sl-color-bg);
+}
+
+:root[data-theme='light'] .hero {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(122, 95, 0, 0.06) 0%, transparent 60%),
+    var(--sl-color-bg);
+}
+
+/* ------------------------------------------------------------
+   Cards - Starlight Card Components
+   ------------------------------------------------------------ */
+.sl-card {
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sl-card:hover {
+  border-color: var(--sl-color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme='light'] .sl-card:hover {
+  box-shadow: 0 4px 12px rgba(42, 37, 32, 0.1);
+}
+
+/* Card icon */
+.sl-card .icon {
+  color: var(--sl-color-accent);
+}
+
+/* ------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------ */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+th {
+  background: var(--sl-color-gray-6);
+  font-weight: 600;
+  text-align: left;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--sl-color-hairline-light);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--sl-color-gray-6);
+}
+
+/* ------------------------------------------------------------
+   Code Blocks
+   ------------------------------------------------------------ */
+pre {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 8px;
+}
+
+:not(pre) > code {
+  background: var(--sl-color-bg-inline-code);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ------------------------------------------------------------
+   Asides / Callouts
+   ------------------------------------------------------------ */
+.starlight-aside {
+  border-radius: 8px;
+}
+
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--sl-color-accent);
+  border-color: var(--sl-color-accent);
+  background: var(--sl-color-accent-low);
+}
+
+/* ------------------------------------------------------------
+   Sidebar
+   ------------------------------------------------------------ */
+nav.sidebar a[aria-current="page"] {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   Component Preview Containers
+   ------------------------------------------------------------ */
+.component-preview {
+  padding: 2rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--sl-color-hairline);
+}
+
+.component-preview.dark {
+  background: #0a0a0f;
+}
+
+.component-preview.light {
+  background: #faf8f3;
+}
+
+.preview-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   Button Components (Documentation Examples)
+   ------------------------------------------------------------ */
+.sync-button {
+  font-family: var(--sl-font);
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.sync-button:active {
+  transform: scale(0.98);
+}
+
+.sync-button:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 2px;
+}
+
+/* Primary Button */
+.sync-button-primary {
+  background: #d4af37;
+  color: #0a0a0f;
+}
+
+.sync-button-primary:hover {
+  background: #c9a432;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+}
+
+.sync-button-primary.sync-button-pressed {
+  background: #a8892c;
+}
+
+.sync-button-primary.sync-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary Button */
+.sync-button-secondary {
+  background: transparent;
+  color: #d4af37;
+  border: 1.5px solid #d4af37;
+}
+
+.sync-button-secondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* Ghost Button */
+.sync-button-ghost {
+  background: transparent;
+  color: #e8e6e3;
+}
+
+.sync-button-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Destructive Button */
+.sync-button-destructive {
+  background: #ef4444;
+  color: white;
+}
+
+.sync-button-destructive:hover {
+  background: #dc2626;
+}
+
+/* Button Sizes */
+.sync-button-sm {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.sync-button-md {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+.sync-button-lg {
+  height: 52px;
+  padding: 0 28px;
+  font-size: 17px;
+}
+
+/* Icon Button */
+.sync-button-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+/* Button Content */
+.button-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------
+   Color Swatches
+   ------------------------------------------------------------ */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  margin: 1.5rem 0;
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-hairline);
+  min-height: 80px;
+  padding: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.color-swatch:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.swatch-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-top: auto;
+}
+
+.swatch-value {
+  font-family: var(--sl-font-mono);
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* ------------------------------------------------------------
+   Spacing Demos
+   ------------------------------------------------------------ */
+.spacing-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 1.5rem 0;
+}
+
+.spacing-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.spacing-box {
+  background: var(--sl-color-accent);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.spacing-label {
+  font-family: var(--sl-font-mono);
+  font-size: 13px;
+  color: var(--sl-color-gray-2);
+  min-width: 80px;
+}
+
+.spacing-value {
+  font-family: var(--sl-font-mono);
+  font-size: 12px;
+  color: var(--sl-color-gray-3);
+}
+
+/* ------------------------------------------------------------
+   Typography Samples
+   ------------------------------------------------------------ */
+.type-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 1.5rem 0;
+}
+
+.type-sample {
+  padding: 16px 20px;
+  background: var(--sl-color-gray-6);
+  border-radius: 8px;
+  border: 1px solid var(--sl-color-hairline-light);
+  position: relative;
+}
+
+.type-label {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-family: var(--sl-font-mono);
+  font-size: 10px;
+  color: var(--sl-color-accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.type-value {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-family: var(--sl-font-mono);
+  font-size: 10px;
+  color: var(--sl-color-gray-3);
+}
+
+/* ------------------------------------------------------------
+   Duration/Motion Demos
+   ------------------------------------------------------------ */
+.duration-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 1.5rem 0;
+}
+
+.duration-item {
+  display: grid;
+  grid-template-columns: 80px 60px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--sl-color-gray-6);
+  border-radius: 6px;
+  border: 1px solid var(--sl-color-hairline-light);
+}
+
+.duration-label {
+  font-family: var(--sl-font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.duration-value {
+  font-family: var(--sl-font-mono);
+  font-size: 12px;
+  color: var(--sl-color-accent);
+}
+
+.duration-use {
+  font-size: 13px;
+  color: var(--sl-color-gray-2);
+}
+
+/* ------------------------------------------------------------
+   Badges
+   ------------------------------------------------------------ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2em 0.6em;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent);
+}
+
+/* ------------------------------------------------------------
+   Tier Indicators
+   ------------------------------------------------------------ */
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.2em 0.5em;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+}
+
+.tier-1 {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+}
+
+.tier-2 {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent);
+}
+
+.tier-3 {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+:root[data-theme='light'] .tier-3 {
+  background: rgba(13, 143, 104, 0.12);
+  color: #0d7a5a;
+}
+
+/* ------------------------------------------------------------
+   Scrollbar
+   ------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sl-color-gray-5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sl-color-gray-4);
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .color-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .component-preview {
+    padding: 1.5rem;
+  }
+
+  .preview-row {
+    flex-direction: column;
+  }
+
+  .duration-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Print
+   ------------------------------------------------------------ */
+@media print {
+  .hero {
+    background: none;
+  }
+
+  .sl-card, .component-preview {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}

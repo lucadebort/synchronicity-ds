@@ -1,0 +1,167 @@
+---
+title: Typography
+description: Type scale and font system for Synchronicity
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+# Typography
+
+Synchronicity uses system fonts for optimal performance and native feel. The type scale is designed for clarity and hierarchy.
+
+## Font Families
+
+```ts
+const fontFamily = {
+  sans: 'System',           // SF Pro on iOS, Roboto on Android
+  serif: 'Georgia',         // For contemplative, literary content
+  mono: 'Menlo',           // For code and technical content
+};
+```
+
+<Aside type="note">
+System fonts ensure fast load times and a native feel across platforms. They're also optimized for readability at various sizes.
+</Aside>
+
+## Type Scale
+
+The scale follows a harmonious progression based on a 1.25 ratio.
+
+<div class="type-scale">
+  <div class="type-sample" style="font-size: 48px; font-weight: 700;">
+    <span class="type-label">display</span>
+    <span class="type-value">48px / 700</span>
+    Synchronicity
+  </div>
+  <div class="type-sample" style="font-size: 32px; font-weight: 700;">
+    <span class="type-label">h1</span>
+    <span class="type-value">32px / 700</span>
+    The Creative
+  </div>
+  <div class="type-sample" style="font-size: 24px; font-weight: 600;">
+    <span class="type-label">h2</span>
+    <span class="type-value">24px / 600</span>
+    Heaven Above
+  </div>
+  <div class="type-sample" style="font-size: 20px; font-weight: 600;">
+    <span class="type-label">h3</span>
+    <span class="type-value">20px / 600</span>
+    Six Dragons
+  </div>
+  <div class="type-sample" style="font-size: 17px; font-weight: 500;">
+    <span class="type-label">body-lg</span>
+    <span class="type-value">17px / 500</span>
+    The movement of heaven is powerful.
+  </div>
+  <div class="type-sample" style="font-size: 15px; font-weight: 400;">
+    <span class="type-label">body</span>
+    <span class="type-value">15px / 400</span>
+    The superior person makes themselves strong and untiring.
+  </div>
+  <div class="type-sample" style="font-size: 13px; font-weight: 400;">
+    <span class="type-label">body-sm</span>
+    <span class="type-value">13px / 400</span>
+    Nine in the second place means success.
+  </div>
+  <div class="type-sample" style="font-size: 12px; font-weight: 500;">
+    <span class="type-label">caption</span>
+    <span class="type-value">12px / 500</span>
+    HEXAGRAM 1 OF 64
+  </div>
+  <div class="type-sample" style="font-size: 11px; font-weight: 400;">
+    <span class="type-label">footnote</span>
+    <span class="type-value">11px / 400</span>
+    Reference: Wilhelm/Baynes translation
+  </div>
+</div>
+
+## Font Weights
+
+| Weight | Value | Usage |
+|--------|-------|-------|
+| regular | 400 | Body text, descriptions |
+| medium | 500 | Emphasized body, labels |
+| semibold | 600 | Subheadings, important UI |
+| bold | 700 | Headlines, primary actions |
+
+## Line Heights
+
+Line heights are proportional to create comfortable reading:
+
+| Size | Line Height | Ratio |
+|------|-------------|-------|
+| display | 56px | 1.17 |
+| h1 | 40px | 1.25 |
+| h2 | 32px | 1.33 |
+| h3 | 28px | 1.40 |
+| body-lg | 26px | 1.53 |
+| body | 22px | 1.47 |
+| body-sm | 18px | 1.38 |
+| caption | 16px | 1.33 |
+| footnote | 14px | 1.27 |
+
+## Letter Spacing
+
+Subtle letter spacing adjustments improve readability:
+
+```ts
+const letterSpacing = {
+  tight: -0.5,    // Headlines
+  normal: 0,      // Body text
+  wide: 0.5,      // Captions, labels
+  wider: 1.0,     // All-caps text
+};
+```
+
+## Semantic Typography
+
+Use semantic tokens for consistent hierarchy:
+
+| Token | Usage |
+|-------|-------|
+| `title` | Page titles, hero text |
+| `heading` | Section headers |
+| `subheading` | Subsection headers |
+| `body` | Main content |
+| `label` | Form labels, UI text |
+| `caption` | Supporting info |
+
+## Usage in Code
+
+```tsx
+import { useTheme } from '@synchronicity/react-native';
+
+function HexagramTitle({ name, number }) {
+  const { typography } = useTheme();
+
+  return (
+    <View>
+      <Text style={{
+        fontSize: typography.h1.fontSize,
+        fontWeight: typography.h1.fontWeight,
+        lineHeight: typography.h1.lineHeight,
+      }}>
+        {name}
+      </Text>
+      <Text style={{
+        fontSize: typography.caption.fontSize,
+        fontWeight: typography.caption.fontWeight,
+        letterSpacing: typography.letterSpacing.wide,
+      }}>
+        HEXAGRAM {number}
+      </Text>
+    </View>
+  );
+}
+```
+
+## Best Practices
+
+1. **Limit hierarchy levels** - Use 2-3 heading levels per screen maximum
+2. **Maintain contrast** - Pair font sizes with appropriate weights
+3. **Respect line length** - Keep body text to 45-75 characters per line
+4. **Use semantic tokens** - Avoid hardcoding font sizes
+
+<Aside type="tip">
+For contemplative content like hexagram texts, consider using the serif font family for a more literary feel.
+</Aside>

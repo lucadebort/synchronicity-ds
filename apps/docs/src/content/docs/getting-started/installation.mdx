@@ -1,0 +1,105 @@
+---
+title: Installation
+description: How to install the Synchronicity Design System
+---
+
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
+
+# Installation
+
+Synchronicity is distributed as npm packages. You can install just the tokens, or the complete React Native package.
+
+## Tokens Only
+
+If you want to use the design tokens with your own components:
+
+<Tabs>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @synchronicity/tokens
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install @synchronicity/tokens
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @synchronicity/tokens
+    ```
+  </TabItem>
+</Tabs>
+
+## React Native Package
+
+For the complete experience with components and hooks:
+
+<Tabs>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @synchronicity/react-native
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```bash
+    npm install @synchronicity/react-native
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @synchronicity/react-native
+    ```
+  </TabItem>
+</Tabs>
+
+### Peer Dependencies
+
+The React Native package requires:
+
+```json
+{
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0",
+    "react-native-reanimated": ">=3.0.0"
+  }
+}
+```
+
+## Local Development (Monorepo)
+
+If you're developing locally or in a monorepo, you can reference the packages directly:
+
+```json
+{
+  "dependencies": {
+    "@synchronicity/tokens": "file:../synchronicity-design-system/packages/tokens",
+    "@synchronicity/react-native": "file:../synchronicity-design-system/packages/react-native"
+  }
+}
+```
+
+Or with pnpm workspaces:
+
+```json
+{
+  "dependencies": {
+    "@synchronicity/tokens": "workspace:*"
+  }
+}
+```
+
+## TypeScript Support
+
+Both packages include full TypeScript definitions. No additional @types packages needed.
+
+```typescript
+import { createTheme, type Theme, type ThemeObject } from '@synchronicity/tokens';
+
+const theme: ThemeObject = createTheme('dark');
+```
+
+## Next Steps
+
+Now that you have Synchronicity installed, check out the [Quick Start](/getting-started/quick-start/) guide to set up theming.

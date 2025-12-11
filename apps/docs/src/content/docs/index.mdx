@@ -1,0 +1,98 @@
+---
+title: Synchronicity
+description: A contemplative design system for mindful applications
+template: splash
+hero:
+  tagline: Design with intention. Build with clarity. Create experiences that breathe.
+  image:
+    file: ../../assets/logo-dark.svg
+  actions:
+    - text: Get Started
+      link: /getting-started/introduction/
+      icon: right-arrow
+      variant: primary
+    - text: Foundations
+      link: /foundations/overview/
+      variant: secondary
+---
+
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
+
+<div class="intro-section">
+
+## The Art of Contemplative Design
+
+Synchronicity is a design system crafted for applications that honor the user's attention. Born from the development of an I Ching divination app, it embodies principles of mindfulness, clarity, and purposeful restraint.
+
+Every token, every animation, every interaction has been considered—not just for function, but for feeling.
+
+</div>
+
+---
+
+## Core Principles
+
+<CardGrid stagger>
+  <Card title="Intentional Simplicity" icon="pencil">
+    Every element earns its place. We remove visual noise so content can breathe and users can focus on what matters.
+  </Card>
+  <Card title="Warm Luminosity" icon="sun">
+    Gold serves as the sacred accent—drawing attention with warmth rather than aggression, creating moments of visual significance.
+  </Card>
+  <Card title="Rhythmic Motion" icon="star">
+    Animations follow natural breathing patterns. Transitions feel organic, never mechanical. The interface moves with intention.
+  </Card>
+  <Card title="Inclusive by Design" icon="approve-check">
+    WCAG AA compliance is the baseline, not the goal. Every color combination is tested. Every interaction is accessible.
+  </Card>
+</CardGrid>
+
+---
+
+## Architecture
+
+The token system follows a three-tier hierarchy, separating raw values from their meaning and usage:
+
+| Tier | Purpose | Example |
+|------|---------|---------|
+| **Primitives** | Raw, theme-agnostic values | `gold-60`, `void-90`, `space-4` |
+| **Semantic** | Purpose-driven, theme-aware | `text-primary`, `background`, `spacing-md` |
+| **Component** | Specific to UI elements | `button.primary.background` |
+
+This architecture enables scalable theming, consistent design decisions, and maintainable code.
+
+---
+
+## Three Themes
+
+<CardGrid>
+  <Card title="Light" icon="sun">
+    Warm cream backgrounds with grounded gold accents. Paper-like warmth for focused reading. Perfect for bright environments.
+  </Card>
+  <Card title="Dark" icon="moon">
+    Deep void backgrounds with luminous gold. OLED-optimized for battery efficiency and visual depth. The default experience.
+  </Card>
+  <Card title="True Black" icon="star">
+    Pure black for maximum contrast and OLED savings. Dramatic, focused, uncompromising. For those who prefer the void.
+  </Card>
+</CardGrid>
+
+---
+
+## Token Categories
+
+| Category | Description |
+|----------|-------------|
+| **Color** | Gold spectrum, warm & cool grays, ethereal accents, semantic states |
+| **Typography** | System fonts with contemplative rhythm—display, heading, body, caption |
+| **Spacing** | 4px base scale with semantic mapping—xs through 3xl |
+| **Motion** | Duration and easing including breathing animation timings (3.6s in, 1.2s hold, 4.8s out) |
+| **Radius** | Gentle curves that soften without losing clarity—sm, md, lg, xl |
+| **Shadow** | Gold-tinted shadows for warmth, optimized for mobile performance |
+| **Haptics** | Tactile feedback patterns—selection, impact, notification |
+
+---
+
+<Aside type="tip" title="Ready to begin?">
+Start with the [Introduction](/getting-started/introduction/) to understand the philosophy, or dive into [Foundations](/foundations/overview/) to explore the design principles.
+</Aside>

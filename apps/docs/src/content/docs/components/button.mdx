@@ -1,0 +1,322 @@
+---
+title: Button
+description: Primary interactive element for triggering actions
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Button
+
+Buttons are the primary way users interact with Synchronicity applications. They trigger actions, submit forms, and navigate between screens.
+
+## Variants
+
+### Primary
+
+The primary button is used for the most important action on a screen. Use sparingly—typically one per view.
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
+</div>
+
+```tsx
+<Button variant="primary" onPress={handleCast}>
+  Cast Hexagram
+</Button>
+```
+
+**Usage**: Main CTAs, form submissions, primary actions
+
+### Secondary
+
+Secondary buttons are for supporting actions that don't need visual priority.
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-secondary sync-button-md">Save Reading</button>
+</div>
+
+```tsx
+<Button variant="secondary" onPress={handleSave}>
+  Save Reading
+</Button>
+```
+
+**Usage**: Secondary actions, alternatives to primary
+
+### Ghost
+
+Ghost buttons are the most subtle. Use for tertiary actions or navigation.
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-ghost sync-button-md">Learn More</button>
+</div>
+
+```tsx
+<Button variant="ghost" onPress={handleLearnMore}>
+  Learn More
+</Button>
+```
+
+**Usage**: Tertiary actions, cancel buttons, navigation
+
+### Destructive
+
+For dangerous or irreversible actions.
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-destructive sync-button-md">Delete Reading</button>
+</div>
+
+```tsx
+<Button variant="destructive" onPress={handleDelete}>
+  Delete Reading
+</Button>
+```
+
+**Usage**: Delete, remove, disconnect actions
+
+---
+
+## Sizes
+
+<div class="component-preview dark preview-row">
+  <button class="sync-button sync-button-primary sync-button-sm">Small</button>
+  <button class="sync-button sync-button-primary sync-button-md">Medium</button>
+  <button class="sync-button sync-button-primary sync-button-lg">Large</button>
+</div>
+
+| Size | Height | Font Size | Usage |
+|------|--------|-----------|-------|
+| `sm` | 36px | 13px | Compact spaces, toolbars |
+| `md` | 44px | 15px | Default, most cases |
+| `lg` | 52px | 17px | Hero sections, primary CTAs |
+
+```tsx
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+```
+
+---
+
+## States
+
+### Default
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md">Default State</button>
+</div>
+
+### Hover
+
+Hover over the button above to see the hover state with subtle glow effect.
+
+### Pressed
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md sync-button-pressed">Pressed State</button>
+</div>
+
+### Disabled
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md sync-button-disabled" disabled>Disabled State</button>
+</div>
+
+```tsx
+<Button disabled>Cannot Press</Button>
+```
+
+### Loading
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md sync-button-loading">
+    <span class="button-content">
+      <span class="loading-spinner"></span>
+      Loading...
+    </span>
+  </button>
+</div>
+
+```tsx
+<Button loading>Processing</Button>
+```
+
+---
+
+## With Icons
+
+Icons can be placed before or after the button label.
+
+<div class="component-preview dark preview-row">
+  <button class="sync-button sync-button-primary sync-button-md">
+    <span class="button-content">☰ Cast Now</span>
+  </button>
+  <button class="sync-button sync-button-secondary sync-button-md">
+    <span class="button-content">Share →</span>
+  </button>
+</div>
+
+```tsx
+<Button icon={<CastIcon />} iconPosition="left">
+  Cast Now
+</Button>
+
+<Button icon={<ShareIcon />} iconPosition="right">
+  Share
+</Button>
+```
+
+### Icon Only
+
+For icon-only buttons, always include an accessibility label.
+
+<div class="component-preview dark preview-row">
+  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="Menu">☰</button>
+  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="More options">⋯</button>
+</div>
+
+```tsx
+<Button
+  icon={<MenuIcon />}
+  accessibilityLabel="Open menu"
+/>
+```
+
+---
+
+## Full Width
+
+<div class="component-preview dark">
+  <button class="sync-button sync-button-primary sync-button-md" style="width: 100%; max-width: 320px;">Full Width Button</button>
+</div>
+
+```tsx
+<Button fullWidth>Full Width Button</Button>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'primary' \| 'secondary' \| 'ghost' \| 'destructive'` | `'primary'` | Visual style |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `loading` | `boolean` | `false` | Show loading state |
+| `icon` | `ReactNode` | - | Icon element |
+| `iconPosition` | `'left' \| 'right'` | `'left'` | Icon placement |
+| `fullWidth` | `boolean` | `false` | Expand to container |
+| `onPress` | `() => void` | - | Press handler |
+| `accessibilityLabel` | `string` | - | Screen reader label |
+| `haptic` | `'light' \| 'medium' \| 'heavy'` | `'light'` | Haptic feedback |
+
+### Tokens Used
+
+```ts
+import { button } from '@synchronicity/tokens/components';
+
+// Colors
+button.primary.background     // #d4af37
+button.primary.text           // #0a0a0f
+button.secondary.border       // #d4af37
+
+// Sizing
+button.height.md              // 44
+button.padding.horizontal.md  // 16
+button.borderRadius           // 8
+
+// Typography
+button.fontSize.md            // 15
+button.fontWeight             // '600'
+```
+
+---
+
+## Usage Guidelines
+
+### Do
+
+- Use primary buttons for the main action on each screen
+- Provide clear, action-oriented labels ("Cast Hexagram", not "Submit")
+- Include haptic feedback for tactile response
+- Maintain minimum touch target (44×44 points)
+
+### Don't
+
+- Use multiple primary buttons in the same view
+- Use vague labels like "Click Here" or "OK"
+- Disable buttons without explanation
+- Use destructive styling for non-destructive actions
+
+<Aside type="tip">
+In contemplative applications, buttons should feel intentional. Avoid aggressive styling or urgent language. Let users interact at their own pace.
+</Aside>
+
+---
+
+## Accessibility
+
+- **Touch target**: Minimum 44×44 points
+- **Color contrast**: 9.4:1 for gold on dark (AAA compliant)
+- **Focus indicator**: 2px gold outline with offset
+- **Screen reader**: Announces button role and label
+- **Disabled state**: Reduced opacity (0.5), not just color change
+
+```tsx
+<Button
+  onPress={handleAction}
+  accessibilityLabel="Cast a new hexagram using three coins"
+  accessibilityHint="Double tap to begin casting"
+>
+  Cast Hexagram
+</Button>
+```
+
+---
+
+## Complete Example
+
+```tsx
+import { Button } from '@synchronicity/react-native';
+import { useState } from 'react';
+
+function CastingScreen() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCast = async () => {
+    setIsLoading(true);
+    try {
+      await castHexagram();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Button
+        variant="primary"
+        size="lg"
+        loading={isLoading}
+        onPress={handleCast}
+        haptic="medium"
+        fullWidth
+      >
+        {isLoading ? 'Casting...' : 'Cast Hexagram'}
+      </Button>
+
+      <Button
+        variant="ghost"
+        onPress={goBack}
+        style={{ marginTop: 16 }}
+      >
+        Cancel
+      </Button>
+    </View>
+  );
+}
+```
