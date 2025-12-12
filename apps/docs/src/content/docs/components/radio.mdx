@@ -1,0 +1,356 @@
+---
+title: Radio
+description: Selection control for single choice from multiple options
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Radio
+
+Radio buttons allow users to select exactly one option from a set. Use when users need to see all options at once.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-xl p-lg">
+  <div class="sync-radio unselected"></div>
+  <div class="sync-radio selected">
+    <div class="radio-dot"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## States
+
+### Unselected
+
+<PreviewBox class="flex-row gap-lg p-lg">
+  <div class="radio-demo">
+    <div class="sync-radio unselected"></div>
+    <span class="radio-label">Unselected</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Radio
+  selected={false}
+  onSelect={() => setValue('option')}
+  accessibilityLabel="Option"
+/>
+```
+
+### Selected
+
+<PreviewBox class="flex-row gap-lg p-lg">
+  <div class="radio-demo">
+    <div class="sync-radio selected">
+      <div class="radio-dot"></div>
+    </div>
+    <span class="radio-label">Selected</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Radio
+  selected={true}
+  onSelect={() => setValue('option')}
+  accessibilityLabel="Option"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-row gap-xl p-lg align-center">
+  <div class="radio-demo">
+    <div class="sync-radio sm selected">
+      <div class="radio-dot sm"></div>
+    </div>
+    <span class="radio-label size">sm</span>
+  </div>
+  <div class="radio-demo">
+    <div class="sync-radio md selected">
+      <div class="radio-dot md"></div>
+    </div>
+    <span class="radio-label size">md</span>
+  </div>
+  <div class="radio-demo">
+    <div class="sync-radio lg selected">
+      <div class="radio-dot lg"></div>
+    </div>
+    <span class="radio-label size">lg</span>
+  </div>
+</PreviewBox>
+
+| Size | Outer | Inner | Usage |
+|------|-------|-------|-------|
+| `sm` | 16px | 8px | Compact lists |
+| `md` | 20px | 10px | Default |
+| `lg` | 24px | 12px | Prominent choices |
+
+---
+
+## Disabled
+
+<PreviewBox class="flex-row gap-xl p-lg">
+  <div class="radio-demo">
+    <div class="sync-radio unselected disabled"></div>
+    <span class="radio-label disabled">Disabled</span>
+  </div>
+  <div class="radio-demo">
+    <div class="sync-radio selected disabled">
+      <div class="radio-dot"></div>
+    </div>
+    <span class="radio-label disabled">Disabled selected</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Radio
+  selected={false}
+  disabled
+  onSelect={() => {}}
+  accessibilityLabel="Unavailable option"
+/>
+```
+
+---
+
+## Radio Group
+
+Use `RadioGroup` to manage selection state for multiple options.
+
+<PreviewBox class="flex-col gap-md p-lg">
+  <div class="radio-demo">
+    <div class="sync-radio selected">
+      <div class="radio-dot"></div>
+    </div>
+    <span class="radio-label">Three Coins</span>
+  </div>
+  <div class="radio-demo">
+    <div class="sync-radio unselected"></div>
+    <span class="radio-label">Yarrow Stalks</span>
+  </div>
+  <div class="radio-demo">
+    <div class="sync-radio unselected"></div>
+    <span class="radio-label">Plum Blossom</span>
+  </div>
+</PreviewBox>
+
+```tsx
+import { RadioGroup, RadioGroupItem } from '@synchronicity/react-native';
+
+function CastingMethodPicker() {
+  const [method, setMethod] = useState('three-coins');
+
+  return (
+    <RadioGroup value={method} onValueChange={setMethod}>
+      <View style={styles.option}>
+        <RadioGroupItem
+          value="three-coins"
+          accessibilityLabel="Three Coins method"
+        />
+        <Text>Three Coins</Text>
+      </View>
+      <View style={styles.option}>
+        <RadioGroupItem
+          value="yarrow"
+          accessibilityLabel="Yarrow Stalks method"
+        />
+        <Text>Yarrow Stalks</Text>
+      </View>
+      <View style={styles.option}>
+        <RadioGroupItem
+          value="plum"
+          accessibilityLabel="Plum Blossom method"
+        />
+        <Text>Plum Blossom</Text>
+      </View>
+    </RadioGroup>
+  );
+}
+```
+
+---
+
+## API Reference
+
+### Radio Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `selected` | `boolean` | **Required** | Whether selected |
+| `onSelect` | `() => void` | **Required** | Selection handler |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Radio size |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+
+### RadioGroup Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Currently selected value |
+| `onValueChange` | `(value: string) => void` | Change handler |
+| `children` | `ReactNode` | RadioGroupItem elements |
+| `style` | `ViewStyle` | Custom styles |
+
+### RadioGroupItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **Required** | Option value |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Radio size |
+| `disabled` | `boolean` | `false` | Disable this option |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { RadioGroup, RadioGroupItem, Card, Text } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function ThemeSelector() {
+  const [theme, setTheme] = useState('dark');
+
+  const themes = [
+    { value: 'light', label: 'Light', description: 'Classic light appearance' },
+    { value: 'dark', label: 'Dark', description: 'Easy on the eyes' },
+    { value: 'oled', label: 'OLED', description: 'True black for OLED screens' },
+    { value: 'system', label: 'System', description: 'Follow device setting' },
+  ];
+
+  return (
+    <Card>
+      <Text style={styles.title}>Appearance</Text>
+      <RadioGroup value={theme} onValueChange={setTheme}>
+        {themes.map(option => (
+          <View key={option.value} style={styles.option}>
+            <RadioGroupItem
+              value={option.value}
+              accessibilityLabel={option.label}
+            />
+            <View style={styles.optionText}>
+              <Text style={styles.optionLabel}>{option.label}</Text>
+              <Text style={styles.optionDesc}>{option.description}</Text>
+            </View>
+          </View>
+        ))}
+      </RadioGroup>
+    </Card>
+  );
+}
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    paddingVertical: 12,
+  },
+  optionText: {
+    flex: 1,
+  },
+  optionLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  optionDesc: {
+    fontSize: 14,
+    color: '#8a8a9a',
+    marginTop: 2,
+  },
+});
+```
+
+<style>{`
+  .sync-radio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #5a5a68;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .sync-radio:not(.sm):not(.lg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sync-radio.sm { width: 16px; height: 16px; }
+  .sync-radio.lg { width: 24px; height: 24px; }
+
+  .sync-radio.selected {
+    border-color: #d4af37;
+  }
+
+  .sync-radio.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .radio-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d4af37;
+  }
+
+  .radio-dot.sm { width: 8px; height: 8px; }
+  .radio-dot.lg { width: 12px; height: 12px; }
+
+  .radio-demo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .radio-label {
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  .radio-label.size {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8a8a9a;
+  }
+
+  .radio-label.disabled {
+    opacity: 0.5;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-radio {
+    border-color: #b0a89e;
+  }
+
+  .preview-content[data-theme="light"] .sync-radio.selected {
+    border-color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .radio-dot {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .radio-label {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .radio-label.size {
+    color: #6b5f55;
+  }
+`}</style>

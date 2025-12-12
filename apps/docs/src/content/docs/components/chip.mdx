@@ -1,0 +1,419 @@
+---
+title: Chip
+description: Compact element for inputs, attributes, or actions
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Chip
+
+Chip is a compact element used for categories, filters, or selections. Supports interactive and removable states.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-md p-lg">
+  <span class="sync-chip filled">Heaven</span>
+  <span class="sync-chip filled selected">Earth</span>
+  <span class="sync-chip outlined">Thunder</span>
+  <span class="sync-chip soft">Water</span>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Filled
+
+Solid background for emphasis.
+
+<PreviewBox class="flex-row gap-md p-lg">
+  <span class="sync-chip filled">Default</span>
+  <span class="sync-chip filled selected">Selected</span>
+</PreviewBox>
+
+```tsx
+<Chip>Default</Chip>
+<Chip selected>Selected</Chip>
+```
+
+### Outlined
+
+Border-only for subtle appearance.
+
+<PreviewBox class="flex-row gap-md p-lg">
+  <span class="sync-chip outlined">Default</span>
+  <span class="sync-chip outlined selected">Selected</span>
+</PreviewBox>
+
+```tsx
+<Chip variant="outlined">Default</Chip>
+<Chip variant="outlined" selected>Selected</Chip>
+```
+
+### Soft
+
+Subtle background for minimal emphasis.
+
+<PreviewBox class="flex-row gap-md p-lg">
+  <span class="sync-chip soft">Default</span>
+  <span class="sync-chip soft selected">Selected</span>
+</PreviewBox>
+
+```tsx
+<Chip variant="soft">Default</Chip>
+<Chip variant="soft" selected>Selected</Chip>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-row gap-md p-lg align-center">
+  <span class="sync-chip filled sm">Small</span>
+  <span class="sync-chip filled md">Medium</span>
+  <span class="sync-chip filled lg">Large</span>
+</PreviewBox>
+
+| Size | Padding | Font | Usage |
+|------|---------|------|-------|
+| `sm` | 8×4px | 12px | Compact lists |
+| `md` | 12×6px | 14px | Default |
+| `lg` | 16×8px | 16px | Featured items |
+
+---
+
+## Interactive Chips
+
+Chips can be selectable for filter-like behavior.
+
+<PreviewBox class="flex-row gap-sm flex-wrap p-lg">
+  <span class="sync-chip filled selected">☰ Heaven</span>
+  <span class="sync-chip filled">☷ Earth</span>
+  <span class="sync-chip filled selected">☳ Thunder</span>
+  <span class="sync-chip filled">☵ Water</span>
+  <span class="sync-chip filled">☶ Mountain</span>
+  <span class="sync-chip filled selected">☴ Wind</span>
+  <span class="sync-chip filled">☲ Fire</span>
+  <span class="sync-chip filled">☱ Lake</span>
+</PreviewBox>
+
+```tsx
+const [selected, setSelected] = useState(['heaven', 'thunder', 'wind']);
+
+const trigrams = ['Heaven', 'Earth', 'Thunder', 'Water', 'Mountain', 'Wind', 'Fire', 'Lake'];
+
+<ChipGroup>
+  {trigrams.map(trigram => (
+    <Chip
+      key={trigram}
+      selected={selected.includes(trigram.toLowerCase())}
+      onPress={() => toggleSelection(trigram.toLowerCase())}
+    >
+      {trigram}
+    </Chip>
+  ))}
+</ChipGroup>
+```
+
+---
+
+## Removable Chips
+
+Add an `onClose` handler to show a remove button.
+
+<PreviewBox class="flex-row gap-sm p-lg">
+  <span class="sync-chip filled closable">Heaven <span class="chip-close">×</span></span>
+  <span class="sync-chip filled closable">Earth <span class="chip-close">×</span></span>
+  <span class="sync-chip filled closable">Thunder <span class="chip-close">×</span></span>
+</PreviewBox>
+
+```tsx
+const [tags, setTags] = useState(['Heaven', 'Earth', 'Thunder']);
+
+<ChipGroup>
+  {tags.map(tag => (
+    <Chip
+      key={tag}
+      onClose={() => setTags(prev => prev.filter(t => t !== tag))}
+    >
+      {tag}
+    </Chip>
+  ))}
+</ChipGroup>
+```
+
+---
+
+## With Icons
+
+<PreviewBox class="flex-row gap-md p-lg">
+  <span class="sync-chip filled">☰ Heaven</span>
+  <span class="sync-chip filled">☷ Earth</span>
+  <span class="sync-chip filled">☳ Thunder</span>
+</PreviewBox>
+
+```tsx
+<Chip icon={<TrigramIcon name="heaven" />}>Heaven</Chip>
+<Chip icon={<TrigramIcon name="earth" />}>Earth</Chip>
+<Chip icon={<TrigramIcon name="thunder" />}>Thunder</Chip>
+```
+
+---
+
+## Disabled
+
+<PreviewBox class="flex-row gap-md p-lg">
+  <span class="sync-chip filled disabled">Disabled</span>
+  <span class="sync-chip filled selected disabled">Selected disabled</span>
+</PreviewBox>
+
+```tsx
+<Chip disabled>Disabled</Chip>
+<Chip selected disabled>Selected disabled</Chip>
+```
+
+---
+
+## ChipGroup
+
+Container for managing chip layout with consistent spacing.
+
+<PreviewBox class="p-lg">
+  <div class="chip-group">
+    <span class="sync-chip outlined">Relationships</span>
+    <span class="sync-chip outlined">Career</span>
+    <span class="sync-chip outlined">Health</span>
+    <span class="sync-chip outlined">Spiritual</span>
+    <span class="sync-chip outlined">Financial</span>
+    <span class="sync-chip outlined">Creative</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<ChipGroup spacing="sm">
+  <Chip variant="outlined">Relationships</Chip>
+  <Chip variant="outlined">Career</Chip>
+  <Chip variant="outlined">Health</Chip>
+  <Chip variant="outlined">Spiritual</Chip>
+  <Chip variant="outlined">Financial</Chip>
+  <Chip variant="outlined">Creative</Chip>
+</ChipGroup>
+```
+
+---
+
+## API Reference
+
+### Chip Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | **Required** | Chip label |
+| `variant` | `'filled' \| 'outlined' \| 'soft'` | `'filled'` | Visual style |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Chip size |
+| `selected` | `boolean` | `false` | Selected state |
+| `onPress` | `() => void` | - | Press handler |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `icon` | `ReactNode` | - | Icon before label |
+| `onClose` | `() => void` | - | Close handler (shows X) |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ChipGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | Chip elements |
+| `spacing` | `'sm' \| 'md' \| 'lg'` | `'sm'` | Gap between chips |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Chip, ChipGroup, Card, Input } from '@synchronicity/react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function ReadingTagEditor({ reading, onUpdate }) {
+  const [tags, setTags] = useState(reading.tags || []);
+  const [newTag, setNewTag] = useState('');
+
+  const suggestedTags = ['Career', 'Love', 'Health', 'Guidance', 'Decision'];
+  const availableSuggestions = suggestedTags.filter(t => !tags.includes(t));
+
+  const addTag = (tag: string) => {
+    if (tag && !tags.includes(tag)) {
+      const updated = [...tags, tag];
+      setTags(updated);
+      onUpdate({ ...reading, tags: updated });
+    }
+    setNewTag('');
+  };
+
+  const removeTag = (tag: string) => {
+    const updated = tags.filter(t => t !== tag);
+    setTags(updated);
+    onUpdate({ ...reading, tags: updated });
+  };
+
+  return (
+    <Card>
+      <Text style={styles.title}>Tags</Text>
+
+      {tags.length > 0 && (
+        <ChipGroup spacing="sm" style={styles.section}>
+          {tags.map(tag => (
+            <Chip key={tag} onClose={() => removeTag(tag)}>
+              {tag}
+            </Chip>
+          ))}
+        </ChipGroup>
+      )}
+
+      <Input
+        value={newTag}
+        onChangeText={setNewTag}
+        placeholder="Add custom tag..."
+        onSubmitEditing={() => addTag(newTag)}
+        accessibilityLabel="Add tag"
+      />
+
+      {availableSuggestions.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Suggestions</Text>
+          <ChipGroup spacing="sm">
+            {availableSuggestions.map(tag => (
+              <Chip
+                key={tag}
+                variant="outlined"
+                onPress={() => addTag(tag)}
+              >
+                {tag}
+              </Chip>
+            ))}
+          </ChipGroup>
+        </View>
+      )}
+    </Card>
+  );
+}
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  section: {
+    marginTop: 16,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    color: '#8a8a9a',
+    marginBottom: 8,
+  },
+});
+```
+
+<style>{`
+  .sync-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    gap: 6px;
+  }
+
+  .sync-chip.sm { padding: 4px 8px; font-size: 12px; }
+  .sync-chip.lg { padding: 8px 16px; font-size: 16px; }
+
+  .sync-chip.filled {
+    background: #2a2a38;
+    color: #e8e6e3;
+  }
+
+  .sync-chip.filled.selected {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .sync-chip.outlined {
+    background: transparent;
+    border: 1px solid #3a3a48;
+    color: #e8e6e3;
+  }
+
+  .sync-chip.outlined.selected {
+    border-color: #d4af37;
+    color: #d4af37;
+  }
+
+  .sync-chip.soft {
+    background: #1a1a24;
+    color: #8a8a9a;
+  }
+
+  .sync-chip.soft.selected {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .sync-chip.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .sync-chip.closable {
+    padding-right: 8px;
+  }
+
+  .chip-close {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 2px;
+    opacity: 0.7;
+  }
+
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-chip.filled {
+    background: #eeebe2;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .sync-chip.filled.selected {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .sync-chip.outlined {
+    border-color: #dacfc5;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .sync-chip.outlined.selected {
+    border-color: #886a00;
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .sync-chip.soft {
+    background: #f5f3ee;
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .sync-chip.soft.selected {
+    background: #886a00;
+    color: white;
+  }
+`}</style>

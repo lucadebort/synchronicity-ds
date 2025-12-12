@@ -1,0 +1,347 @@
+---
+title: Toast
+description: Brief notification messages that appear temporarily
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Toast
+
+Toast displays brief, non-intrusive messages that automatically disappear. Use for confirmations, status updates, and non-critical notifications.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-col gap-lg p-lg">
+  <div class="sync-toast default">Reading saved successfully</div>
+  <div class="sync-toast success">Hexagram added to favorites</div>
+  <div class="sync-toast warning">Connection unstable</div>
+  <div class="sync-toast error">Failed to save reading</div>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Default
+
+Neutral toast for general messages.
+
+<PreviewBox class="p-lg">
+  <div class="sync-toast default">Your changes have been saved</div>
+</PreviewBox>
+
+```tsx
+showToast({ message: 'Your changes have been saved' });
+```
+
+### Success
+
+Confirms successful actions.
+
+<PreviewBox class="p-lg">
+  <div class="sync-toast success">Reading saved successfully</div>
+</PreviewBox>
+
+```tsx
+showToast({
+  message: 'Reading saved successfully',
+  variant: 'success'
+});
+```
+
+### Warning
+
+Alerts to potential issues.
+
+<PreviewBox class="p-lg">
+  <div class="sync-toast warning">Offline mode - changes will sync later</div>
+</PreviewBox>
+
+```tsx
+showToast({
+  message: 'Offline mode - changes will sync later',
+  variant: 'warning'
+});
+```
+
+### Error
+
+Indicates failures or errors.
+
+<PreviewBox class="p-lg">
+  <div class="sync-toast error">Failed to load hexagram data</div>
+</PreviewBox>
+
+```tsx
+showToast({
+  message: 'Failed to load hexagram data',
+  variant: 'error'
+});
+```
+
+### Info
+
+Provides informational updates.
+
+<PreviewBox class="p-lg">
+  <div class="sync-toast info">New features available</div>
+</PreviewBox>
+
+```tsx
+showToast({
+  message: 'New features available',
+  variant: 'info'
+});
+```
+
+---
+
+## Position
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="position-demo">
+    <span class="position-label">top</span>
+    <div class="phone-mock">
+      <div class="sync-toast mini top">Message</div>
+    </div>
+  </div>
+  <div class="position-demo">
+    <span class="position-label">bottom</span>
+    <div class="phone-mock">
+      <div class="sync-toast mini bottom">Message</div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+// Top position
+showToast({
+  message: 'New notification',
+  position: 'top'
+});
+
+// Bottom position (default)
+showToast({
+  message: 'Action completed',
+  position: 'bottom'
+});
+```
+
+---
+
+## Duration
+
+Control how long the toast is visible.
+
+```tsx
+// Short (2 seconds)
+showToast({
+  message: 'Quick update',
+  duration: 2000
+});
+
+// Default (3 seconds)
+showToast({
+  message: 'Standard message',
+  duration: 3000
+});
+
+// Long (5 seconds)
+showToast({
+  message: 'Important information',
+  duration: 5000
+});
+
+// Persistent (until dismissed)
+showToast({
+  message: 'Action required',
+  duration: 0
+});
+```
+
+---
+
+## Setup
+
+Wrap your app with `ToastProvider` to enable toasts.
+
+```tsx
+import { ToastProvider } from '@synchronicity/react-native';
+
+function App() {
+  return (
+    <ToastProvider>
+      <YourApp />
+    </ToastProvider>
+  );
+}
+```
+
+---
+
+## API Reference
+
+### ToastProvider Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode` | App content |
+
+### useToast Hook
+
+| Method | Type | Description |
+|--------|------|-------------|
+| `showToast` | `(config: ToastConfig) => void` | Show a toast |
+| `hideToast` | `() => void` | Hide current toast |
+
+### ToastConfig
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | **Required** | Toast message |
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Visual variant |
+| `duration` | `number` | `3000` | Display time in ms (0 for persistent) |
+| `position` | `'top' \| 'bottom'` | `'bottom'` | Screen position |
+
+---
+
+## Complete Example
+
+```tsx
+import { ToastProvider, useToast, Button, Card } from '@synchronicity/react-native';
+import { View } from 'react-native';
+
+function SaveReadingButton({ reading }) {
+  const { showToast } = useToast();
+
+  const handleSave = async () => {
+    try {
+      await saveReading(reading);
+      showToast({
+        message: 'Reading saved to your journal',
+        variant: 'success',
+        duration: 3000
+      });
+    } catch (error) {
+      showToast({
+        message: 'Failed to save reading. Please try again.',
+        variant: 'error',
+        duration: 5000
+      });
+    }
+  };
+
+  return (
+    <Button onPress={handleSave}>
+      Save Reading
+    </Button>
+  );
+}
+
+// App setup
+function App() {
+  return (
+    <ToastProvider>
+      <SaveReadingButton reading={currentReading} />
+    </ToastProvider>
+  );
+}
+```
+
+<style>{`
+  .sync-toast {
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .sync-toast.default {
+    background: #2a2a38;
+    color: #e8e6e3;
+  }
+
+  .sync-toast.success {
+    background: #065f46;
+    color: #d1fae5;
+  }
+
+  .sync-toast.warning {
+    background: #78350f;
+    color: #fef3c7;
+  }
+
+  .sync-toast.error {
+    background: #7f1d1d;
+    color: #fee2e2;
+  }
+
+  .sync-toast.info {
+    background: #1e3a5f;
+    color: #dbeafe;
+  }
+
+  .position-demo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .position-label {
+    font-size: 12px;
+    color: #8a8a9a;
+    min-width: 60px;
+  }
+
+  .phone-mock {
+    width: 120px;
+    height: 80px;
+    background: #1a1a24;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sync-toast.mini {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    padding: 6px 8px;
+    font-size: 10px;
+    border-radius: 4px;
+  }
+
+  .sync-toast.mini.top {
+    top: 8px;
+    background: #2a2a38;
+    color: #e8e6e3;
+  }
+
+  .sync-toast.mini.bottom {
+    bottom: 8px;
+    background: #2a2a38;
+    color: #e8e6e3;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-toast.default {
+    background: #ffffff;
+    color: #2a2520;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .preview-content[data-theme="light"] .phone-mock {
+    background: #f5f3ee;
+  }
+
+  .preview-content[data-theme="light"] .sync-toast.mini {
+    background: #ffffff;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .position-label {
+    color: #6b5f55;
+  }
+`}</style>

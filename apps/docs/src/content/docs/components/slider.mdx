@@ -1,0 +1,417 @@
+---
+title: Slider
+description: Range input for selecting numeric values
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Slider
+
+Slider allows users to select a value from a continuous or discrete range. Useful for settings like volume, brightness, or any numeric preference.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="sync-slider">
+    <div class="slider-track">
+      <div class="slider-fill" style="width: 60%;"></div>
+    </div>
+    <div class="slider-thumb" style="left: 60%;"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-xl p-lg">
+  <div class="slider-demo">
+    <span class="slider-label">0%</span>
+    <div class="sync-slider">
+      <div class="slider-track">
+        <div class="slider-fill" style="width: 0%;"></div>
+      </div>
+      <div class="slider-thumb" style="left: 0%;"></div>
+    </div>
+  </div>
+  <div class="slider-demo">
+    <span class="slider-label">50%</span>
+    <div class="sync-slider">
+      <div class="slider-track">
+        <div class="slider-fill" style="width: 50%;"></div>
+      </div>
+      <div class="slider-thumb" style="left: 50%;"></div>
+    </div>
+  </div>
+  <div class="slider-demo">
+    <span class="slider-label">100%</span>
+    <div class="sync-slider">
+      <div class="slider-track">
+        <div class="slider-fill" style="width: 100%;"></div>
+      </div>
+      <div class="slider-thumb" style="left: 100%;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+const [value, setValue] = useState(50);
+
+<Slider
+  value={value}
+  onValueChange={setValue}
+  min={0}
+  max={100}
+  accessibilityLabel="Volume"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-xl p-lg">
+  <div class="slider-demo">
+    <span class="slider-label size">sm</span>
+    <div class="sync-slider sm">
+      <div class="slider-track sm">
+        <div class="slider-fill" style="width: 60%;"></div>
+      </div>
+      <div class="slider-thumb sm" style="left: 60%;"></div>
+    </div>
+  </div>
+  <div class="slider-demo">
+    <span class="slider-label size">md</span>
+    <div class="sync-slider md">
+      <div class="slider-track md">
+        <div class="slider-fill" style="width: 60%;"></div>
+      </div>
+      <div class="slider-thumb md" style="left: 60%;"></div>
+    </div>
+  </div>
+  <div class="slider-demo">
+    <span class="slider-label size">lg</span>
+    <div class="sync-slider lg">
+      <div class="slider-track lg">
+        <div class="slider-fill" style="width: 60%;"></div>
+      </div>
+      <div class="slider-thumb lg" style="left: 60%;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+| Size | Track | Thumb | Usage |
+|------|-------|-------|-------|
+| `sm` | 4px | 16px | Compact UI |
+| `md` | 6px | 20px | Default |
+| `lg` | 8px | 24px | Prominent controls |
+
+---
+
+## Step Values
+
+Use the `step` prop to snap to discrete values.
+
+```tsx
+// Continuous (default)
+<Slider
+  value={value}
+  onValueChange={setValue}
+  min={0}
+  max={100}
+  step={1}
+  accessibilityLabel="Fine control"
+/>
+
+// Discrete steps (increments of 10)
+<Slider
+  value={value}
+  onValueChange={setValue}
+  min={0}
+  max={100}
+  step={10}
+  accessibilityLabel="Stepped control"
+/>
+
+// Large steps (e.g., ratings)
+<Slider
+  value={rating}
+  onValueChange={setRating}
+  min={1}
+  max={5}
+  step={1}
+  accessibilityLabel="Rating"
+/>
+```
+
+---
+
+## Custom Colors
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-slider">
+    <div class="slider-track">
+      <div class="slider-fill gold" style="width: 60%;"></div>
+    </div>
+    <div class="slider-thumb gold" style="left: 60%;"></div>
+  </div>
+  <div class="sync-slider">
+    <div class="slider-track">
+      <div class="slider-fill success" style="width: 80%;"></div>
+    </div>
+    <div class="slider-thumb success" style="left: 80%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Slider
+  value={value}
+  onValueChange={setValue}
+  fillColor="#d4af37"
+  accessibilityLabel="Gold slider"
+/>
+
+<Slider
+  value={value}
+  onValueChange={setValue}
+  fillColor="#10b981"
+  accessibilityLabel="Success slider"
+/>
+```
+
+---
+
+## Disabled
+
+<PreviewBox class="p-lg">
+  <div class="sync-slider disabled">
+    <div class="slider-track">
+      <div class="slider-fill" style="width: 40%;"></div>
+    </div>
+    <div class="slider-thumb" style="left: 40%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Slider
+  value={40}
+  onValueChange={() => {}}
+  disabled
+  accessibilityLabel="Disabled slider"
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | **Required** | Current value |
+| `onValueChange` | `(value: number) => void` | **Required** | Change handler |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `100` | Maximum value |
+| `step` | `number` | `1` | Step increment |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Slider size |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `trackColor` | `string` | - | Custom track color |
+| `fillColor` | `string` | - | Custom fill color |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { Slider, Card, Text, Divider } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function ReadingSettings() {
+  const [fontSize, setFontSize] = useState(16);
+  const [animationSpeed, setAnimationSpeed] = useState(50);
+  const [hapticIntensity, setHapticIntensity] = useState(75);
+
+  return (
+    <Card>
+      <Text style={styles.title}>Reading Preferences</Text>
+
+      <View style={styles.setting}>
+        <View style={styles.settingHeader}>
+          <Text style={styles.label}>Font Size</Text>
+          <Text style={styles.value}>{fontSize}px</Text>
+        </View>
+        <Slider
+          value={fontSize}
+          onValueChange={setFontSize}
+          min={12}
+          max={24}
+          step={1}
+          accessibilityLabel={`Font size: ${fontSize} pixels`}
+        />
+      </View>
+
+      <Divider />
+
+      <View style={styles.setting}>
+        <View style={styles.settingHeader}>
+          <Text style={styles.label}>Animation Speed</Text>
+          <Text style={styles.value}>{animationSpeed}%</Text>
+        </View>
+        <Slider
+          value={animationSpeed}
+          onValueChange={setAnimationSpeed}
+          min={0}
+          max={100}
+          step={10}
+          accessibilityLabel={`Animation speed: ${animationSpeed} percent`}
+        />
+      </View>
+
+      <Divider />
+
+      <View style={styles.setting}>
+        <View style={styles.settingHeader}>
+          <Text style={styles.label}>Haptic Feedback</Text>
+          <Text style={styles.value}>{hapticIntensity}%</Text>
+        </View>
+        <Slider
+          value={hapticIntensity}
+          onValueChange={setHapticIntensity}
+          min={0}
+          max={100}
+          step={25}
+          accessibilityLabel={`Haptic intensity: ${hapticIntensity} percent`}
+        />
+      </View>
+    </Card>
+  );
+}
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 20,
+  },
+  setting: {
+    paddingVertical: 16,
+  },
+  settingHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 16,
+  },
+  value: {
+    fontSize: 14,
+    color: '#8a8a9a',
+  },
+});
+```
+
+<style>{`
+  .sync-slider {
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .sync-slider.disabled {
+    opacity: 0.5;
+  }
+
+  .slider-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #2a2a38;
+    border-radius: 3px;
+  }
+
+  .slider-track.sm { height: 4px; border-radius: 2px; }
+  .slider-track.lg { height: 8px; border-radius: 4px; }
+
+  .slider-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #d4af37;
+    border-radius: inherit;
+  }
+
+  .slider-fill.gold { background: #d4af37; }
+  .slider-fill.success { background: #10b981; }
+
+  .slider-thumb {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+  }
+
+  .slider-thumb.sm { width: 16px; height: 16px; }
+  .slider-thumb.lg { width: 24px; height: 24px; }
+
+  .slider-thumb.gold { border-color: #d4af37; }
+  .slider-thumb.success { border-color: #10b981; }
+
+  .slider-demo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .slider-label {
+    font-size: 14px;
+    color: #8a8a9a;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  .slider-label.size {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .slider-track {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .slider-fill {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .slider-fill.gold {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .slider-thumb {
+    border-color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .slider-thumb.gold {
+    border-color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .slider-label {
+    color: #6b5f55;
+  }
+`}</style>
