@@ -225,9 +225,135 @@ nav.sidebar a[aria-current="page"] {
 }
 
 /* ------------------------------------------------------------
-   Component Preview Containers
+   Component Preview with Theme Switcher
+
+   A preview container with an inline theme toggle.
+   Themes: Light, Dark, True Black
+   "Apply globally" checkbox syncs all previews on page.
    ------------------------------------------------------------ */
-/* Component Preview - Single theme */
+
+/* Preview wrapper - contains toolbar and content */
+.preview-box {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-hairline);
+}
+
+/* Toolbar with theme switcher */
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--sl-color-gray-6);
+  border-bottom: 1px solid var(--sl-color-hairline-light);
+  font-size: 11px;
+}
+
+.preview-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Theme toggle buttons */
+.theme-toggle {
+  display: flex;
+  background: var(--sl-color-gray-5);
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.theme-toggle-btn {
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: none;
+  background: transparent;
+  color: var(--sl-color-gray-3);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--sl-color-gray-1);
+}
+
+.theme-toggle-btn.active {
+  background: var(--sl-color-accent);
+  color: var(--sl-color-black);
+}
+
+/* Global sync checkbox */
+.global-sync {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--sl-color-gray-3);
+  font-size: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.global-sync input {
+  width: 12px;
+  height: 12px;
+  accent-color: var(--sl-color-accent);
+  cursor: pointer;
+}
+
+/* Preview content area */
+.preview-content {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  min-height: 120px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.preview-content.flex-col {
+  flex-direction: column;
+}
+
+.preview-content.flex-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.preview-content.align-start {
+  align-items: flex-start;
+}
+
+/* Theme backgrounds */
+.preview-content[data-theme="light"] {
+  background: #faf8f3;
+  color: #2a2520;
+}
+
+.preview-content[data-theme="dark"] {
+  background: #0a0a0f;
+  color: #e8e6e3;
+}
+
+.preview-content[data-theme="true-black"] {
+  background: #000000;
+  color: #e8e6e3;
+}
+
+/* Legacy component-preview support (simple version) */
 .component-preview {
   padding: 2rem;
   border-radius: 12px;
@@ -259,77 +385,45 @@ nav.sidebar a[aria-current="page"] {
   flex-wrap: wrap;
 }
 
-/* Theme Showcase - All three themes side by side */
-.theme-showcase {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  margin: 1.5rem 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--sl-color-hairline);
-  background: var(--sl-color-hairline);
-}
-
-.theme-showcase .theme-panel {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.theme-showcase .theme-panel.light {
-  background: #faf8f3;
-  color: #2a2520;
-}
-
-.theme-showcase .theme-panel.dark {
-  background: #0a0a0f;
-  color: #e8e6e3;
-}
-
-.theme-showcase .theme-panel.true-black {
-  background: #000000;
-  color: #e8e6e3;
-}
-
-.theme-showcase .theme-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.6;
-  margin-bottom: 0.5rem;
-}
-
-/* Light theme specific button colors */
-.theme-panel.light .sync-button-primary {
+/* Theme-specific component styling */
+/* Light theme */
+[data-theme="light"] .sync-button-primary,
+.preview-content[data-theme="light"] .sync-button-primary {
   background: #886a00;
   color: #faf8f3;
 }
 
-.theme-panel.light .sync-button-primary:hover {
+[data-theme="light"] .sync-button-primary:hover,
+.preview-content[data-theme="light"] .sync-button-primary:hover {
   background: #6b5300;
 }
 
-.theme-panel.light .sync-button-secondary {
+[data-theme="light"] .sync-button-secondary,
+.preview-content[data-theme="light"] .sync-button-secondary {
   color: #886a00;
   border-color: #886a00;
 }
 
-.theme-panel.light .sync-button-ghost {
+[data-theme="light"] .sync-button-ghost,
+.preview-content[data-theme="light"] .sync-button-ghost {
   color: #2a2520;
 }
 
-.theme-panel.light .sync-button-ghost:hover {
+[data-theme="light"] .sync-button-ghost:hover,
+.preview-content[data-theme="light"] .sync-button-ghost:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive theme showcase */
+/* Responsive */
 @media (max-width: 640px) {
-  .theme-showcase {
-    grid-template-columns: 1fr;
+  .preview-toolbar {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .preview-content {
+    padding: 1.5rem;
   }
 }
 

@@ -4,48 +4,24 @@ description: Visual representation of I Ching hexagrams with animated transition
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
 
 # HexagramVisual
 
 The HexagramVisual component renders I Ching hexagrams using the traditional six-line format. It supports changing lines, animated transitions, and multiple sizes.
 
-## Theme Showcase
+## Preview
 
-<div class="theme-showcase">
-  <div class="theme-panel light">
-    <span class="theme-label">Light</span>
-    <div class="hexagram-visual">
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-    </div>
+<PreviewBox defaultTheme="dark">
+  <div class="hexagram-visual medium">
+    <div class="hex-line yang"></div>
+    <div class="hex-line yin"></div>
+    <div class="hex-line yang"></div>
+    <div class="hex-line yang"></div>
+    <div class="hex-line yin"></div>
+    <div class="hex-line yang"></div>
   </div>
-  <div class="theme-panel dark">
-    <span class="theme-label">Dark</span>
-    <div class="hexagram-visual">
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-    </div>
-  </div>
-  <div class="theme-panel true-black">
-    <span class="theme-label">True Black</span>
-    <div class="hexagram-visual">
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yang"></div>
-      <div class="hex-line yin"></div>
-      <div class="hex-line yang"></div>
-    </div>
-  </div>
-</div>
+</PreviewBox>
 
 ---
 
@@ -53,7 +29,7 @@ The HexagramVisual component renders I Ching hexagrams using the traditional six
 
 Hexagrams are composed of two line types:
 
-<div class="component-preview dark preview-row">
+<PreviewBox class="flex-row">
   <div class="line-demo">
     <div class="hex-line yang" style="width: 80px; height: 6px;"></div>
     <span class="line-label">Yang (solid)</span>
@@ -62,7 +38,7 @@ Hexagrams are composed of two line types:
     <div class="hex-line yin" style="width: 80px; height: 6px;"></div>
     <span class="line-label">Yin (broken)</span>
   </div>
-</div>
+</PreviewBox>
 
 | Line | Symbol | Meaning |
 |------|--------|---------|
@@ -73,7 +49,7 @@ Hexagrams are composed of two line types:
 
 ## Sizes
 
-<div class="component-preview dark preview-row" style="align-items: flex-end; gap: 32px;">
+<PreviewBox class="flex-row align-start">
   <div class="size-demo">
     <div class="hexagram-visual tiny">
       <div class="hex-line yang"></div>
@@ -118,7 +94,7 @@ Hexagrams are composed of two line types:
     </div>
     <span class="size-label">large</span>
   </div>
-</div>
+</PreviewBox>
 
 | Size | Line Width | Line Height | Gap | Usage |
 |------|------------|-------------|-----|-------|
@@ -133,7 +109,7 @@ Hexagrams are composed of two line types:
 
 When a hexagram has changing lines, they're highlighted in gold with optional indicator dots.
 
-<div class="component-preview dark preview-row">
+<PreviewBox>
   <div class="hexagram-with-dots">
     <div class="hexagram-visual medium">
       <div class="hex-line yang"></div>
@@ -152,7 +128,7 @@ When a hexagram has changing lines, they're highlighted in gold with optional in
       <div class="dot"></div>
     </div>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <HexagramVisual
@@ -172,7 +148,7 @@ Changing lines indicate movement from the current hexagram to a future hexagram.
 
 The component supports smooth animations when transitioning between hexagrams.
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="animation-demo">
     <div class="hexagram-visual medium">
       <div class="hex-line yang"></div>
@@ -184,7 +160,7 @@ The component supports smooth animations when transitioning between hexagrams.
     </div>
     <span class="animation-label">Animated transition</span>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <HexagramVisual
@@ -354,11 +330,11 @@ function ReadingTransition({ currentHex, futureHex, changingLines }) {
   .hexagram-visual.large .hex-line { width: 80px; height: 5px; }
 
   /* Light theme */
-  .theme-panel.light .hex-line.yang {
+  .preview-content[data-theme="light"] .hex-line.yang {
     background: #2a2520;
   }
 
-  .theme-panel.light .hex-line.yin {
+  .preview-content[data-theme="light"] .hex-line.yin {
     background: linear-gradient(90deg,
       #2a2520 0%,
       #2a2520 37.5%,
@@ -369,8 +345,19 @@ function ReadingTransition({ currentHex, futureHex, changingLines }) {
     );
   }
 
-  .theme-panel.light .hex-line.changing {
+  .preview-content[data-theme="light"] .hex-line.changing {
     background: #886a00 !important;
+  }
+
+  .preview-content[data-theme="light"] .hex-line.yin.changing {
+    background: linear-gradient(90deg,
+      #886a00 0%,
+      #886a00 37.5%,
+      transparent 37.5%,
+      transparent 62.5%,
+      #886a00 62.5%,
+      #886a00 100%
+    ) !important;
   }
 
   /* Line demo */

@@ -1,0 +1,120 @@
+---
+/**
+ * PreviewBox - Component preview with inline theme switcher
+ *
+ * Props:
+ * - defaultTheme: 'light' | 'dark' | 'true-black' (default: 'dark')
+ * - class: Additional CSS classes for the content area
+ */
+interface Props {
+  defaultTheme?: 'light' | 'dark' | 'true-black';
+  class?: string;
+}
+
+const { defaultTheme = 'dark', class: className = '' } = Astro.props;
+const uniqueId = Math.random().toString(36).substring(2, 9);
+---
+
+<div class="preview-box" data-preview-id={uniqueId}>
+  <div class="preview-toolbar">
+    <div class="preview-toolbar-left">
+      <div class="theme-toggle">
+        <button
+          class:list={["theme-toggle-btn", { active: defaultTheme === 'light' }]}
+          data-theme="light"
+          type="button"
+          aria-label="Light theme"
+        >Light</button>
+        <button
+          class:list={["theme-toggle-btn", { active: defaultTheme === 'dark' }]}
+          data-theme="dark"
+          type="button"
+          aria-label="Dark theme"
+        >Dark</button>
+        <button
+          class:list={["theme-toggle-btn", { active: defaultTheme === 'true-black' }]}
+          data-theme="true-black"
+          type="button"
+          aria-label="True black theme"
+        >True</button>
+      </div>
+    </div>
+    <div class="preview-toolbar-right">
+      <label class="global-sync">
+        <input type="checkbox" class="global-sync-checkbox" />
+        <span>Sync all</span>
+      </label>
+    </div>
+  </div>
+  <div class={`preview-content ${className}`} data-theme={defaultTheme}>
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Initialize all preview boxes
+  function initPreviewBoxes() {
+    const previewBoxes = document.querySelectorAll('.preview-box');
+
+    previewBoxes.forEach(box => {
+      const buttons = box.querySelectorAll('.theme-toggle-btn');
+      const content = box.querySelector('.preview-content');
+      const globalCheckbox = box.querySelector('.global-sync-checkbox') as HTMLInputElement;
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const theme = btn.getAttribute('data-theme');
+          if (!theme || !content) return;
+
+          // Update this preview
+          content.setAttribute('data-theme', theme);
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // If global sync is checked, update all other previews
+          if (globalCheckbox?.checked) {
+            document.querySelectorAll('.preview-box').forEach(otherBox => {
+              if (otherBox === box) return;
+              const otherContent = otherBox.querySelector('.preview-content');
+              const otherButtons = otherBox.querySelectorAll('.theme-toggle-btn');
+              if (otherContent) {
+                otherContent.setAttribute('data-theme', theme);
+                otherButtons.forEach(b => {
+                  b.classList.toggle('active', b.getAttribute('data-theme') === theme);
+                });
+              }
+            });
+          }
+        });
+      });
+
+      // When checkbox is checked, sync current theme to all
+      globalCheckbox?.addEventListener('change', () => {
+        if (globalCheckbox.checked && content) {
+          const currentTheme = content.getAttribute('data-theme') || 'dark';
+          document.querySelectorAll('.preview-box').forEach(otherBox => {
+            const otherContent = otherBox.querySelector('.preview-content');
+            const otherButtons = otherBox.querySelectorAll('.theme-toggle-btn');
+            const otherCheckbox = otherBox.querySelector('.global-sync-checkbox') as HTMLInputElement;
+            if (otherContent) {
+              otherContent.setAttribute('data-theme', currentTheme);
+              otherButtons.forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-theme') === currentTheme);
+              });
+            }
+            // Sync checkbox state
+            if (otherCheckbox && otherCheckbox !== globalCheckbox) {
+              otherCheckbox.checked = true;
+            }
+          });
+        }
+      });
+    });
+  }
+
+  // Run on initial load
+  initPreviewBoxes();
+
+  // Re-run on view transitions (for Astro)
+  document.addEventListener('astro:after-swap', initPreviewBoxes);
+</script>

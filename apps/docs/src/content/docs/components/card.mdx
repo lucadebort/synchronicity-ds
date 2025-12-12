@@ -4,36 +4,20 @@ description: Container for grouping related content with elevation
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
 
 # Card
 
 Cards are surfaces that group related content and actions. They provide visual separation and hierarchy within layouts.
 
-## Theme Showcase
+## Preview
 
-<div class="theme-showcase">
-  <div class="theme-panel light">
-    <span class="theme-label">Light</span>
-    <div class="sync-card">
-      <div class="sync-card-title">The Creative</div>
-      <div class="sync-card-body">Heaven above, heaven below. The movement of heaven is full of power.</div>
-    </div>
+<PreviewBox defaultTheme="dark">
+  <div class="sync-card">
+    <div class="sync-card-title">The Creative</div>
+    <div class="sync-card-body">Heaven above, heaven below. The movement of heaven is full of power.</div>
   </div>
-  <div class="theme-panel dark">
-    <span class="theme-label">Dark</span>
-    <div class="sync-card">
-      <div class="sync-card-title">The Creative</div>
-      <div class="sync-card-body">Heaven above, heaven below. The movement of heaven is full of power.</div>
-    </div>
-  </div>
-  <div class="theme-panel true-black">
-    <span class="theme-label">True Black</span>
-    <div class="sync-card">
-      <div class="sync-card-title">The Creative</div>
-      <div class="sync-card-body">Heaven above, heaven below. The movement of heaven is full of power.</div>
-    </div>
-  </div>
-</div>
+</PreviewBox>
 
 ---
 
@@ -43,12 +27,12 @@ Cards are surfaces that group related content and actions. They provide visual s
 
 The standard card with subtle elevation and border.
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="sync-card">
     <div class="sync-card-title">Hexagram 1</div>
     <div class="sync-card-body">The Creative represents the primal power of light, the spirit, and heaven.</div>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Card>
@@ -63,12 +47,12 @@ The standard card with subtle elevation and border.
 
 Cards with stronger shadow for modal-like contexts.
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="sync-card sync-card-elevated">
     <div class="sync-card-title">Reading Saved</div>
     <div class="sync-card-body">Your hexagram reading has been saved to your journal.</div>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Card variant="elevated">
@@ -81,12 +65,12 @@ Cards with stronger shadow for modal-like contexts.
 
 Cards that respond to touch/click for navigation.
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="sync-card sync-card-interactive">
-    <div class="sync-card-title">View Reading →</div>
+    <div class="sync-card-title">View Reading &rarr;</div>
     <div class="sync-card-body">Tap to see your complete hexagram interpretation.</div>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Card variant="interactive" onPress={navigateToReading}>
@@ -101,7 +85,7 @@ Cards that respond to touch/click for navigation.
 
 A card consists of these optional sections:
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="sync-card sync-card-anatomy">
     <div class="sync-card-header">
       <span class="anatomy-label">Header</span>
@@ -117,7 +101,7 @@ A card consists of these optional sections:
       <span class="anatomy-label">Actions</span>
     </div>
   </div>
-</div>
+</PreviewBox>
 
 | Section | Purpose |
 |---------|---------|
@@ -130,20 +114,20 @@ A card consists of these optional sections:
 
 ## Padding Sizes
 
-<div class="component-preview dark preview-row">
+<PreviewBox class="flex-row">
   <div class="sync-card sync-card-sm">
     <div class="sync-card-title">Small</div>
-    <div class="sync-card-body">12px padding</div>
+    <div class="sync-card-body">12px</div>
   </div>
   <div class="sync-card sync-card-md">
     <div class="sync-card-title">Medium</div>
-    <div class="sync-card-body">16px padding</div>
+    <div class="sync-card-body">16px</div>
   </div>
   <div class="sync-card sync-card-lg">
     <div class="sync-card-title">Large</div>
-    <div class="sync-card-body">24px padding</div>
+    <div class="sync-card-body">24px</div>
   </div>
-</div>
+</PreviewBox>
 
 | Size | Padding | Usage |
 |------|---------|-------|
@@ -278,6 +262,24 @@ function ReadingCard({ reading }) {
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .preview-content[data-theme="light"] .sync-card {
+    background: #f5f2ea;
+    border-color: #e0dcd0;
+  }
+
+  .preview-content[data-theme="light"] .sync-card-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .sync-card-body {
+    color: #5a4f45;
+  }
+
+  .preview-content[data-theme="true-black"] .sync-card {
+    background: #0a0a0a;
+    border-color: #1a1a1a;
+  }
+
   .sync-card-title {
     font-weight: 600;
     font-size: 15px;
@@ -305,29 +307,9 @@ function ReadingCard({ reading }) {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  .sync-card-sm { padding: 12px; }
-  .sync-card-md { padding: 16px; }
-  .sync-card-lg { padding: 24px; }
-
-  /* Light theme cards */
-  .theme-panel.light .sync-card {
-    background: #f5f2ea;
-    border-color: #e0dcd0;
-  }
-
-  .theme-panel.light .sync-card-title {
-    color: #2a2520;
-  }
-
-  .theme-panel.light .sync-card-body {
-    color: #5a4f45;
-  }
-
-  /* True black theme cards */
-  .theme-panel.true-black .sync-card {
-    background: #0a0a0a;
-    border-color: #1a1a1a;
-  }
+  .sync-card-sm { padding: 12px; min-width: auto; }
+  .sync-card-md { padding: 16px; min-width: auto; }
+  .sync-card-lg { padding: 24px; min-width: auto; }
 
   /* Anatomy card */
   .sync-card-anatomy {

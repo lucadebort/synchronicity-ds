@@ -1,0 +1,309 @@
+---
+title: Skeleton
+description: Loading placeholder components with subtle pulse animation
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Skeleton
+
+Skeleton components provide loading placeholders with a subtle pulse animation. They match the shape of content being loaded, reducing perceived load time.
+
+## Preview
+
+<PreviewBox defaultTheme="dark">
+  <div class="skeleton-demo">
+    <div class="skeleton" style="width: 200px; height: 20px;"></div>
+    <div class="skeleton" style="width: 160px; height: 16px;"></div>
+    <div class="skeleton" style="width: 180px; height: 16px;"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Base Skeleton
+
+The fundamental skeleton with customizable dimensions.
+
+<PreviewBox class="flex-row">
+  <div class="skeleton" style="width: 80px; height: 80px; border-radius: 8px;"></div>
+  <div class="skeleton" style="width: 120px; height: 40px; border-radius: 20px;"></div>
+  <div class="skeleton" style="width: 40px; height: 40px; border-radius: 50%;"></div>
+</PreviewBox>
+
+```tsx
+<Skeleton width={80} height={80} borderRadius={8} />
+<Skeleton width={120} height={40} borderRadius={20} />
+<Skeleton width={40} height={40} borderRadius={40} />
+```
+
+---
+
+## SkeletonText
+
+Multi-line text placeholder with natural variation.
+
+<PreviewBox>
+  <div class="skeleton-text">
+    <div class="skeleton" style="width: 100%; height: 16px;"></div>
+    <div class="skeleton" style="width: 100%; height: 16px;"></div>
+    <div class="skeleton" style="width: 60%; height: 16px;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<SkeletonText lines={3} lastLineWidth="60%" />
+```
+
+---
+
+## SkeletonStatCard
+
+For stat cards in dashboards.
+
+<PreviewBox class="flex-row">
+  <div class="skeleton-stat-card">
+    <div class="skeleton" style="width: 60px; height: 32px;"></div>
+    <div class="skeleton" style="width: 80px; height: 12px; margin-top: 8px;"></div>
+  </div>
+  <div class="skeleton-stat-card">
+    <div class="skeleton" style="width: 60px; height: 32px;"></div>
+    <div class="skeleton" style="width: 80px; height: 12px; margin-top: 8px;"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## SkeletonReadingItem
+
+For reading list items with hexagram visual.
+
+<PreviewBox>
+  <div class="skeleton-reading-item">
+    <div class="skeleton" style="width: 40px; height: 60px; border-radius: 4px;"></div>
+    <div class="skeleton-reading-content">
+      <div class="skeleton" style="width: 70%; height: 18px;"></div>
+      <div class="skeleton" style="width: 90%; height: 14px; margin-top: 6px;"></div>
+      <div class="skeleton" style="width: 40%; height: 12px; margin-top: 6px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Full Screen Skeletons
+
+### ProfileScreenSkeleton
+
+<PreviewBox>
+  <div class="skeleton-profile">
+    <div class="skeleton-stats-grid">
+      <div class="skeleton-stat-card small">
+        <div class="skeleton" style="width: 40px; height: 24px;"></div>
+        <div class="skeleton" style="width: 60px; height: 10px; margin-top: 6px;"></div>
+      </div>
+      <div class="skeleton-stat-card small">
+        <div class="skeleton" style="width: 40px; height: 24px;"></div>
+        <div class="skeleton" style="width: 60px; height: 10px; margin-top: 6px;"></div>
+      </div>
+    </div>
+    <div class="skeleton-reading-item small">
+      <div class="skeleton" style="width: 30px; height: 45px; border-radius: 4px;"></div>
+      <div class="skeleton-reading-content">
+        <div class="skeleton" style="width: 70%; height: 14px;"></div>
+        <div class="skeleton" style="width: 50%; height: 12px; margin-top: 4px;"></div>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+### HistoryScreenSkeleton
+
+<PreviewBox>
+  <div class="skeleton-history">
+    <div class="skeleton" style="width: 100%; height: 44px; border-radius: 8px; margin-bottom: 16px;"></div>
+    <div class="skeleton-reading-item small">
+      <div class="skeleton" style="width: 30px; height: 45px; border-radius: 4px;"></div>
+      <div class="skeleton-reading-content">
+        <div class="skeleton" style="width: 70%; height: 14px;"></div>
+        <div class="skeleton" style="width: 50%; height: 12px; margin-top: 4px;"></div>
+      </div>
+    </div>
+    <div class="skeleton-reading-item small">
+      <div class="skeleton" style="width: 30px; height: 45px; border-radius: 4px;"></div>
+      <div class="skeleton-reading-content">
+        <div class="skeleton" style="width: 60%; height: 14px;"></div>
+        <div class="skeleton" style="width: 40%; height: 12px; margin-top: 4px;"></div>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## API Reference
+
+### Skeleton Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `number \| string` | `'100%'` | Element width |
+| `height` | `number` | `20` | Element height |
+| `borderRadius` | `number` | `4` | Corner radius |
+| `style` | `ViewStyle` | - | Additional styles |
+
+### SkeletonText Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `lines` | `number` | `3` | Number of lines |
+| `lineHeight` | `number` | `16` | Height per line |
+| `lastLineWidth` | `string` | `'60%'` | Width of last line |
+
+---
+
+## Animation
+
+The skeleton uses a subtle pulse animation:
+
+```tsx
+const pulse = Animated.loop(
+  Animated.sequence([
+    Animated.timing(pulseAnim, {
+      toValue: 0.7,
+      duration: 800,
+      useNativeDriver: true,
+    }),
+    Animated.timing(pulseAnim, {
+      toValue: 0.4,
+      duration: 800,
+      useNativeDriver: true,
+    }),
+  ])
+);
+```
+
+| Property | Value |
+|----------|-------|
+| Duration | 800ms per phase (1.6s cycle) |
+| Opacity Range | 0.4 - 0.7 |
+| Driver | Native (60fps) |
+
+---
+
+## Usage Guidelines
+
+### Do
+
+- Match skeleton shapes to actual content
+- Use consistent skeleton heights for text
+- Show skeletons briefly (under 3 seconds ideally)
+- Combine with Suspense for data loading
+
+### Don't
+
+- Use skeletons for instant actions
+- Make skeletons too prominent
+- Animate skeleton position (only opacity)
+- Show skeletons for more than 10 seconds
+
+<Aside type="tip">
+Skeletons work best when they closely match the final content layout. Users perceive faster loading when shapes match expectations.
+</Aside>
+
+<style>{`
+  .skeleton-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skeleton {
+    background: #2a2a38;
+    border-radius: 4px;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  .preview-content[data-theme="light"] .skeleton {
+    background: #e0dcd0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.7; }
+  }
+
+  .skeleton-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .skeleton-stat-card {
+    background: #12121a;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+  }
+
+  .skeleton-stat-card.small {
+    padding: 12px;
+    min-width: 80px;
+  }
+
+  .preview-content[data-theme="light"] .skeleton-stat-card {
+    background: #f5f2ea;
+  }
+
+  .skeleton-reading-item {
+    display: flex;
+    gap: 12px;
+    background: #12121a;
+    border: 1px solid #2a2a38;
+    border-radius: 8px;
+    padding: 12px;
+    max-width: 320px;
+  }
+
+  .skeleton-reading-item.small {
+    padding: 10px;
+    max-width: 280px;
+  }
+
+  .preview-content[data-theme="light"] .skeleton-reading-item {
+    background: #faf8f3;
+    border-color: #e0dcd0;
+  }
+
+  .skeleton-reading-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .skeleton-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 280px;
+  }
+
+  .skeleton-stats-grid {
+    display: flex;
+    gap: 8px;
+  }
+
+  .skeleton-history {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 280px;
+  }
+`}</style>

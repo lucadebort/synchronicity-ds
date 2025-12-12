@@ -1,0 +1,248 @@
+---
+title: EmptyState
+description: Reusable empty state component for consistent UX
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# EmptyState
+
+EmptyState provides a consistent visual for screens or sections with no content. It includes an icon, title, subtitle, and optional action button.
+
+## Preview
+
+<PreviewBox defaultTheme="dark">
+  <div class="empty-state">
+    <span class="empty-icon">&#9775;</span>
+    <span class="empty-title">No Readings Yet</span>
+    <span class="empty-subtitle">Cast your first hexagram to begin your journey</span>
+    <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
+  </div>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Full (Default)
+
+Takes full available space, centered vertically.
+
+<PreviewBox>
+  <div class="empty-state full">
+    <span class="empty-icon">&#128218;</span>
+    <span class="empty-title">Nothing Saved</span>
+    <span class="empty-subtitle">Your saved readings will appear here</span>
+  </div>
+</PreviewBox>
+
+### Compact
+
+For inline empty states within lists or sections.
+
+<PreviewBox>
+  <div class="empty-state compact">
+    <span class="empty-icon small">&#128270;</span>
+    <span class="empty-title small">No Results</span>
+    <span class="empty-subtitle small">Try a different search term</span>
+  </div>
+</PreviewBox>
+
+---
+
+## With Action
+
+<PreviewBox>
+  <div class="empty-state">
+    <span class="empty-icon">&#9775;</span>
+    <span class="empty-title">Start Your Practice</span>
+    <span class="empty-subtitle">Learn the ancient wisdom of the I Ching</span>
+    <button class="sync-button sync-button-primary sync-button-md">Begin Learning</button>
+  </div>
+</PreviewBox>
+
+```tsx
+<EmptyState
+  icon="☯"
+  title="Start Your Practice"
+  subtitle="Learn the ancient wisdom of the I Ching"
+  actionLabel="Begin Learning"
+  onAction={handleStartLearning}
+/>
+```
+
+---
+
+## Common Use Cases
+
+<PreviewBox class="flex-row">
+  <div class="empty-state compact mini">
+    <span class="empty-icon tiny">&#128203;</span>
+    <span class="empty-title tiny">No History</span>
+  </div>
+  <div class="empty-state compact mini">
+    <span class="empty-icon tiny">&#128269;</span>
+    <span class="empty-title tiny">No Results</span>
+  </div>
+  <div class="empty-state compact mini">
+    <span class="empty-icon tiny">&#9825;</span>
+    <span class="empty-title tiny">No Favorites</span>
+  </div>
+</PreviewBox>
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `string` | `'☯'` | Emoji or symbol to display |
+| `title` | `string` | - | Main message |
+| `subtitle` | `string` | - | Supporting text |
+| `actionLabel` | `string` | - | Button text |
+| `onAction` | `() => void` | - | Button press handler |
+| `compact` | `boolean` | `false` | Use compact variant |
+
+### Tokens Used
+
+```ts
+// Typography
+theme.typography.fontFamily.serif  // Title font
+theme.typography.fontSize.headlineS  // Title size (full)
+theme.typography.fontSize.bodyL  // Title size (compact)
+
+// Colors
+theme.colors.gray300  // Title color
+theme.colors.gray500  // Subtitle color
+theme.colors.goldPrimary  // Action button
+```
+
+---
+
+## Accessibility
+
+- **Role**: Container uses `accessibilityRole="text"`
+- **Title**: Uses `accessibilityRole="header"`
+- **Action**: Button has proper `accessibilityRole="button"` and `accessibilityLabel`
+
+```tsx
+<EmptyState
+  icon="📚"
+  title="No Readings"
+  subtitle="Your reading history will appear here"
+  actionLabel="Cast First Reading"
+  onAction={handleCast}
+/>
+```
+
+---
+
+## Complete Example
+
+```tsx
+import { EmptyState } from '@synchronicity/react-native';
+import { View } from 'react-native';
+
+function HistoryScreen({ readings }) {
+  if (readings.length === 0) {
+    return (
+      <ScreenContainer>
+        <EmptyState
+          icon="☯"
+          title="No Readings Yet"
+          subtitle="Cast your first hexagram to begin your journey of self-discovery"
+          actionLabel="Cast Hexagram"
+          onAction={() => navigation.navigate('Cast')}
+        />
+      </ScreenContainer>
+    );
+  }
+
+  return (
+    <ScreenContainer>
+      <FlatList
+        data={readings}
+        renderItem={({ item }) => <ReadingListItem reading={item} />}
+      />
+    </ScreenContainer>
+  );
+}
+```
+
+<style>{`
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 32px;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .empty-state.full {
+    min-height: 300px;
+  }
+
+  .empty-state.compact {
+    padding: 24px 16px;
+  }
+
+  .empty-state.mini {
+    min-width: 100px;
+    padding: 16px;
+  }
+
+  .empty-icon {
+    font-size: 64px;
+    opacity: 0.3;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .empty-icon.small {
+    font-size: 48px;
+  }
+
+  .empty-icon.tiny {
+    font-size: 32px;
+  }
+
+  .empty-title {
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #b8b6b3;
+  }
+
+  .empty-title.small {
+    font-size: 16px;
+  }
+
+  .empty-title.tiny {
+    font-size: 13px;
+  }
+
+  .empty-subtitle {
+    font-size: 14px;
+    color: #6a6a7a;
+    line-height: 1.5;
+    max-width: 280px;
+    margin-bottom: 16px;
+  }
+
+  .empty-subtitle.small {
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+
+  .preview-content[data-theme="light"] .empty-title {
+    color: #5a4f45;
+  }
+
+  .preview-content[data-theme="light"] .empty-subtitle {
+    color: #8a7f75;
+  }
+`}</style>

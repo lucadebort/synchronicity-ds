@@ -3,30 +3,18 @@ title: Button
 description: Primary interactive element for triggering actions
 ---
 
-import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
 
 # Button
 
 Buttons are the primary way users interact with Synchronicity applications. They trigger actions, submit forms, and navigate between screens.
 
-## Theme Showcase
+## Preview
 
-See how the primary button adapts across all three Synchronicity themes:
-
-<div class="theme-showcase">
-  <div class="theme-panel light">
-    <span class="theme-label">Light</span>
-    <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
-  </div>
-  <div class="theme-panel dark">
-    <span class="theme-label">Dark</span>
-    <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
-  </div>
-  <div class="theme-panel true-black">
-    <span class="theme-label">True Black</span>
-    <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
-  </div>
-</div>
+<PreviewBox defaultTheme="dark">
+  <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
+</PreviewBox>
 
 ---
 
@@ -36,9 +24,9 @@ See how the primary button adapts across all three Synchronicity themes:
 
 The primary button is used for the most important action on a screen. Use sparingly—typically one per view.
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md">Cast Hexagram</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button variant="primary" onPress={handleCast}>
@@ -52,9 +40,9 @@ The primary button is used for the most important action on a screen. Use sparin
 
 Secondary buttons are for supporting actions that don't need visual priority.
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-secondary sync-button-md">Save Reading</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button variant="secondary" onPress={handleSave}>
@@ -68,9 +56,9 @@ Secondary buttons are for supporting actions that don't need visual priority.
 
 Ghost buttons are the most subtle. Use for tertiary actions or navigation.
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-ghost sync-button-md">Learn More</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button variant="ghost" onPress={handleLearnMore}>
@@ -84,9 +72,9 @@ Ghost buttons are the most subtle. Use for tertiary actions or navigation.
 
 For dangerous or irreversible actions.
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-destructive sync-button-md">Delete Reading</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button variant="destructive" onPress={handleDelete}>
@@ -100,11 +88,11 @@ For dangerous or irreversible actions.
 
 ## Sizes
 
-<div class="component-preview dark preview-row">
+<PreviewBox class="flex-row">
   <button class="sync-button sync-button-primary sync-button-sm">Small</button>
   <button class="sync-button sync-button-primary sync-button-md">Medium</button>
   <button class="sync-button sync-button-primary sync-button-lg">Large</button>
-</div>
+</PreviewBox>
 
 | Size | Height | Font Size | Usage |
 |------|--------|-----------|-------|
@@ -124,9 +112,9 @@ For dangerous or irreversible actions.
 
 ### Default
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md">Default State</button>
-</div>
+</PreviewBox>
 
 ### Hover
 
@@ -134,15 +122,15 @@ Hover over the button above to see the hover state with subtle glow effect.
 
 ### Pressed
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md sync-button-pressed">Pressed State</button>
-</div>
+</PreviewBox>
 
 ### Disabled
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md sync-button-disabled" disabled>Disabled State</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button disabled>Cannot Press</Button>
@@ -150,14 +138,14 @@ Hover over the button above to see the hover state with subtle glow effect.
 
 ### Loading
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md sync-button-loading">
     <span class="button-content">
       <span class="loading-spinner"></span>
       Loading...
     </span>
   </button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button loading>Processing</Button>
@@ -169,14 +157,14 @@ Hover over the button above to see the hover state with subtle glow effect.
 
 Icons can be placed before or after the button label.
 
-<div class="component-preview dark preview-row">
+<PreviewBox class="flex-row">
   <button class="sync-button sync-button-primary sync-button-md">
-    <span class="button-content">☰ Cast Now</span>
+    <span class="button-content">+ Cast Now</span>
   </button>
   <button class="sync-button sync-button-secondary sync-button-md">
-    <span class="button-content">Share →</span>
+    <span class="button-content">Share &rarr;</span>
   </button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button icon={<CastIcon />} iconPosition="left">
@@ -192,10 +180,10 @@ Icons can be placed before or after the button label.
 
 For icon-only buttons, always include an accessibility label.
 
-<div class="component-preview dark preview-row">
-  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="Menu">☰</button>
-  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="More options">⋯</button>
-</div>
+<PreviewBox class="flex-row">
+  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="Menu">&#9776;</button>
+  <button class="sync-button sync-button-ghost sync-button-icon" aria-label="More options">&#8943;</button>
+</PreviewBox>
 
 ```tsx
 <Button
@@ -208,9 +196,9 @@ For icon-only buttons, always include an accessibility label.
 
 ## Full Width
 
-<div class="component-preview dark">
+<PreviewBox>
   <button class="sync-button sync-button-primary sync-button-md" style="width: 100%; max-width: 320px;">Full Width Button</button>
-</div>
+</PreviewBox>
 
 ```tsx
 <Button fullWidth>Full Width Button</Button>
@@ -264,7 +252,7 @@ button.fontWeight             // '600'
 - Use primary buttons for the main action on each screen
 - Provide clear, action-oriented labels ("Cast Hexagram", not "Submit")
 - Include haptic feedback for tactile response
-- Maintain minimum touch target (44×44 points)
+- Maintain minimum touch target (44x44 points)
 
 ### Don't
 
@@ -281,7 +269,7 @@ In contemplative applications, buttons should feel intentional. Avoid aggressive
 
 ## Accessibility
 
-- **Touch target**: Minimum 44×44 points
+- **Touch target**: Minimum 44x44 points
 - **Color contrast**: 9.4:1 for gold on dark (AAA compliant)
 - **Focus indicator**: 2px gold outline with offset
 - **Screen reader**: Announces button role and label

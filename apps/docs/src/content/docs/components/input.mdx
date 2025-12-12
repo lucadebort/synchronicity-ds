@@ -4,27 +4,17 @@ description: Text input field for user data entry
 ---
 
 import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
 
 # Input
 
 Input fields allow users to enter and edit text. They're used for forms, search, and any text-based interaction.
 
-## Theme Showcase
+## Preview
 
-<div class="theme-showcase">
-  <div class="theme-panel light">
-    <span class="theme-label">Light</span>
-    <input class="sync-input" type="text" placeholder="Enter your question..." />
-  </div>
-  <div class="theme-panel dark">
-    <span class="theme-label">Dark</span>
-    <input class="sync-input" type="text" placeholder="Enter your question..." />
-  </div>
-  <div class="theme-panel true-black">
-    <span class="theme-label">True Black</span>
-    <input class="sync-input" type="text" placeholder="Enter your question..." />
-  </div>
-</div>
+<PreviewBox defaultTheme="dark">
+  <input class="sync-input" type="text" placeholder="Enter your question..." />
+</PreviewBox>
 
 ---
 
@@ -32,9 +22,9 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ### Default
 
-<div class="component-preview dark">
+<PreviewBox>
   <input class="sync-input" type="text" placeholder="What guidance do you seek?" />
-</div>
+</PreviewBox>
 
 ```tsx
 <Input placeholder="What guidance do you seek?" />
@@ -42,9 +32,9 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ### Focused
 
-<div class="component-preview dark">
+<PreviewBox>
   <input class="sync-input sync-input-focused" type="text" placeholder="Focused state" value="My question is..." />
-</div>
+</PreviewBox>
 
 ```tsx
 <Input
@@ -56,12 +46,12 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ### Error
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="input-wrapper">
     <input class="sync-input sync-input-error" type="text" value="Invalid input" />
     <span class="input-error-text">Please enter a valid question</span>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Input
@@ -72,9 +62,9 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ### Disabled
 
-<div class="component-preview dark">
+<PreviewBox>
   <input class="sync-input sync-input-disabled" type="text" placeholder="Disabled input" disabled />
-</div>
+</PreviewBox>
 
 ```tsx
 <Input placeholder="Disabled input" disabled />
@@ -84,11 +74,11 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ## Sizes
 
-<div class="component-preview dark" style="flex-direction: column; gap: 12px; align-items: stretch;">
+<PreviewBox class="flex-col">
   <input class="sync-input sync-input-sm" type="text" placeholder="Small (36px)" />
   <input class="sync-input sync-input-md" type="text" placeholder="Medium (44px)" />
   <input class="sync-input sync-input-lg" type="text" placeholder="Large (52px)" />
-</div>
+</PreviewBox>
 
 | Size | Height | Font Size | Usage |
 |------|--------|-----------|-------|
@@ -100,13 +90,13 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ## With Label
 
-<div class="component-preview dark">
+<PreviewBox>
   <div class="input-field">
     <label class="input-label">Your Question</label>
     <input class="sync-input" type="text" placeholder="What would you like to know?" />
     <span class="input-hint">Be specific and open-minded</span>
   </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Input
@@ -120,9 +110,9 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ## Multiline (TextArea)
 
-<div class="component-preview dark">
+<PreviewBox>
   <textarea class="sync-input sync-textarea" placeholder="Describe your situation in detail..."></textarea>
-</div>
+</PreviewBox>
 
 ```tsx
 <Input
@@ -136,16 +126,12 @@ Input fields allow users to enter and edit text. They're used for forms, search,
 
 ## With Icon
 
-<div class="component-preview dark preview-row">
+<PreviewBox class="flex-row">
   <div class="input-with-icon">
-    <span class="input-icon">🔍</span>
+    <span class="input-icon left">&#128269;</span>
     <input class="sync-input sync-input-icon-left" type="text" placeholder="Search hexagrams..." />
   </div>
-  <div class="input-with-icon">
-    <input class="sync-input sync-input-icon-right" type="text" placeholder="Search..." />
-    <span class="input-icon">⌘K</span>
-  </div>
-</div>
+</PreviewBox>
 
 ```tsx
 <Input
@@ -201,10 +187,6 @@ input.border.color.default.dark  // #24242f
 input.border.color.focus         // #d4af37
 input.border.color.error         // #ef4444
 input.border.radius              // 8
-
-// Sizing
-input.height.md            // 44
-input.padding.horizontal   // 16
 ```
 
 ---
@@ -371,7 +353,7 @@ function QuestionForm({ onSubmit }) {
   .input-label {
     font-size: 14px;
     font-weight: 600;
-    color: #e8e6e3;
+    color: inherit;
   }
 
   .input-hint {
@@ -383,6 +365,8 @@ function QuestionForm({ onSubmit }) {
     position: relative;
     display: flex;
     align-items: center;
+    max-width: 300px;
+    width: 100%;
   }
 
   .input-icon {
@@ -392,40 +376,33 @@ function QuestionForm({ onSubmit }) {
     pointer-events: none;
   }
 
-  .input-with-icon .input-icon:first-child {
+  .input-icon.left {
     left: 12px;
-  }
-
-  .input-with-icon .input-icon:last-child {
-    right: 12px;
   }
 
   .sync-input-icon-left {
     padding-left: 40px;
   }
 
-  .sync-input-icon-right {
-    padding-right: 50px;
-  }
-
   /* Light theme */
-  .theme-panel.light .sync-input {
+  .preview-content[data-theme="light"] .sync-input {
     background: #faf8f3;
     border-color: #e0dcd0;
     color: #2a2520;
   }
 
-  .theme-panel.light .sync-input::placeholder {
+  .preview-content[data-theme="light"] .sync-input::placeholder {
     color: #8a7f75;
   }
 
-  .theme-panel.light .sync-input:focus {
+  .preview-content[data-theme="light"] .sync-input:focus,
+  .preview-content[data-theme="light"] .sync-input-focused {
     border-color: #886a00;
     box-shadow: 0 0 0 3px rgba(136, 106, 0, 0.1);
   }
 
   /* True black theme */
-  .theme-panel.true-black .sync-input {
+  .preview-content[data-theme="true-black"] .sync-input {
     background: #000000;
     border-color: #1a1a1a;
   }
