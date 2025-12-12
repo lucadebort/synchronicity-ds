@@ -1,13 +1,13 @@
 ---
 /**
- * PreviewBox - Component preview with inline theme switcher
+ * PreviewBox - Component preview with dropdown theme selector
  *
  * Props:
- * - defaultTheme: 'light' | 'dark' | 'true-black' (default: 'dark')
+ * - defaultTheme: 'light' | 'dark' | 'oled' (default: 'dark')
  * - class: Additional CSS classes for the content area
  */
 interface Props {
-  defaultTheme?: 'light' | 'dark' | 'true-black';
+  defaultTheme?: 'light' | 'dark' | 'oled';
   class?: string;
 }
 
@@ -18,31 +18,21 @@ const uniqueId = Math.random().toString(36).substring(2, 9);
 <div class="preview-box" data-preview-id={uniqueId}>
   <div class="preview-toolbar">
     <div class="preview-toolbar-left">
-      <div class="theme-toggle">
-        <button
-          class:list={["theme-toggle-btn", { active: defaultTheme === 'light' }]}
-          data-theme="light"
-          type="button"
-          aria-label="Light theme"
-        >Light</button>
-        <button
-          class:list={["theme-toggle-btn", { active: defaultTheme === 'dark' }]}
-          data-theme="dark"
-          type="button"
-          aria-label="Dark theme"
-        >Dark</button>
-        <button
-          class:list={["theme-toggle-btn", { active: defaultTheme === 'true-black' }]}
-          data-theme="true-black"
-          type="button"
-          aria-label="True black theme"
-        >True</button>
+      <div class="theme-select-wrapper">
+        <select class="theme-select" data-default-theme={defaultTheme}>
+          <option value="light" selected={defaultTheme === 'light'}>Light</option>
+          <option value="dark" selected={defaultTheme === 'dark'}>Dark</option>
+          <option value="oled" selected={defaultTheme === 'oled'}>OLED</option>
+        </select>
+        <svg class="theme-select-icon" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M4.427 6.427a.75.75 0 011.06 0L8 8.94l2.513-2.513a.75.75 0 111.06 1.06l-3.043 3.043a.75.75 0 01-1.06 0L4.427 7.487a.75.75 0 010-1.06z"/>
+        </svg>
       </div>
     </div>
     <div class="preview-toolbar-right">
       <label class="global-sync">
         <input type="checkbox" class="global-sync-checkbox" />
-        <span>Sync all</span>
+        <span>Global</span>
       </label>
     </div>
   </div>
@@ -52,63 +42,74 @@ const uniqueId = Math.random().toString(36).substring(2, 9);
 </div>
 
 <script>
-  // Initialize all preview boxes
+  // Global theme state
+  let globalTheme: string | null = null;
+  let globalSyncEnabled = false;
+
   function initPreviewBoxes() {
     const previewBoxes = document.querySelectorAll('.preview-box');
 
     previewBoxes.forEach(box => {
-      const buttons = box.querySelectorAll('.theme-toggle-btn');
-      const content = box.querySelector('.preview-content');
+      const select = box.querySelector('.theme-select') as HTMLSelectElement;
+      const content = box.querySelector('.preview-content') as HTMLElement;
       const globalCheckbox = box.querySelector('.global-sync-checkbox') as HTMLInputElement;
 
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const theme = btn.getAttribute('data-theme');
-          if (!theme || !content) return;
+      if (!select || !content) return;
 
-          // Update this preview
-          content.setAttribute('data-theme', theme);
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+      // Apply global theme if sync is enabled
+      if (globalSyncEnabled && globalTheme) {
+        content.setAttribute('data-theme', globalTheme);
+        select.value = globalTheme;
+        globalCheckbox.checked = true;
+      }
 
-          // If global sync is checked, update all other previews
-          if (globalCheckbox?.checked) {
-            document.querySelectorAll('.preview-box').forEach(otherBox => {
-              if (otherBox === box) return;
-              const otherContent = otherBox.querySelector('.preview-content');
-              const otherButtons = otherBox.querySelectorAll('.theme-toggle-btn');
-              if (otherContent) {
-                otherContent.setAttribute('data-theme', theme);
-                otherButtons.forEach(b => {
-                  b.classList.toggle('active', b.getAttribute('data-theme') === theme);
-                });
-              }
-            });
-          }
-        });
-      });
+      // Handle theme change
+      select.addEventListener('change', () => {
+        const theme = select.value;
+        content.setAttribute('data-theme', theme);
 
-      // When checkbox is checked, sync current theme to all
-      globalCheckbox?.addEventListener('change', () => {
-        if (globalCheckbox.checked && content) {
-          const currentTheme = content.getAttribute('data-theme') || 'dark';
-          document.querySelectorAll('.preview-box').forEach(otherBox => {
-            const otherContent = otherBox.querySelector('.preview-content');
-            const otherButtons = otherBox.querySelectorAll('.theme-toggle-btn');
-            const otherCheckbox = otherBox.querySelector('.global-sync-checkbox') as HTMLInputElement;
-            if (otherContent) {
-              otherContent.setAttribute('data-theme', currentTheme);
-              otherButtons.forEach(b => {
-                b.classList.toggle('active', b.getAttribute('data-theme') === currentTheme);
-              });
-            }
-            // Sync checkbox state
-            if (otherCheckbox && otherCheckbox !== globalCheckbox) {
-              otherCheckbox.checked = true;
-            }
-          });
+        // If global sync is enabled, update all other previews
+        if (globalCheckbox?.checked) {
+          globalTheme = theme;
+          syncAllPreviews(theme, box);
         }
       });
+
+      // Handle global sync checkbox
+      globalCheckbox?.addEventListener('change', () => {
+        globalSyncEnabled = globalCheckbox.checked;
+
+        if (globalCheckbox.checked) {
+          // Get current theme and sync to all
+          const currentTheme = content.getAttribute('data-theme') || 'dark';
+          globalTheme = currentTheme;
+          syncAllPreviews(currentTheme, null);
+        } else {
+          // When unchecking, also uncheck all others
+          document.querySelectorAll('.global-sync-checkbox').forEach(cb => {
+            (cb as HTMLInputElement).checked = false;
+          });
+          globalTheme = null;
+        }
+      });
+    });
+  }
+
+  function syncAllPreviews(theme: string, excludeBox: Element | null) {
+    document.querySelectorAll('.preview-box').forEach(box => {
+      const otherContent = box.querySelector('.preview-content') as HTMLElement;
+      const otherSelect = box.querySelector('.theme-select') as HTMLSelectElement;
+      const otherCheckbox = box.querySelector('.global-sync-checkbox') as HTMLInputElement;
+
+      if (otherContent) {
+        otherContent.setAttribute('data-theme', theme);
+      }
+      if (otherSelect) {
+        otherSelect.value = theme;
+      }
+      if (otherCheckbox) {
+        otherCheckbox.checked = true;
+      }
     });
   }
 
@@ -118,3 +119,75 @@ const uniqueId = Math.random().toString(36).substring(2, 9);
   // Re-run on view transitions (for Astro)
   document.addEventListener('astro:after-swap', initPreviewBoxes);
 </script>
+
+<style>
+  /* Theme select dropdown */
+  .theme-select-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme-select {
+    appearance: none;
+    background: var(--sl-color-gray-5);
+    border: none;
+    border-radius: 6px;
+    padding: 5px 28px 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sl-color-gray-1);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .theme-select:hover {
+    background: var(--sl-color-gray-4);
+  }
+
+  .theme-select:focus {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 1px;
+  }
+
+  .theme-select-icon {
+    position: absolute;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    color: var(--sl-color-gray-3);
+  }
+
+  /* Global sync styling */
+  .global-sync {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--sl-color-gray-3);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.15s ease;
+  }
+
+  .global-sync:hover {
+    color: var(--sl-color-gray-2);
+  }
+
+  .global-sync input {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--sl-color-accent);
+    cursor: pointer;
+  }
+
+  .global-sync input:checked + span {
+    color: var(--sl-color-accent);
+  }
+</style>

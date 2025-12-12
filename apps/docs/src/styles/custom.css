@@ -324,6 +324,7 @@ nav.sidebar a[aria-current="page"] {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
+/* Flex direction utilities */
 .preview-content.flex-col {
   flex-direction: column;
 }
@@ -333,8 +334,43 @@ nav.sidebar a[aria-current="page"] {
   flex-wrap: wrap;
 }
 
+/* Alignment utilities */
 .preview-content.align-start {
   align-items: flex-start;
+}
+
+.preview-content.align-end {
+  align-items: flex-end;
+}
+
+.preview-content.justify-start {
+  justify-content: flex-start;
+}
+
+.preview-content.justify-between {
+  justify-content: space-between;
+}
+
+/* Gap utilities */
+.preview-content.gap-sm {
+  gap: 0.5rem;
+}
+
+.preview-content.gap-lg {
+  gap: 1.5rem;
+}
+
+.preview-content.gap-xl {
+  gap: 2rem;
+}
+
+/* Padding utilities */
+.preview-content.p-lg {
+  padding: 3rem;
+}
+
+.preview-content.p-sm {
+  padding: 1rem;
 }
 
 /* Theme backgrounds */
@@ -348,7 +384,8 @@ nav.sidebar a[aria-current="page"] {
   color: #e8e6e3;
 }
 
-.preview-content[data-theme="true-black"] {
+.preview-content[data-theme="true-black"],
+.preview-content[data-theme="oled"] {
   background: #000000;
   color: #e8e6e3;
 }
