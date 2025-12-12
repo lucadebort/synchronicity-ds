@@ -1,0 +1,320 @@
+---
+title: Badge
+description: Small status indicator or label for highlighting information
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Badge
+
+Badge is a small label component used to highlight status, categories, or counts. It supports multiple semantic variants and can be filled or outlined.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-lg">
+  <span class="sync-badge default">Default</span>
+  <span class="sync-badge gold">New</span>
+  <span class="sync-badge success">Complete</span>
+  <span class="sync-badge warning">Pending</span>
+  <span class="sync-badge error">Error</span>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Default
+
+Neutral badge for general labels.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge default">Label</span>
+  <span class="sync-badge default outlined">Outlined</span>
+</PreviewBox>
+
+```tsx
+<Badge>Label</Badge>
+<Badge outlined>Outlined</Badge>
+```
+
+### Gold
+
+Primary accent badge for highlighting important items.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge gold">Featured</span>
+  <span class="sync-badge gold outlined">New</span>
+</PreviewBox>
+
+```tsx
+<Badge variant="gold">Featured</Badge>
+<Badge variant="gold" outlined>New</Badge>
+```
+
+### Success
+
+Indicates completion or positive status.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge success">Complete</span>
+  <span class="sync-badge success outlined">Verified</span>
+</PreviewBox>
+
+```tsx
+<Badge variant="success">Complete</Badge>
+<Badge variant="success" outlined>Verified</Badge>
+```
+
+### Warning
+
+Indicates attention needed or in-progress state.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge warning">Pending</span>
+  <span class="sync-badge warning outlined">Review</span>
+</PreviewBox>
+
+```tsx
+<Badge variant="warning">Pending</Badge>
+<Badge variant="warning" outlined>Review</Badge>
+```
+
+### Error
+
+Indicates errors or critical states.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge error">Failed</span>
+  <span class="sync-badge error outlined">Invalid</span>
+</PreviewBox>
+
+```tsx
+<Badge variant="error">Failed</Badge>
+<Badge variant="error" outlined>Invalid</Badge>
+```
+
+### Info
+
+Indicates informational states.
+
+<PreviewBox class="flex-row gap-lg">
+  <span class="sync-badge info">Info</span>
+  <span class="sync-badge info outlined">Beta</span>
+</PreviewBox>
+
+```tsx
+<Badge variant="info">Info</Badge>
+<Badge variant="info" outlined>Beta</Badge>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-row gap-lg align-end">
+  <span class="sync-badge gold sm">Small</span>
+  <span class="sync-badge gold md">Medium</span>
+  <span class="sync-badge gold lg">Large</span>
+</PreviewBox>
+
+| Size | Font | Padding | Usage |
+|------|------|---------|-------|
+| `sm` | 10px | 6×2 | Compact lists, tables |
+| `md` | 12px | 8×3 | Default, most cases |
+| `lg` | 14px | 12×4 | Headers, featured items |
+
+---
+
+## Use Cases
+
+### Reading Status
+
+<PreviewBox class="flex-col gap-sm align-start">
+  <div class="badge-example">
+    <span class="badge-label">Hexagram 1</span>
+    <span class="sync-badge gold sm">New</span>
+  </div>
+  <div class="badge-example">
+    <span class="badge-label">Hexagram 23</span>
+    <span class="sync-badge success sm">Read</span>
+  </div>
+  <div class="badge-example">
+    <span class="badge-label">Hexagram 44</span>
+    <span class="sync-badge warning sm">Saved</span>
+  </div>
+</PreviewBox>
+
+### Category Tags
+
+<PreviewBox class="flex-row gap-sm">
+  <span class="sync-badge default outlined sm">Heaven</span>
+  <span class="sync-badge default outlined sm">Earth</span>
+  <span class="sync-badge default outlined sm">Thunder</span>
+  <span class="sync-badge default outlined sm">Water</span>
+</PreviewBox>
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | **Required** | Badge text |
+| `variant` | `'default' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'gold'` | `'default'` | Color variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Badge size |
+| `outlined` | `boolean` | `false` | Use outline style |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Badge, Card } from '@synchronicity/react-native';
+import { View, Text } from 'react-native';
+
+function ReadingCard({ reading }) {
+  return (
+    <Card variant="elevated">
+      <View style={styles.header}>
+        <Text style={styles.title}>{reading.hexagram.name}</Text>
+        <Badge
+          variant={reading.isNew ? 'gold' : 'default'}
+          size="sm"
+        >
+          {reading.isNew ? 'New' : `#${reading.hexagram.number}`}
+        </Badge>
+      </View>
+      <Text style={styles.date}>{reading.date}</Text>
+    </Card>
+  );
+}
+```
+
+<style>{`
+  .sync-badge {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .sync-badge.sm {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .sync-badge.md, .sync-badge:not(.sm):not(.lg) {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .sync-badge.lg {
+    font-size: 14px;
+    padding: 4px 12px;
+    border-radius: 8px;
+  }
+
+  .sync-badge.default {
+    background: #2a2a38;
+    color: #b8b6b3;
+  }
+
+  .sync-badge.default.outlined {
+    background: transparent;
+    border: 1px solid #3a3a48;
+  }
+
+  .sync-badge.gold {
+    background: #8a7424;
+    color: #f4cf67;
+  }
+
+  .sync-badge.gold.outlined {
+    background: transparent;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+  }
+
+  .sync-badge.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+  }
+
+  .sync-badge.success.outlined {
+    background: transparent;
+    border: 1px solid #10b981;
+  }
+
+  .sync-badge.warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+  }
+
+  .sync-badge.warning.outlined {
+    background: transparent;
+    border: 1px solid #f59e0b;
+  }
+
+  .sync-badge.error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+
+  .sync-badge.error.outlined {
+    background: transparent;
+    border: 1px solid #ef4444;
+  }
+
+  .sync-badge.info {
+    background: rgba(99, 102, 241, 0.2);
+    color: #6366f1;
+  }
+
+  .sync-badge.info.outlined {
+    background: transparent;
+    border: 1px solid #6366f1;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-badge.default {
+    background: #eeebe2;
+    color: #5a4f45;
+  }
+
+  .preview-content[data-theme="light"] .sync-badge.default.outlined {
+    border-color: #dacfc5;
+  }
+
+  .preview-content[data-theme="light"] .sync-badge.gold {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .sync-badge.gold.outlined {
+    border-color: #886a00;
+    color: #886a00;
+  }
+
+  .badge-example {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge-label {
+    font-size: 14px;
+    color: #e8e6e3;
+    min-width: 100px;
+  }
+
+  .preview-content[data-theme="light"] .badge-label {
+    color: #2a2520;
+  }
+`}</style>

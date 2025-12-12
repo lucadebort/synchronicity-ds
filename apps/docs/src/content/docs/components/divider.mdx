@@ -1,0 +1,270 @@
+---
+title: Divider
+description: Visual separator for content sections
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Divider
+
+Divider creates visual separation between content sections. It supports different weights, orientations, and can include a centered label.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-col p-lg">
+  <div class="divider-text">Content above</div>
+  <div class="sync-divider"></div>
+  <div class="divider-text">Content below</div>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Default
+
+Standard weight divider for most use cases.
+
+<PreviewBox class="flex-col p-lg">
+  <div class="divider-text">Section 1</div>
+  <div class="sync-divider default"></div>
+  <div class="divider-text">Section 2</div>
+</PreviewBox>
+
+```tsx
+<Divider />
+```
+
+### Subtle
+
+Lighter divider for softer separation.
+
+<PreviewBox class="flex-col p-lg">
+  <div class="divider-text">Section 1</div>
+  <div class="sync-divider subtle"></div>
+  <div class="divider-text">Section 2</div>
+</PreviewBox>
+
+```tsx
+<Divider variant="subtle" />
+```
+
+### Strong
+
+Heavier divider for clear section breaks.
+
+<PreviewBox class="flex-col p-lg">
+  <div class="divider-text">Section 1</div>
+  <div class="sync-divider strong"></div>
+  <div class="divider-text">Section 2</div>
+</PreviewBox>
+
+```tsx
+<Divider variant="strong" />
+```
+
+---
+
+## With Label
+
+Add a centered label to provide context for the separation.
+
+<PreviewBox class="flex-col p-lg">
+  <div class="divider-text">Past Readings</div>
+  <div class="sync-divider-labeled">
+    <div class="divider-line"></div>
+    <span class="divider-label">or</span>
+    <div class="divider-line"></div>
+  </div>
+  <div class="divider-text">New Reading</div>
+</PreviewBox>
+
+```tsx
+<Divider label="or" />
+```
+
+<PreviewBox class="flex-col p-lg">
+  <div class="sync-divider-labeled">
+    <div class="divider-line"></div>
+    <span class="divider-label">continue with</span>
+    <div class="divider-line"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Divider label="continue with" />
+```
+
+---
+
+## Spacing
+
+Control the vertical margin around the divider.
+
+<PreviewBox class="flex-col">
+  <div class="divider-text">No spacing</div>
+  <div class="sync-divider spacing-none"></div>
+  <div class="divider-text">Small spacing</div>
+  <div class="sync-divider spacing-sm"></div>
+  <div class="divider-text">Medium spacing (default)</div>
+  <div class="sync-divider spacing-md"></div>
+  <div class="divider-text">Large spacing</div>
+  <div class="sync-divider spacing-lg"></div>
+  <div class="divider-text">End</div>
+</PreviewBox>
+
+| Spacing | Value | Usage |
+|---------|-------|-------|
+| `none` | 0 | Tight layouts |
+| `sm` | 8px | Compact lists |
+| `md` | 16px | Default |
+| `lg` | 24px | Major sections |
+
+---
+
+## Vertical Orientation
+
+Use vertical dividers to separate inline content.
+
+<PreviewBox class="flex-row p-lg">
+  <span class="divider-text">Heaven</span>
+  <div class="sync-divider-vertical"></div>
+  <span class="divider-text">Earth</span>
+  <div class="sync-divider-vertical"></div>
+  <span class="divider-text">Thunder</span>
+</PreviewBox>
+
+```tsx
+<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <Text>Heaven</Text>
+  <Divider orientation="vertical" spacing="md" />
+  <Text>Earth</Text>
+  <Divider orientation="vertical" spacing="md" />
+  <Text>Thunder</Text>
+</View>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'subtle' \| 'strong'` | `'default'` | Visual weight |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction |
+| `label` | `string` | - | Centered label text |
+| `spacing` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Margin around divider |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Divider, Card, Button } from '@synchronicity/react-native';
+import { View, Text } from 'react-native';
+
+function LoginOptions() {
+  return (
+    <Card>
+      <Button kind="primary" accessibilityLabel="Sign in with email">
+        Continue with Email
+      </Button>
+
+      <Divider label="or" spacing="lg" />
+
+      <Button kind="secondary" accessibilityLabel="Sign in with Apple">
+        Continue with Apple
+      </Button>
+
+      <Divider spacing="lg" />
+
+      <Text style={styles.footer}>
+        By continuing, you agree to our Terms
+      </Text>
+    </Card>
+  );
+}
+```
+
+<style>{`
+  .sync-divider {
+    height: 1px;
+    width: 100%;
+    background: #3a3a48;
+    margin: 16px 0;
+  }
+
+  .sync-divider.subtle {
+    background: #2a2a38;
+  }
+
+  .sync-divider.strong {
+    background: #5a5a68;
+  }
+
+  .sync-divider.spacing-none { margin: 0; }
+  .sync-divider.spacing-sm { margin: 8px 0; }
+  .sync-divider.spacing-md { margin: 16px 0; }
+  .sync-divider.spacing-lg { margin: 24px 0; }
+
+  .sync-divider-labeled {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: #3a3a48;
+  }
+
+  .divider-label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8a8a9a;
+    margin: 0 16px;
+  }
+
+  .sync-divider-vertical {
+    width: 1px;
+    height: 20px;
+    background: #3a3a48;
+    margin: 0 16px;
+  }
+
+  .divider-text {
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-divider,
+  .preview-content[data-theme="light"] .divider-line,
+  .preview-content[data-theme="light"] .sync-divider-vertical {
+    background: #dacfc5;
+  }
+
+  .preview-content[data-theme="light"] .sync-divider.subtle {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .sync-divider.strong {
+    background: #b0a89e;
+  }
+
+  .preview-content[data-theme="light"] .divider-text {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .divider-label {
+    color: #6b5f55;
+  }
+`}</style>

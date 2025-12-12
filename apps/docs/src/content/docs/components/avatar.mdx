@@ -1,0 +1,324 @@
+---
+title: Avatar
+description: User or entity representation with image, initials, or icon
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Avatar
+
+Avatar displays a user or entity representation. It supports images, text initials, or icon fallbacks, and can be grouped for showing multiple users.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-lg">
+  <div class="sync-avatar md">
+    <span class="avatar-icon">☯</span>
+  </div>
+  <div class="sync-avatar md initials">
+    <span>JD</span>
+  </div>
+  <div class="sync-avatar md image">
+    <div class="avatar-image-placeholder"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Icon (Default)
+
+Displays an icon or emoji when no image or initials are provided.
+
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-avatar md"><span class="avatar-icon">☯</span></div>
+  <div class="sync-avatar md"><span class="avatar-icon">☰</span></div>
+  <div class="sync-avatar md"><span class="avatar-icon">⚋</span></div>
+</PreviewBox>
+
+```tsx
+<Avatar icon="☯" />
+<Avatar icon="☰" />
+<Avatar icon="⚋" />
+```
+
+### Initials
+
+Displays up to 2 characters when no image is available.
+
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-avatar md initials"><span>JD</span></div>
+  <div class="sync-avatar md initials"><span>AB</span></div>
+  <div class="sync-avatar md initials"><span>YI</span></div>
+</PreviewBox>
+
+```tsx
+<Avatar initials="JD" />
+<Avatar initials="AB" />
+<Avatar initials="YI" />
+```
+
+### Image
+
+Displays a user photo or profile image.
+
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-avatar md image"><div class="avatar-image-placeholder g1"></div></div>
+  <div class="sync-avatar md image"><div class="avatar-image-placeholder g2"></div></div>
+  <div class="sync-avatar md image"><div class="avatar-image-placeholder g3"></div></div>
+</PreviewBox>
+
+```tsx
+<Avatar source={{ uri: 'https://example.com/photo.jpg' }} />
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-row gap-lg align-end">
+  <div class="sync-avatar xs initials"><span>XS</span></div>
+  <div class="sync-avatar sm initials"><span>SM</span></div>
+  <div class="sync-avatar md initials"><span>MD</span></div>
+  <div class="sync-avatar lg initials"><span>LG</span></div>
+  <div class="sync-avatar xl initials"><span>XL</span></div>
+</PreviewBox>
+
+| Size | Dimension | Usage |
+|------|-----------|-------|
+| `xs` | 24px | Inline mentions, compact lists |
+| `sm` | 32px | Comments, notifications |
+| `md` | 40px | Default, list items |
+| `lg` | 56px | Profile headers |
+| `xl` | 80px | Full profile view |
+
+---
+
+## Avatar Group
+
+Display multiple avatars in a stacked layout with overlap.
+
+<PreviewBox>
+  <div class="sync-avatar-group">
+    <div class="sync-avatar md initials stacked"><span>JD</span></div>
+    <div class="sync-avatar md initials stacked"><span>AB</span></div>
+    <div class="sync-avatar md initials stacked"><span>CD</span></div>
+    <div class="sync-avatar md remaining stacked"><span>+3</span></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<AvatarGroup max={3}>
+  <Avatar initials="JD" />
+  <Avatar initials="AB" />
+  <Avatar initials="CD" />
+  <Avatar initials="EF" />
+  <Avatar initials="GH" />
+  <Avatar initials="IJ" />
+</AvatarGroup>
+```
+
+### Group Sizes
+
+<PreviewBox class="flex-col gap-lg">
+  <div class="sync-avatar-group">
+    <div class="sync-avatar sm initials stacked"><span>A</span></div>
+    <div class="sync-avatar sm initials stacked"><span>B</span></div>
+    <div class="sync-avatar sm initials stacked"><span>C</span></div>
+  </div>
+  <div class="sync-avatar-group">
+    <div class="sync-avatar lg initials stacked lg-overlap"><span>JD</span></div>
+    <div class="sync-avatar lg initials stacked lg-overlap"><span>AB</span></div>
+    <div class="sync-avatar lg initials stacked lg-overlap"><span>CD</span></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<AvatarGroup size="sm">...</AvatarGroup>
+<AvatarGroup size="lg">...</AvatarGroup>
+```
+
+---
+
+## Custom Background
+
+Override the default background color for initials/icon avatars.
+
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-avatar md initials gold-bg"><span>☯</span></div>
+  <div class="sync-avatar md initials success-bg"><span>✓</span></div>
+  <div class="sync-avatar md initials error-bg"><span>!</span></div>
+</PreviewBox>
+
+```tsx
+<Avatar icon="☯" backgroundColor={colors['gold-muted']} />
+<Avatar icon="✓" backgroundColor={colors['support-success']} />
+<Avatar icon="!" backgroundColor={colors['support-error']} />
+```
+
+---
+
+## API Reference
+
+### Avatar Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `source` | `ImageSourcePropType` | - | Image source |
+| `initials` | `string` | - | Fallback initials (max 2 chars) |
+| `icon` | `string` | `'☯'` | Fallback icon/emoji |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Avatar size |
+| `backgroundColor` | `string` | - | Custom background color |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | - | A11y label |
+
+### AvatarGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | Avatar elements |
+| `max` | `number` | `4` | Max visible avatars |
+| `size` | `AvatarSize` | `'md'` | Size for all avatars |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Avatar, AvatarGroup, Card, Badge } from '@synchronicity/react-native';
+import { View, Text } from 'react-native';
+
+function ReadingParticipants({ participants }) {
+  return (
+    <Card variant="outlined" padding="md">
+      <View style={styles.header}>
+        <Text style={styles.title}>Shared Reading</Text>
+        <Badge variant="info" size="sm">{participants.length}</Badge>
+      </View>
+
+      <AvatarGroup max={4} size="sm">
+        {participants.map((p) => (
+          <Avatar
+            key={p.id}
+            source={p.avatar ? { uri: p.avatar } : undefined}
+            initials={p.initials}
+            accessibilityLabel={p.name}
+          />
+        ))}
+      </AvatarGroup>
+
+      <Text style={styles.names}>
+        {participants.map(p => p.name).join(', ')}
+      </Text>
+    </Card>
+  );
+}
+```
+
+<style>{`
+  .sync-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #2a2a38;
+    overflow: hidden;
+  }
+
+  .sync-avatar.xs { width: 24px; height: 24px; font-size: 10px; }
+  .sync-avatar.sm { width: 32px; height: 32px; font-size: 12px; }
+  .sync-avatar.md { width: 40px; height: 40px; font-size: 14px; }
+  .sync-avatar.lg { width: 56px; height: 56px; font-size: 18px; }
+  .sync-avatar.xl { width: 80px; height: 80px; font-size: 24px; }
+
+  .sync-avatar .avatar-icon {
+    font-size: 1.4em;
+    opacity: 0.6;
+  }
+
+  .sync-avatar.initials span {
+    font-weight: 600;
+    color: #b8b6b3;
+  }
+
+  .sync-avatar.image {
+    background: transparent;
+  }
+
+  .avatar-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #d4af37 0%, #8a7424 100%);
+  }
+
+  .avatar-image-placeholder.g1 { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+  .avatar-image-placeholder.g2 { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+  .avatar-image-placeholder.g3 { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+
+  .sync-avatar-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sync-avatar.stacked {
+    margin-left: -12px;
+    border: 2px solid #0a0a0f;
+  }
+
+  .sync-avatar.stacked:first-child {
+    margin-left: 0;
+  }
+
+  .sync-avatar.lg-overlap {
+    margin-left: -16px;
+  }
+
+  .sync-avatar.lg-overlap:first-child {
+    margin-left: 0;
+  }
+
+  .sync-avatar.remaining {
+    background: #1e1e2e;
+  }
+
+  .sync-avatar.remaining span {
+    font-weight: 600;
+    color: #8a8a9a;
+    font-size: 0.85em;
+  }
+
+  .sync-avatar.gold-bg { background: #8a7424; }
+  .sync-avatar.success-bg { background: #059669; }
+  .sync-avatar.error-bg { background: #dc2626; }
+
+  .sync-avatar.gold-bg span,
+  .sync-avatar.success-bg span,
+  .sync-avatar.error-bg span {
+    color: white;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-avatar {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .sync-avatar.initials span {
+    color: #5a4f45;
+  }
+
+  .preview-content[data-theme="light"] .sync-avatar.stacked {
+    border-color: #faf8f3;
+  }
+
+  .preview-content[data-theme="light"] .sync-avatar.remaining {
+    background: #f5f2ea;
+  }
+
+  .preview-content[data-theme="light"] .sync-avatar.remaining span {
+    color: #6b5f55;
+  }
+`}</style>
