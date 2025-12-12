@@ -1,0 +1,351 @@
+---
+title: TextArea
+description: Multi-line text input for longer content
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# TextArea
+
+TextArea is a multi-line text input for longer content like notes, descriptions, or comments. Supports labels, validation, and character counting.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="sync-textarea">
+    <span class="textarea-label">Reading Notes</span>
+    <div class="textarea-input">
+      <span class="textarea-placeholder">Enter your thoughts about this reading...</span>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-textarea">
+    <span class="textarea-label">Notes</span>
+    <div class="textarea-input filled">
+      The hexagram speaks of patience and waiting for the right moment. I feel this relates to my current project where rushing could lead to problems.
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+const [notes, setNotes] = useState('');
+
+<TextArea
+  value={notes}
+  onChangeText={setNotes}
+  label="Notes"
+  placeholder="Enter your thoughts..."
+  numberOfLines={4}
+  accessibilityLabel="Reading notes"
+/>
+```
+
+---
+
+## With Helper Text
+
+<PreviewBox class="p-lg">
+  <div class="sync-textarea">
+    <span class="textarea-label">Journal Entry</span>
+    <div class="textarea-input">
+      <span class="textarea-placeholder">Reflect on your reading...</span>
+    </div>
+    <span class="textarea-helper">Your notes are saved automatically</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<TextArea
+  value={entry}
+  onChangeText={setEntry}
+  label="Journal Entry"
+  placeholder="Reflect on your reading..."
+  helperText="Your notes are saved automatically"
+  accessibilityLabel="Journal entry"
+/>
+```
+
+---
+
+## With Character Count
+
+<PreviewBox class="p-lg">
+  <div class="sync-textarea">
+    <span class="textarea-label">Description</span>
+    <div class="textarea-input filled">
+      A moment of transition and change.
+    </div>
+    <div class="textarea-footer">
+      <span class="textarea-helper"></span>
+      <span class="textarea-count">35/500</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TextArea
+  value={description}
+  onChangeText={setDescription}
+  label="Description"
+  maxLength={500}
+  showCharacterCount
+  accessibilityLabel="Description"
+/>
+```
+
+---
+
+## Error State
+
+<PreviewBox class="p-lg">
+  <div class="sync-textarea error">
+    <span class="textarea-label">Required Notes</span>
+    <div class="textarea-input">
+      <span class="textarea-placeholder">Enter notes...</span>
+    </div>
+    <span class="textarea-error">Notes are required</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<TextArea
+  value={notes}
+  onChangeText={setNotes}
+  label="Required Notes"
+  placeholder="Enter notes..."
+  error={!notes ? "Notes are required" : undefined}
+  accessibilityLabel="Required notes"
+/>
+```
+
+---
+
+## Disabled
+
+<PreviewBox class="p-lg">
+  <div class="sync-textarea disabled">
+    <span class="textarea-label">Locked Notes</span>
+    <div class="textarea-input filled">
+      These notes cannot be edited.
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TextArea
+  value="These notes cannot be edited."
+  onChangeText={() => {}}
+  label="Locked Notes"
+  disabled
+  accessibilityLabel="Locked notes"
+/>
+```
+
+---
+
+## Different Heights
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-textarea">
+    <span class="textarea-label">Short (2 lines)</span>
+    <div class="textarea-input short">
+      <span class="textarea-placeholder">Brief note...</span>
+    </div>
+  </div>
+  <div class="sync-textarea">
+    <span class="textarea-label">Medium (4 lines)</span>
+    <div class="textarea-input medium">
+      <span class="textarea-placeholder">Standard note...</span>
+    </div>
+  </div>
+  <div class="sync-textarea">
+    <span class="textarea-label">Tall (8 lines)</span>
+    <div class="textarea-input tall">
+      <span class="textarea-placeholder">Detailed entry...</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TextArea numberOfLines={2} ... />  // Short
+<TextArea numberOfLines={4} ... />  // Medium (default)
+<TextArea numberOfLines={8} ... />  // Tall
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **Required** | Current value |
+| `onChangeText` | `(text: string) => void` | **Required** | Change handler |
+| `label` | `string` | - | Label above input |
+| `placeholder` | `string` | - | Placeholder text |
+| `helperText` | `string` | - | Helper text below |
+| `error` | `string` | - | Error message |
+| `numberOfLines` | `number` | `4` | Visible lines |
+| `maxLength` | `number` | - | Max characters |
+| `showCharacterCount` | `boolean` | `false` | Show count |
+| `disabled` | `boolean` | `false` | Disable input |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { TextArea, Button, Card } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function ReadingJournal({ reading }) {
+  const [notes, setNotes] = useState(reading.notes || '');
+  const [question, setQuestion] = useState(reading.question || '');
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    await saveReading({ ...reading, notes, question });
+    setSaving(false);
+  };
+
+  return (
+    <Card>
+      <TextArea
+        value={question}
+        onChangeText={setQuestion}
+        label="Your Question"
+        placeholder="What question did you have in mind?"
+        numberOfLines={2}
+        maxLength={200}
+        showCharacterCount
+        accessibilityLabel="Your question for this reading"
+      />
+
+      <TextArea
+        value={notes}
+        onChangeText={setNotes}
+        label="Reflection Notes"
+        placeholder="What insights did you gain from this reading? How does it relate to your situation?"
+        numberOfLines={6}
+        maxLength={1000}
+        showCharacterCount
+        helperText="Take your time to reflect on the reading's meaning"
+        accessibilityLabel="Reflection notes"
+        style={styles.notesArea}
+      />
+
+      <Button
+        onPress={handleSave}
+        loading={saving}
+        disabled={saving}
+      >
+        Save Notes
+      </Button>
+    </Card>
+  );
+}
+
+const styles = StyleSheet.create({
+  notesArea: {
+    marginTop: 16,
+    marginBottom: 24,
+  },
+});
+```
+
+<style>{`
+  .sync-textarea {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sync-textarea.disabled {
+    opacity: 0.5;
+  }
+
+  .textarea-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e6e3;
+  }
+
+  .textarea-input {
+    background: #1a1a24;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 96px;
+    font-size: 14px;
+    color: #e8e6e3;
+    line-height: 1.5;
+  }
+
+  .textarea-input.short { min-height: 48px; }
+  .textarea-input.medium { min-height: 96px; }
+  .textarea-input.tall { min-height: 192px; }
+
+  .sync-textarea.error .textarea-input {
+    border-color: #ef4444;
+  }
+
+  .textarea-placeholder {
+    color: #5a5a68;
+  }
+
+  .textarea-input.filled {
+    color: #e8e6e3;
+  }
+
+  .textarea-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .textarea-helper {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .textarea-error {
+    font-size: 12px;
+    color: #ef4444;
+  }
+
+  .textarea-count {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .textarea-label {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .textarea-input {
+    background: #ffffff;
+    border-color: #dacfc5;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .textarea-placeholder {
+    color: #b0a89e;
+  }
+
+  .preview-content[data-theme="light"] .textarea-helper,
+  .preview-content[data-theme="light"] .textarea-count {
+    color: #6b5f55;
+  }
+`}</style>

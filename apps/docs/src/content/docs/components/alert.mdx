@@ -1,0 +1,326 @@
+---
+title: Alert
+description: Contextual feedback messages for user actions
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Alert
+
+Alert provides contextual feedback messages for user actions. Use for important information that requires attention but doesn't interrupt the user's flow.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-col gap-md p-lg">
+  <div class="sync-alert info">
+    <span class="alert-title">Information</span>
+    <span class="alert-message">Your session will expire in 5 minutes.</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Info
+
+General informational messages.
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert info">
+    <span class="alert-title">Tip</span>
+    <span class="alert-message">Tap and hold on a hexagram to see more details.</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert variant="info" title="Tip">
+  Tap and hold on a hexagram to see more details.
+</Alert>
+```
+
+### Success
+
+Confirms successful actions.
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert success">
+    <span class="alert-title">Success</span>
+    <span class="alert-message">Your reading has been saved to your journal.</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert variant="success" title="Success">
+  Your reading has been saved to your journal.
+</Alert>
+```
+
+### Warning
+
+Alerts to potential issues.
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert warning">
+    <span class="alert-title">Warning</span>
+    <span class="alert-message">You're offline. Changes will sync when connected.</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert variant="warning" title="Warning">
+  You're offline. Changes will sync when connected.
+</Alert>
+```
+
+### Error
+
+Indicates errors or failures.
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert error">
+    <span class="alert-title">Error</span>
+    <span class="alert-message">Failed to load reading. Please try again.</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert variant="error" title="Error">
+  Failed to load reading. Please try again.
+</Alert>
+```
+
+---
+
+## Without Title
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert info no-title">
+    <span class="alert-message">New features are available. Update the app to access them.</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert variant="info">
+  New features are available. Update the app to access them.
+</Alert>
+```
+
+---
+
+## With Action
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert warning">
+    <span class="alert-title">Subscription Expiring</span>
+    <span class="alert-message">Your premium subscription expires in 3 days.</span>
+    <span class="alert-action">Renew Now</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert
+  variant="warning"
+  title="Subscription Expiring"
+  action={{
+    label: 'Renew Now',
+    onPress: () => navigation.navigate('Subscription')
+  }}
+>
+  Your premium subscription expires in 3 days.
+</Alert>
+```
+
+---
+
+## Dismissible
+
+<PreviewBox class="p-lg">
+  <div class="sync-alert info dismissible">
+    <div class="alert-content">
+      <span class="alert-title">Welcome Back!</span>
+      <span class="alert-message">You have 3 saved readings to review.</span>
+    </div>
+    <span class="alert-close">×</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Alert
+  variant="info"
+  title="Welcome Back!"
+  onClose={() => setShowAlert(false)}
+>
+  You have 3 saved readings to review.
+</Alert>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | **Required** | Alert message |
+| `title` | `string` | - | Optional title |
+| `variant` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Visual variant |
+| `onClose` | `() => void` | - | Close handler (shows X button) |
+| `action` | `{ label: string; onPress: () => void }` | - | Action button |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Alert, Card, Button } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function ReadingScreen() {
+  const [showOfflineAlert, setShowOfflineAlert] = useState(true);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+  const handleSave = async () => {
+    try {
+      await saveReading();
+      setShowSuccessAlert(true);
+    } catch (error) {
+      // Error handled by Alert
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {showOfflineAlert && (
+        <Alert
+          variant="warning"
+          title="Offline Mode"
+          onClose={() => setShowOfflineAlert(false)}
+        >
+          Your reading will be saved locally and synced when online.
+        </Alert>
+      )}
+
+      {showSuccessAlert && (
+        <Alert
+          variant="success"
+          title="Saved!"
+          action={{
+            label: 'View Journal',
+            onPress: () => navigation.navigate('Journal')
+          }}
+        >
+          Reading saved to your journal.
+        </Alert>
+      )}
+
+      <Card style={styles.readingCard}>
+        {/* Reading content */}
+      </Card>
+
+      <Button onPress={handleSave}>
+        Save Reading
+      </Button>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    gap: 16,
+  },
+  readingCard: {
+    flex: 1,
+  },
+});
+```
+
+<style>{`
+  .sync-alert {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid;
+    gap: 4px;
+  }
+
+  .sync-alert.dismissible {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .alert-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sync-alert.info {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .sync-alert.success {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+
+  .sync-alert.warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+
+  .sync-alert.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .alert-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .sync-alert.info .alert-title { color: #c7d2fe; }
+  .sync-alert.success .alert-title { color: #a7f3d0; }
+  .sync-alert.warning .alert-title { color: #fde68a; }
+  .sync-alert.error .alert-title { color: #fecaca; }
+
+  .alert-message {
+    font-size: 14px;
+  }
+
+  .sync-alert.info .alert-message { color: #a5b4fc; }
+  .sync-alert.success .alert-message { color: #6ee7b7; }
+  .sync-alert.warning .alert-message { color: #fcd34d; }
+  .sync-alert.error .alert-message { color: #fca5a5; }
+
+  .alert-action {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .sync-alert.info .alert-action { color: #c7d2fe; }
+  .sync-alert.success .alert-action { color: #a7f3d0; }
+  .sync-alert.warning .alert-action { color: #fde68a; }
+  .sync-alert.error .alert-action { color: #fecaca; }
+
+  .alert-close {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 12px;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .sync-alert.info .alert-close { color: #a5b4fc; }
+`}</style>

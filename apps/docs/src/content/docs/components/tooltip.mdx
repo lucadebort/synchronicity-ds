@@ -1,0 +1,412 @@
+---
+title: Tooltip
+description: Contextual information popup on press
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Tooltip
+
+Tooltip displays contextual information when users interact with an element. Use for brief explanations that don't need to be visible at all times.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-col align-center gap-lg p-xl">
+  <div class="tooltip-demo">
+    <div class="sync-tooltip">Three coins are tossed six times to build a hexagram</div>
+    <div class="tooltip-trigger">ℹ️</div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col align-center p-xl">
+  <div class="tooltip-demo">
+    <div class="sync-tooltip bottom">Tap to learn more</div>
+    <div class="tooltip-trigger">ℹ️</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tooltip content="Tap to learn more">
+  <IconButton icon="info" accessibilityLabel="Info" />
+</Tooltip>
+```
+
+---
+
+## Positions
+
+<PreviewBox class="flex-row gap-xl p-xl justify-center">
+  <div class="tooltip-demo">
+    <div class="sync-tooltip top">Top</div>
+    <div class="tooltip-trigger">↑</div>
+  </div>
+  <div class="tooltip-demo">
+    <div class="sync-tooltip bottom visible">Bottom</div>
+    <div class="tooltip-trigger">↓</div>
+  </div>
+  <div class="tooltip-demo">
+    <div class="sync-tooltip left">Left</div>
+    <div class="tooltip-trigger">←</div>
+  </div>
+  <div class="tooltip-demo">
+    <div class="sync-tooltip right">Right</div>
+    <div class="tooltip-trigger">→</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tooltip content="Above the element" position="top">
+  <Button>Top</Button>
+</Tooltip>
+
+<Tooltip content="Below the element" position="bottom">
+  <Button>Bottom</Button>
+</Tooltip>
+
+<Tooltip content="Left of the element" position="left">
+  <Button>Left</Button>
+</Tooltip>
+
+<Tooltip content="Right of the element" position="right">
+  <Button>Right</Button>
+</Tooltip>
+```
+
+---
+
+## With Different Triggers
+
+<PreviewBox class="flex-row gap-lg p-lg justify-center">
+  <div class="tooltip-demo">
+    <div class="sync-tooltip">Icon tooltip</div>
+    <div class="tooltip-trigger icon">?</div>
+  </div>
+  <div class="tooltip-demo">
+    <div class="sync-tooltip">Button tooltip</div>
+    <div class="tooltip-trigger button">Hover me</div>
+  </div>
+  <div class="tooltip-demo">
+    <div class="sync-tooltip">Text tooltip</div>
+    <span class="tooltip-trigger text">Learn more</span>
+  </div>
+</PreviewBox>
+
+```tsx
+// With IconButton
+<Tooltip content="Get help">
+  <IconButton icon="help" accessibilityLabel="Help" />
+</Tooltip>
+
+// With Button
+<Tooltip content="Submit your reading">
+  <Button>Submit</Button>
+</Tooltip>
+
+// With Text
+<Tooltip content="Click to see full explanation">
+  <Text style={styles.link}>Learn more</Text>
+</Tooltip>
+```
+
+---
+
+## Use Cases
+
+### Feature Explanation
+
+<PreviewBox class="p-lg">
+  <div class="use-case-row">
+    <span class="use-case-label">Changing Lines</span>
+    <div class="tooltip-demo inline">
+      <div class="sync-tooltip">Lines marked with ○ or × are changing and indicate movement in your situation</div>
+      <div class="tooltip-trigger small">ℹ️</div>
+    </div>
+  </div>
+</PreviewBox>
+
+### Form Field Help
+
+<PreviewBox class="p-lg">
+  <div class="use-case-form">
+    <div class="use-case-row">
+      <span class="use-case-label">Your Question</span>
+      <div class="tooltip-demo inline">
+        <div class="sync-tooltip left">Focus on open-ended questions rather than yes/no</div>
+        <div class="tooltip-trigger small">?</div>
+      </div>
+    </div>
+    <div class="use-case-input">What should I focus on this week?</div>
+  </div>
+</PreviewBox>
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `string` | **Required** | Tooltip text |
+| `children` | `ReactElement` | **Required** | Trigger element |
+| `position` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'` | Position relative to trigger |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Tooltip, IconButton, Card, Text, Badge } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+
+function HexagramCard({ hexagram }) {
+  return (
+    <Card>
+      <View style={styles.header}>
+        <View style={styles.titleRow}>
+          <Text style={styles.name}>{hexagram.name}</Text>
+          {hexagram.hasChangingLines && (
+            <Tooltip
+              content="This hexagram has changing lines that indicate transformation"
+              position="bottom"
+            >
+              <Badge variant="gold" size="sm">
+                Changing
+              </Badge>
+            </Tooltip>
+          )}
+        </View>
+
+        <Tooltip
+          content={`Hexagram #${hexagram.number} - ${hexagram.chinese}`}
+          position="left"
+        >
+          <IconButton
+            icon="info"
+            variant="ghost"
+            size="sm"
+            accessibilityLabel="Hexagram info"
+          />
+        </Tooltip>
+      </View>
+
+      <View style={styles.trigrams}>
+        <View style={styles.trigramLabel}>
+          <Text style={styles.trigramName}>{hexagram.upperTrigram.name}</Text>
+          <Tooltip
+            content={hexagram.upperTrigram.description}
+            position="right"
+          >
+            <Text style={styles.trigramHelp}>?</Text>
+          </Tooltip>
+        </View>
+
+        <View style={styles.trigramLabel}>
+          <Text style={styles.trigramName}>{hexagram.lowerTrigram.name}</Text>
+          <Tooltip
+            content={hexagram.lowerTrigram.description}
+            position="right"
+          >
+            <Text style={styles.trigramHelp}>?</Text>
+          </Tooltip>
+        </View>
+      </View>
+    </Card>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  trigrams: {
+    marginTop: 16,
+    gap: 8,
+  },
+  trigramLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  trigramName: {
+    fontSize: 14,
+  },
+  trigramHelp: {
+    fontSize: 12,
+    color: '#8a8a9a',
+  },
+});
+```
+
+<Aside type="note">
+  On mobile, tooltips are triggered by press-and-hold or tap interactions. The tooltip dismisses when the user releases or taps elsewhere.
+</Aside>
+
+<style>{`
+  .tooltip-demo {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tooltip-demo.inline {
+    flex-direction: row;
+  }
+
+  .sync-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2a2a38;
+    color: #e8e6e3;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    max-width: 200px;
+    white-space: normal;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
+
+  .sync-tooltip.bottom {
+    bottom: auto;
+    top: calc(100% + 8px);
+  }
+
+  .sync-tooltip.left {
+    bottom: auto;
+    top: 50%;
+    left: auto;
+    right: calc(100% + 8px);
+    transform: translateY(-50%);
+  }
+
+  .sync-tooltip.right {
+    bottom: auto;
+    top: 50%;
+    left: calc(100% + 8px);
+    transform: translateY(-50%);
+  }
+
+  .tooltip-trigger {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2a2a38;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .tooltip-trigger.icon {
+    background: #3a3a48;
+    font-size: 14px;
+    font-weight: 600;
+    color: #e8e6e3;
+  }
+
+  .tooltip-trigger.button {
+    width: auto;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  .tooltip-trigger.text {
+    width: auto;
+    height: auto;
+    background: none;
+    color: #d4af37;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+
+  .tooltip-trigger.small {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+
+  .use-case-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .use-case-label {
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  .use-case-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .use-case-input {
+    background: #1a1a24;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-tooltip {
+    background: #2a2520;
+    color: #f5f3ee;
+  }
+
+  .preview-content[data-theme="light"] .tooltip-trigger {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .tooltip-trigger.icon {
+    background: #dacfc5;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .tooltip-trigger.button {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .tooltip-trigger.text {
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .use-case-label {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .use-case-input {
+    background: #ffffff;
+    border-color: #dacfc5;
+    color: #2a2520;
+  }
+`}</style>

@@ -1,0 +1,344 @@
+---
+title: SegmentedControl
+description: Multi-option toggle selector for switching between views
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# SegmentedControl
+
+SegmentedControl allows users to choose between multiple options. Use for toggling between views or filtering content.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="sync-segmented">
+    <div class="segment-indicator" style="left: 4px; width: 80px;"></div>
+    <span class="segment selected">Hexagram</span>
+    <span class="segment">Trigrams</span>
+    <span class="segment">Lines</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-segmented">
+    <div class="segment-indicator" style="left: 4px; width: 60px;"></div>
+    <span class="segment selected">Day</span>
+    <span class="segment">Week</span>
+    <span class="segment">Month</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [period, setPeriod] = useState('day');
+
+<SegmentedControl
+  options={[
+    { value: 'day', label: 'Day' },
+    { value: 'week', label: 'Week' },
+    { value: 'month', label: 'Month' },
+  ]}
+  value={period}
+  onValueChange={setPeriod}
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-segmented sm">
+    <div class="segment-indicator" style="left: 4px; width: 50px;"></div>
+    <span class="segment selected">Small</span>
+    <span class="segment">Option</span>
+  </div>
+  <div class="sync-segmented md">
+    <div class="segment-indicator" style="left: 4px; width: 70px;"></div>
+    <span class="segment selected">Medium</span>
+    <span class="segment">Option</span>
+  </div>
+  <div class="sync-segmented lg">
+    <div class="segment-indicator" style="left: 4px; width: 80px;"></div>
+    <span class="segment selected">Large</span>
+    <span class="segment">Option</span>
+  </div>
+</PreviewBox>
+
+| Size | Height | Usage |
+|------|--------|-------|
+| `sm` | 32px | Compact toolbars |
+| `md` | 40px | Default |
+| `lg` | 48px | Prominent controls |
+
+---
+
+## Full Width
+
+<PreviewBox class="p-lg">
+  <div class="sync-segmented full-width">
+    <div class="segment-indicator" style="left: 4px; width: calc(33.33% - 5px);"></div>
+    <span class="segment selected">All</span>
+    <span class="segment">Saved</span>
+    <span class="segment">Recent</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SegmentedControl
+  options={[
+    { value: 'all', label: 'All' },
+    { value: 'saved', label: 'Saved' },
+    { value: 'recent', label: 'Recent' },
+  ]}
+  value={filter}
+  onValueChange={setFilter}
+  fullWidth
+/>
+```
+
+---
+
+## Disabled Options
+
+<PreviewBox class="p-lg">
+  <div class="sync-segmented">
+    <div class="segment-indicator" style="left: 4px; width: 60px;"></div>
+    <span class="segment selected">Free</span>
+    <span class="segment">Pro</span>
+    <span class="segment disabled">Team</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SegmentedControl
+  options={[
+    { value: 'free', label: 'Free' },
+    { value: 'pro', label: 'Pro' },
+    { value: 'team', label: 'Team', disabled: true },
+  ]}
+  value={plan}
+  onValueChange={setPlan}
+/>
+```
+
+---
+
+## Disabled Control
+
+<PreviewBox class="p-lg">
+  <div class="sync-segmented disabled-all">
+    <div class="segment-indicator" style="left: 4px; width: 60px;"></div>
+    <span class="segment selected">One</span>
+    <span class="segment">Two</span>
+    <span class="segment">Three</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SegmentedControl
+  options={options}
+  value={value}
+  onValueChange={setValue}
+  disabled
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `options` | `SegmentedControlOption[]` | **Required** | Available options |
+| `value` | `string` | **Required** | Selected value |
+| `onValueChange` | `(value: string) => void` | **Required** | Change handler |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size |
+| `fullWidth` | `boolean` | `false` | Stretch to fill width |
+| `disabled` | `boolean` | `false` | Disable all options |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Segmented control'` | A11y label |
+
+### SegmentedControlOption
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Option value |
+| `label` | `string` | Display label |
+| `disabled` | `boolean` | Disable this option |
+
+---
+
+## Complete Example
+
+```tsx
+import { SegmentedControl, Card, Text } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function HexagramDetailScreen({ hexagram }) {
+  const [view, setView] = useState('overview');
+
+  const viewOptions = [
+    { value: 'overview', label: 'Overview' },
+    { value: 'trigrams', label: 'Trigrams' },
+    { value: 'lines', label: 'Lines' },
+    { value: 'history', label: 'History' },
+  ];
+
+  const renderContent = () => {
+    switch (view) {
+      case 'overview':
+        return <OverviewTab hexagram={hexagram} />;
+      case 'trigrams':
+        return <TrigramsTab hexagram={hexagram} />;
+      case 'lines':
+        return <LinesTab hexagram={hexagram} />;
+      case 'history':
+        return <HistoryTab hexagram={hexagram} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Card style={styles.header}>
+        <Text style={styles.hexNumber}>#{hexagram.number}</Text>
+        <Text style={styles.hexName}>{hexagram.name}</Text>
+        <Text style={styles.hexChinese}>{hexagram.chinese}</Text>
+      </Card>
+
+      <SegmentedControl
+        options={viewOptions}
+        value={view}
+        onValueChange={setView}
+        fullWidth
+        style={styles.tabs}
+      />
+
+      <View style={styles.content}>
+        {renderContent()}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    paddingVertical: 24,
+  },
+  hexNumber: {
+    fontSize: 14,
+    color: '#8a8a9a',
+  },
+  hexName: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  hexChinese: {
+    fontSize: 32,
+    marginTop: 8,
+  },
+  tabs: {
+    marginHorizontal: 16,
+    marginVertical: 16,
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+});
+```
+
+<style>{`
+  .sync-segmented {
+    display: inline-flex;
+    align-items: center;
+    background: #1a1a24;
+    border-radius: 8px;
+    padding: 4px;
+    position: relative;
+  }
+
+  .sync-segmented.sm { height: 32px; }
+  .sync-segmented.md, .sync-segmented:not(.sm):not(.lg) { height: 40px; }
+  .sync-segmented.lg { height: 48px; }
+
+  .sync-segmented.full-width {
+    display: flex;
+    width: 100%;
+  }
+
+  .sync-segmented.disabled-all {
+    opacity: 0.5;
+  }
+
+  .segment-indicator {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    background: #2a2a38;
+    border-radius: 6px;
+    transition: left 0.2s ease;
+  }
+
+  .segment {
+    position: relative;
+    z-index: 1;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #8a8a9a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .sync-segmented.sm .segment { font-size: 12px; padding: 0 8px; }
+  .sync-segmented.lg .segment { font-size: 16px; padding: 0 16px; }
+
+  .sync-segmented.full-width .segment {
+    flex: 1;
+    text-align: center;
+  }
+
+  .segment.selected {
+    color: #e8e6e3;
+    font-weight: 600;
+  }
+
+  .segment.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-segmented {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .segment-indicator {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .preview-content[data-theme="light"] .segment {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .segment.selected {
+    color: #2a2520;
+  }
+`}</style>

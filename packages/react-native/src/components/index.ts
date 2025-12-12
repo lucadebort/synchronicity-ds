@@ -1,3 +1,5 @@
+export * from './Accordion';
+export * from './Alert';
 export * from './Avatar';
 export * from './Badge';
 export * from './BottomSheet';
@@ -11,7 +13,11 @@ export * from './IconButton';
 export * from './Input';
 export * from './ProgressBar';
 export * from './Radio';
+export * from './SearchInput';
+export * from './SegmentedControl';
 export * from './Skeleton';
 export * from './Slider';
 export * from './Switch';
+export * from './TextArea';
 export * from './Toast';
+export * from './Tooltip';

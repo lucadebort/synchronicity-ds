@@ -1,0 +1,341 @@
+---
+title: SearchInput
+description: Text input optimized for search functionality
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# SearchInput
+
+SearchInput is a specialized text input for search functionality. Includes search icon, clear button, and loading state support.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="sync-search">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Search hexagrams...</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-search">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Search...</span>
+  </div>
+  <div class="sync-search filled">
+    <span class="search-icon">🔍</span>
+    <span class="search-value">Heaven</span>
+    <span class="search-clear">✕</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [query, setQuery] = useState('');
+
+<SearchInput
+  value={query}
+  onChangeText={setQuery}
+  placeholder="Search..."
+  onClear={() => setQuery('')}
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-search sm">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Small</span>
+  </div>
+  <div class="sync-search md">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Medium</span>
+  </div>
+  <div class="sync-search lg">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Large</span>
+  </div>
+</PreviewBox>
+
+| Size | Height | Usage |
+|------|--------|-------|
+| `sm` | 36px | Compact layouts |
+| `md` | 44px | Default |
+| `lg` | 52px | Prominent search |
+
+---
+
+## Loading State
+
+<PreviewBox class="p-lg">
+  <div class="sync-search filled">
+    <span class="search-icon">🔍</span>
+    <span class="search-value">Thunder</span>
+    <span class="search-loading">⟳</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SearchInput
+  value={query}
+  onChangeText={setQuery}
+  loading={isSearching}
+  placeholder="Search hexagrams..."
+/>
+```
+
+---
+
+## With Submit Handler
+
+<PreviewBox class="p-lg">
+  <div class="sync-search filled">
+    <span class="search-icon">🔍</span>
+    <span class="search-value">Hexagram 1</span>
+    <span class="search-clear">✕</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SearchInput
+  value={query}
+  onChangeText={setQuery}
+  onSubmit={() => performSearch(query)}
+  onClear={() => {
+    setQuery('');
+    clearResults();
+  }}
+  placeholder="Search and press Enter..."
+/>
+```
+
+---
+
+## Disabled
+
+<PreviewBox class="p-lg">
+  <div class="sync-search disabled">
+    <span class="search-icon">🔍</span>
+    <span class="search-placeholder">Search unavailable</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<SearchInput
+  value=""
+  onChangeText={() => {}}
+  placeholder="Search unavailable"
+  disabled
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | **Required** | Current value |
+| `onChangeText` | `(text: string) => void` | **Required** | Change handler |
+| `placeholder` | `string` | `'Search...'` | Placeholder text |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input size |
+| `loading` | `boolean` | `false` | Show loading indicator |
+| `onClear` | `() => void` | - | Clear button handler |
+| `onSubmit` | `() => void` | - | Submit handler |
+| `disabled` | `boolean` | `false` | Disable input |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Search'` | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { SearchInput, Card, Text } from '@synchronicity/react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
+import { useState, useCallback } from 'react';
+import { debounce } from 'lodash';
+
+function HexagramSearch() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const search = useCallback(
+    debounce(async (searchQuery: string) => {
+      if (!searchQuery.trim()) {
+        setResults([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const data = await searchHexagrams(searchQuery);
+      setResults(data);
+      setLoading(false);
+    }, 300),
+    []
+  );
+
+  const handleChange = (text: string) => {
+    setQuery(text);
+    search(text);
+  };
+
+  const handleClear = () => {
+    setQuery('');
+    setResults([]);
+    search.cancel();
+  };
+
+  return (
+    <View style={styles.container}>
+      <SearchInput
+        value={query}
+        onChangeText={handleChange}
+        placeholder="Search hexagrams by name or number..."
+        loading={loading}
+        onClear={handleClear}
+        size="lg"
+      />
+
+      {results.length > 0 ? (
+        <FlatList
+          data={results}
+          keyExtractor={(item) => item.number.toString()}
+          renderItem={({ item }) => (
+            <Card style={styles.resultCard}>
+              <Text style={styles.hexNumber}>#{item.number}</Text>
+              <Text style={styles.hexName}>{item.name}</Text>
+              <Text style={styles.hexChinese}>{item.chinese}</Text>
+            </Card>
+          )}
+          style={styles.results}
+        />
+      ) : query && !loading ? (
+        <Text style={styles.noResults}>
+          No hexagrams found for "{query}"
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  results: {
+    marginTop: 16,
+  },
+  resultCard: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  hexNumber: {
+    fontSize: 14,
+    color: '#8a8a9a',
+    width: 40,
+  },
+  hexName: {
+    fontSize: 16,
+    fontWeight: '500',
+    flex: 1,
+  },
+  hexChinese: {
+    fontSize: 18,
+  },
+  noResults: {
+    marginTop: 24,
+    textAlign: 'center',
+    color: '#8a8a9a',
+  },
+});
+```
+
+<style>{`
+  .sync-search {
+    display: flex;
+    align-items: center;
+    background: #1a1a24;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .sync-search.sm { height: 36px; }
+  .sync-search.md, .sync-search:not(.sm):not(.lg) { height: 44px; }
+  .sync-search.lg { height: 52px; }
+
+  .sync-search.disabled {
+    opacity: 0.5;
+  }
+
+  .search-icon {
+    font-size: 16px;
+    opacity: 0.5;
+  }
+
+  .search-placeholder {
+    flex: 1;
+    font-size: 16px;
+    color: #5a5a68;
+  }
+
+  .search-value {
+    flex: 1;
+    font-size: 16px;
+    color: #e8e6e3;
+  }
+
+  .search-clear {
+    font-size: 14px;
+    color: #5a5a68;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .search-loading {
+    font-size: 18px;
+    color: #5a5a68;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-search {
+    background: #ffffff;
+    border-color: #dacfc5;
+  }
+
+  .preview-content[data-theme="light"] .search-placeholder {
+    color: #b0a89e;
+  }
+
+  .preview-content[data-theme="light"] .search-value {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .search-clear,
+  .preview-content[data-theme="light"] .search-loading {
+    color: #b0a89e;
+  }
+`}</style>
