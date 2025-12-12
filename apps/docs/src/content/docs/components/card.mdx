@@ -1,6 +1,6 @@
 ---
 title: Card
-description: Container for grouping related content with elevation
+description: Container component for grouping related content
 ---
 
 import { Aside } from '@astrojs/starlight/components';
@@ -8,14 +8,15 @@ import PreviewBox from '../../../components/PreviewBox.astro';
 
 # Card
 
-Cards are surfaces that group related content and actions. They provide visual separation and hierarchy within layouts.
+Card is a versatile container component for grouping related content. It supports multiple visual variants and can be made interactive with press handlers.
 
 ## Preview
 
 <PreviewBox defaultTheme="dark">
-  <div class="sync-card">
-    <div class="sync-card-title">The Creative</div>
-    <div class="sync-card-body">Heaven above, heaven below. The movement of heaven is full of power.</div>
+  <div class="sync-card elevated">
+    <div class="card-title">Hexagram 1</div>
+    <div class="card-subtitle">The Creative</div>
+    <div class="card-body">Heaven over Heaven. Pure yang energy representing creative power and initiative.</div>
   </div>
 </PreviewBox>
 
@@ -23,117 +24,132 @@ Cards are surfaces that group related content and actions. They provide visual s
 
 ## Variants
 
-### Default
-
-The standard card with subtle elevation and border.
-
-<PreviewBox>
-  <div class="sync-card">
-    <div class="sync-card-title">Hexagram 1</div>
-    <div class="sync-card-body">The Creative represents the primal power of light, the spirit, and heaven.</div>
-  </div>
-</PreviewBox>
-
-```tsx
-<Card>
-  <Card.Title>Hexagram 1</Card.Title>
-  <Card.Body>
-    The Creative represents the primal power of light, the spirit, and heaven.
-  </Card.Body>
-</Card>
-```
-
 ### Elevated
 
-Cards with stronger shadow for modal-like contexts.
+Default variant with subtle background distinction from the page.
 
 <PreviewBox>
-  <div class="sync-card sync-card-elevated">
-    <div class="sync-card-title">Reading Saved</div>
-    <div class="sync-card-body">Your hexagram reading has been saved to your journal.</div>
+  <div class="sync-card elevated">
+    <div class="card-title">Elevated Card</div>
+    <div class="card-body">Subtle surface elevation for visual hierarchy.</div>
   </div>
 </PreviewBox>
 
 ```tsx
 <Card variant="elevated">
-  <Card.Title>Reading Saved</Card.Title>
-  <Card.Body>Your hexagram reading has been saved to your journal.</Card.Body>
+  <Text style={styles.title}>Elevated Card</Text>
+  <Text>Subtle surface elevation for visual hierarchy.</Text>
 </Card>
 ```
 
-### Interactive
+### Outlined
 
-Cards that respond to touch/click for navigation.
+Card with visible border, useful for forms and interactive lists.
 
 <PreviewBox>
-  <div class="sync-card sync-card-interactive">
-    <div class="sync-card-title">View Reading &rarr;</div>
-    <div class="sync-card-body">Tap to see your complete hexagram interpretation.</div>
+  <div class="sync-card outlined">
+    <div class="card-title">Outlined Card</div>
+    <div class="card-body">Clear boundary with transparent background.</div>
   </div>
 </PreviewBox>
 
 ```tsx
-<Card variant="interactive" onPress={navigateToReading}>
-  <Card.Title>View Reading →</Card.Title>
-  <Card.Body>Tap to see your complete hexagram interpretation.</Card.Body>
+<Card variant="outlined">
+  <Text style={styles.title}>Outlined Card</Text>
+  <Text>Clear boundary with transparent background.</Text>
+</Card>
+```
+
+### Filled
+
+Solid background, ideal for call-to-action sections.
+
+<PreviewBox>
+  <div class="sync-card filled">
+    <div class="card-title">Filled Card</div>
+    <div class="card-body">Stronger visual presence for emphasis.</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Card variant="filled">
+  <Text style={styles.title}>Filled Card</Text>
+  <Text>Stronger visual presence for emphasis.</Text>
 </Card>
 ```
 
 ---
 
-## Anatomy
+## Padding
 
-A card consists of these optional sections:
-
-<PreviewBox>
-  <div class="sync-card sync-card-anatomy">
-    <div class="sync-card-header">
-      <span class="anatomy-label">Header</span>
-    </div>
-    <div class="sync-card-media">
-      <span class="anatomy-label">Media</span>
-    </div>
-    <div class="sync-card-content">
-      <div class="sync-card-title">Title</div>
-      <div class="sync-card-body">Body content goes here with supporting text.</div>
-    </div>
-    <div class="sync-card-actions">
-      <span class="anatomy-label">Actions</span>
-    </div>
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-card elevated padding-sm">
+    <div class="card-body">sm</div>
+  </div>
+  <div class="sync-card elevated padding-md">
+    <div class="card-body">md</div>
+  </div>
+  <div class="sync-card elevated padding-lg">
+    <div class="card-body">lg</div>
   </div>
 </PreviewBox>
 
-| Section | Purpose |
-|---------|---------|
-| **Header** | Optional top section for badges, icons, or metadata |
-| **Media** | Optional image or visual content area |
-| **Content** | Main content area with title and body |
-| **Actions** | Optional bottom section for buttons or links |
+| Padding | Value | Usage |
+|---------|-------|-------|
+| `none` | 0 | Custom internal layouts |
+| `sm` | 8px | Compact cards, lists |
+| `md` | 16px | Default, most cases |
+| `lg` | 24px | Feature cards, modals |
 
 ---
 
-## Padding Sizes
+## Radius
 
-<PreviewBox class="flex-row">
-  <div class="sync-card sync-card-sm">
-    <div class="sync-card-title">Small</div>
-    <div class="sync-card-body">12px</div>
+<PreviewBox class="flex-row gap-lg">
+  <div class="sync-card elevated radius-sm">
+    <div class="card-body">sm</div>
   </div>
-  <div class="sync-card sync-card-md">
-    <div class="sync-card-title">Medium</div>
-    <div class="sync-card-body">16px</div>
+  <div class="sync-card elevated radius-md">
+    <div class="card-body">md</div>
   </div>
-  <div class="sync-card sync-card-lg">
-    <div class="sync-card-title">Large</div>
-    <div class="sync-card-body">24px</div>
+  <div class="sync-card elevated radius-lg">
+    <div class="card-body">lg</div>
   </div>
 </PreviewBox>
 
-| Size | Padding | Usage |
-|------|---------|-------|
-| `sm` | 12px | Compact lists, dense layouts |
-| `md` | 16px | Default, most cases |
-| `lg` | 24px | Hero cards, featured content |
+| Radius | Value | Usage |
+|--------|-------|-------|
+| `sm` | 8px | Compact, inline cards |
+| `md` | 12px | Default container style |
+| `lg` | 16px | Feature cards, modals |
+
+---
+
+## Interactive Cards
+
+Cards can be made pressable with visual feedback.
+
+<PreviewBox>
+  <div class="sync-card elevated interactive">
+    <div class="card-title">Tap to Select</div>
+    <div class="card-body">This card responds to press interactions.</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Card
+  variant="elevated"
+  onPress={() => navigation.navigate('Detail', { id })}
+  accessibilityLabel="View hexagram details"
+>
+  <Text style={styles.title}>Tap to Select</Text>
+  <Text>This card responds to press interactions.</Text>
+</Card>
+```
+
+<Aside type="caution">
+Always provide an `accessibilityLabel` for pressable cards to ensure screen reader compatibility.
+</Aside>
 
 ---
 
@@ -143,77 +159,13 @@ A card consists of these optional sections:
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default' \| 'elevated' \| 'interactive'` | `'default'` | Visual style |
-| `padding` | `'sm' \| 'md' \| 'lg'` | `'md'` | Internal padding |
+| `variant` | `'elevated' \| 'outlined' \| 'filled'` | `'elevated'` | Visual style |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Internal padding |
+| `radius` | `'sm' \| 'md' \| 'lg'` | `'md'` | Border radius |
 | `onPress` | `() => void` | - | Press handler (makes card interactive) |
-| `disabled` | `boolean` | `false` | Disable interaction |
-| `accessibilityLabel` | `string` | - | Screen reader label |
-
-### Tokens Used
-
-```ts
-import { card } from '@synchronicity/tokens/components';
-
-// Background per theme
-card.background.light      // #f5f2ea
-card.background.dark       // #12121a
-card.background.trueBlack  // #0a0a0f
-
-// Layout
-card.padding.md            // 16
-card.borderRadius          // 12
-card.gap                   // 12
-
-// Border
-card.border.width          // 1
-card.border.color.dark     // #24242f
-
-// Shadow
-card.shadow.shadowColor    // #d4af37 (gold-tinted)
-card.shadow.shadowOpacity  // 0.08
-```
-
----
-
-## Usage Guidelines
-
-### Do
-
-- Use cards to group related information
-- Keep card content focused on a single topic
-- Use consistent padding across similar cards
-- Provide clear visual hierarchy within cards
-
-### Don't
-
-- Nest cards within cards
-- Use too many interactive cards on one screen
-- Mix card sizes inconsistently
-- Add too many actions to a single card
-
-<Aside type="tip">
-In contemplative applications, cards should feel like quiet containers—not demanding attention but gently holding content. Use elevation sparingly.
-</Aside>
-
----
-
-## Accessibility
-
-- **Focus indicator**: 2px gold outline for interactive cards
-- **Touch target**: Entire card surface is tappable
-- **Screen reader**: Announce card role and content
-- **Contrast**: Card borders meet 3:1 minimum against background
-
-```tsx
-<Card
-  variant="interactive"
-  onPress={handlePress}
-  accessibilityLabel="View hexagram reading for The Creative"
-  accessibilityRole="button"
->
-  <Card.Title>The Creative</Card.Title>
-</Card>
-```
+| `accessibilityLabel` | `string` | - | Required for pressable cards |
+| `style` | `ViewStyle` | - | Custom style overrides |
+| `children` | `ReactNode` | - | Card content |
 
 ---
 
@@ -221,31 +173,24 @@ In contemplative applications, cards should feel like quiet containers—not dem
 
 ```tsx
 import { Card } from '@synchronicity/react-native';
-import { HexagramVisual } from '../components/HexagramVisual';
+import { View, Text } from 'react-native';
 
-function ReadingCard({ reading }) {
+function HexagramCard({ hexagram, onPress }) {
   return (
     <Card
-      variant="interactive"
-      padding="lg"
-      onPress={() => navigateToReading(reading.id)}
+      variant="elevated"
+      padding="md"
+      radius="lg"
+      onPress={onPress}
+      accessibilityLabel={`View ${hexagram.name}`}
     >
-      <Card.Header>
-        <Badge>{reading.date}</Badge>
-      </Card.Header>
-
-      <Card.Media>
-        <HexagramVisual hexagram={reading.hexagram} size="sm" />
-      </Card.Media>
-
-      <Card.Title>{reading.hexagram.name}</Card.Title>
-      <Card.Body>{reading.question}</Card.Body>
-
-      <Card.Actions>
-        <Button variant="ghost" size="sm">
-          Share
-        </Button>
-      </Card.Actions>
+      <View style={styles.header}>
+        <Text style={styles.number}>{hexagram.number}</Text>
+        <Text style={styles.symbol}>{hexagram.symbol}</Text>
+      </View>
+      <Text style={styles.title}>{hexagram.name}</Text>
+      <Text style={styles.subtitle}>{hexagram.chinese}</Text>
+      <Text style={styles.body}>{hexagram.description}</Text>
     </Card>
   );
 }
@@ -253,95 +198,82 @@ function ReadingCard({ reading }) {
 
 <style>{`
   .sync-card {
-    background: #12121a;
-    border: 1px solid #2a2a38;
     border-radius: 12px;
     padding: 16px;
     min-width: 200px;
-    max-width: 280px;
-    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    max-width: 300px;
   }
 
-  .preview-content[data-theme="light"] .sync-card {
+  .sync-card.elevated {
+    background: #1a1a24;
+  }
+
+  .preview-content[data-theme="light"] .sync-card.elevated {
     background: #f5f2ea;
-    border-color: #e0dcd0;
   }
 
-  .preview-content[data-theme="light"] .sync-card-title {
+  .preview-content[data-theme="oled"] .sync-card.elevated {
+    background: #0a0a0a;
+  }
+
+  .sync-card.outlined {
+    background: transparent;
+    border: 1px solid #3a3a48;
+  }
+
+  .preview-content[data-theme="light"] .sync-card.outlined {
+    border-color: #dacfc5;
+  }
+
+  .sync-card.filled {
+    background: #1e1e2e;
+  }
+
+  .preview-content[data-theme="light"] .sync-card.filled {
+    background: #eeebe2;
+  }
+
+  .sync-card.interactive {
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .sync-card.interactive:hover {
+    transform: translateY(-2px);
+  }
+
+  .sync-card.padding-sm { padding: 8px; }
+  .sync-card.padding-md { padding: 16px; }
+  .sync-card.padding-lg { padding: 24px; }
+
+  .sync-card.radius-sm { border-radius: 8px; }
+  .sync-card.radius-md { border-radius: 12px; }
+  .sync-card.radius-lg { border-radius: 16px; }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8e6e3;
+    margin-bottom: 4px;
+  }
+
+  .preview-content[data-theme="light"] .card-title {
     color: #2a2520;
   }
 
-  .preview-content[data-theme="light"] .sync-card-body {
-    color: #5a4f45;
-  }
-
-  .preview-content[data-theme="oled"] .sync-card {
-    background: #0a0a0a;
-    border-color: #1a1a1a;
-  }
-
-  .sync-card-title {
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 8px;
-    color: #e8e6e3;
-  }
-
-  .sync-card-body {
+  .card-subtitle {
     font-size: 14px;
-    line-height: 1.5;
-    color: #b8b6b3;
-  }
-
-  .sync-card-elevated {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 4px rgba(212, 175, 55, 0.1);
-  }
-
-  .sync-card-interactive {
-    cursor: pointer;
-  }
-
-  .sync-card-interactive:hover {
-    border-color: #d4af37;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-
-  .sync-card-sm { padding: 12px; min-width: auto; }
-  .sync-card-md { padding: 16px; min-width: auto; }
-  .sync-card-lg { padding: 24px; min-width: auto; }
-
-  /* Anatomy card */
-  .sync-card-anatomy {
-    min-width: 240px;
-  }
-
-  .sync-card-header,
-  .sync-card-media,
-  .sync-card-actions {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px dashed rgba(212, 175, 55, 0.3);
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .sync-card-content {
-    margin-bottom: 8px;
-  }
-
-  .sync-card-actions {
-    margin-bottom: 0;
-    margin-top: 8px;
-  }
-
-  .anatomy-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: #d4af37;
+    margin-bottom: 8px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: #8a8a9a;
+    line-height: 1.5;
+  }
+
+  .preview-content[data-theme="light"] .card-body {
+    color: #6b5f55;
   }
 `}</style>
