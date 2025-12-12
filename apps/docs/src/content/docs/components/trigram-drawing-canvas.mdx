@@ -1,0 +1,400 @@
+---
+title: TrigramDrawingCanvas
+description: Interactive canvas for drawing trigram lines with gesture recognition
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# TrigramDrawingCanvas
+
+TrigramDrawingCanvas provides an interactive drawing surface where users practice drawing trigrams. It recognizes broken (yin) and unbroken (yang) lines and validates the completed trigram.
+
+## Preview
+
+<PreviewBox defaultTheme="dark">
+  <div class="drawing-canvas">
+    <div class="canvas-indicators">
+      <span class="indicator-label">3rd</span>
+      <span class="indicator-label">2nd</span>
+      <span class="indicator-label">1st</span>
+    </div>
+    <div class="canvas-area">
+      <div class="guide-line"></div>
+      <div class="guide-line"></div>
+      <div class="guide-line"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Drawing Lines
+
+### Unbroken Line (Yang)
+
+Draw a single horizontal stroke across the full width.
+
+<PreviewBox>
+  <div class="line-demo">
+    <div class="draw-instruction">
+      <div class="stroke-path unbroken"></div>
+      <span class="arrow">&rarr;</span>
+      <div class="completed-line yang"></div>
+    </div>
+    <span class="line-label">Full stroke = Yang (&#9473;)</span>
+  </div>
+</PreviewBox>
+
+### Broken Line (Yin)
+
+Draw two separate strokes, one on each side.
+
+<PreviewBox>
+  <div class="line-demo">
+    <div class="draw-instruction">
+      <div class="stroke-path broken-left"></div>
+      <div class="stroke-path broken-right"></div>
+      <span class="arrow">&rarr;</span>
+      <div class="completed-line yin">
+        <div class="yin-segment"></div>
+        <div class="yin-gap"></div>
+        <div class="yin-segment"></div>
+      </div>
+    </div>
+    <span class="line-label">Two strokes = Yin (&#9472; &#9472;)</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Drawing Order
+
+Lines are drawn from bottom to top, following traditional I Ching order:
+
+<PreviewBox>
+  <div class="drawing-order">
+    <div class="order-line">
+      <span class="order-number">3</span>
+      <span class="order-label">Top line (drawn last)</span>
+    </div>
+    <div class="order-line">
+      <span class="order-number">2</span>
+      <span class="order-label">Middle line</span>
+    </div>
+    <div class="order-line">
+      <span class="order-number">1</span>
+      <span class="order-label">Bottom line (drawn first)</span>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Stroke Validation
+
+The canvas validates strokes based on:
+
+| Check | Requirement | Invalid Response |
+|-------|-------------|------------------|
+| **Length** | Minimum 10% of line width (~28px) | Stroke fades out |
+| **Straightness** | Max 20% vertical spread | Stroke fades out |
+| **Direction changes** | Max 3 direction changes | Stroke fades out |
+| **Already drawn** | Line slot must be empty | Warning haptic |
+
+Invalid strokes fade out with a 500ms animation and trigger a warning haptic.
+
+---
+
+## Imperative API
+
+The canvas exposes methods via `ref` for external control:
+
+```tsx
+const canvasRef = useRef<TrigramDrawingCanvasRef>(null);
+
+// Clear all strokes
+canvasRef.current?.clear();
+
+// Undo last line
+canvasRef.current?.undo();
+
+// Check if undo is available
+canvasRef.current?.canUndo();
+
+// Validate and get binary result
+const binary = canvasRef.current?.check(); // e.g., '111' or '010'
+
+// Check if validation is possible
+canvasRef.current?.canCheck();
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onComplete` | `(binary: string) => void` | - | Called when 3 lines are drawn |
+| `expectedBinary` | `string` | - | For validation mode |
+| `onClear` | `() => void` | - | Called when canvas is cleared |
+| `onLineComplete` | `(count: number) => void` | - | Called after each line |
+| `onInvalidStroke` | `() => void` | - | Called on invalid stroke |
+
+### Ref Methods
+
+| Method | Return | Description |
+|--------|--------|-------------|
+| `clear()` | `void` | Clear all strokes and reset |
+| `undo()` | `void` | Undo last completed line |
+| `canUndo()` | `boolean` | Check if undo is available |
+| `check()` | `string \| null` | Get binary if 3 lines complete |
+| `canCheck()` | `boolean` | Check if all 3 lines are drawn |
+
+---
+
+## Visual Specifications
+
+| Property | Value |
+|----------|-------|
+| Canvas Width | 280px |
+| Canvas Height | 376px |
+| Line Height | 80px |
+| Line Spacing | 32px |
+| Line Width | 240px (with 20px padding) |
+| Broken Gap | 40px |
+| Stroke Width | 4px (drawing), 6px (completed) |
+| Guide Lines | 1px dashed, gold muted |
+
+---
+
+## Complete Example
+
+```tsx
+import TrigramDrawingCanvas, {
+  TrigramDrawingCanvasRef
+} from '@synchronicity/react-native';
+import { useRef, useState } from 'react';
+
+function TrigramPractice({ expectedTrigram }) {
+  const canvasRef = useRef<TrigramDrawingCanvasRef>(null);
+  const [linesDrawn, setLinesDrawn] = useState(0);
+  const [result, setResult] = useState<'correct' | 'incorrect' | null>(null);
+
+  const handleLineComplete = (count: number) => {
+    setLinesDrawn(count);
+  };
+
+  const handleCheck = () => {
+    const binary = canvasRef.current?.check();
+    if (binary) {
+      setResult(binary === expectedTrigram.binary ? 'correct' : 'incorrect');
+    }
+  };
+
+  const handleClear = () => {
+    canvasRef.current?.clear();
+    setLinesDrawn(0);
+    setResult(null);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.instruction}>
+        Draw: {expectedTrigram.name} ({expectedTrigram.chinese})
+      </Text>
+
+      <TrigramDrawingCanvas
+        ref={canvasRef}
+        expectedBinary={expectedTrigram.binary}
+        onLineComplete={handleLineComplete}
+        onInvalidStroke={() => {
+          // Optional: Show hint
+        }}
+      />
+
+      <View style={styles.progress}>
+        <Text>{linesDrawn}/3 lines</Text>
+      </View>
+
+      <View style={styles.actions}>
+        <Button
+          variant="ghost"
+          onPress={() => canvasRef.current?.undo()}
+          disabled={!canvasRef.current?.canUndo()}
+        >
+          Undo
+        </Button>
+        <Button
+          variant="ghost"
+          onPress={handleClear}
+        >
+          Clear
+        </Button>
+        <Button
+          variant="primary"
+          onPress={handleCheck}
+          disabled={linesDrawn < 3}
+        >
+          Check
+        </Button>
+      </View>
+
+      {result && (
+        <Text style={result === 'correct' ? styles.correct : styles.incorrect}>
+          {result === 'correct' ? 'Correct!' : 'Try again'}
+        </Text>
+      )}
+    </View>
+  );
+}
+```
+
+<style>{`
+  .drawing-canvas {
+    display: flex;
+    gap: 8px;
+  }
+
+  .canvas-indicators {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 260px;
+    padding: 20px 0;
+  }
+
+  .indicator-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6a6a7a;
+    text-align: right;
+    width: 30px;
+  }
+
+  .canvas-area {
+    width: 280px;
+    height: 260px;
+    background: #12121a;
+    border: 1px solid #2a2a38;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 20px;
+  }
+
+  .preview-content[data-theme="light"] .canvas-area {
+    background: #faf8f3;
+    border-color: #e0dcd0;
+  }
+
+  .guide-line {
+    height: 1px;
+    border-top: 1px dashed rgba(212, 175, 55, 0.4);
+  }
+
+  .line-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .draw-instruction {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stroke-path {
+    height: 4px;
+    background: rgba(244, 207, 103, 0.6);
+    border-radius: 2px;
+  }
+
+  .stroke-path.unbroken {
+    width: 160px;
+  }
+
+  .stroke-path.broken-left,
+  .stroke-path.broken-right {
+    width: 60px;
+  }
+
+  .arrow {
+    font-size: 20px;
+    color: #6a6a7a;
+  }
+
+  .completed-line {
+    display: flex;
+    align-items: center;
+  }
+
+  .completed-line.yang {
+    width: 160px;
+    height: 6px;
+    background: #d4af37;
+    border-radius: 3px;
+  }
+
+  .completed-line.yin {
+    width: 160px;
+    justify-content: space-between;
+  }
+
+  .yin-segment {
+    width: 60px;
+    height: 6px;
+    background: #d4af37;
+    border-radius: 3px;
+  }
+
+  .yin-gap {
+    width: 40px;
+  }
+
+  .line-label {
+    font-size: 13px;
+    color: #8a8a9a;
+  }
+
+  .drawing-order {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .order-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .order-number {
+    width: 24px;
+    height: 24px;
+    background: #d4af37;
+    color: #0a0a0f;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .order-label {
+    font-size: 14px;
+    color: #b8b6b3;
+  }
+
+  .preview-content[data-theme="light"] .order-label {
+    color: #5a4f45;
+  }
+`}</style>
