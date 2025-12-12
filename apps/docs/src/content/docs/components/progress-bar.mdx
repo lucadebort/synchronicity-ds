@@ -1,0 +1,301 @@
+---
+title: ProgressBar
+description: Linear progress indicator for loading and completion states
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# ProgressBar
+
+ProgressBar displays progress completion or loading state with a linear indicator. Supports determinate values and indeterminate animation.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-col gap-lg p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill" style="width: 65%;"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="progress-demo">
+    <span class="progress-label">25%</span>
+    <div class="sync-progress-bar md">
+      <div class="progress-fill" style="width: 25%;"></div>
+    </div>
+  </div>
+  <div class="progress-demo">
+    <span class="progress-label">50%</span>
+    <div class="sync-progress-bar md">
+      <div class="progress-fill" style="width: 50%;"></div>
+    </div>
+  </div>
+  <div class="progress-demo">
+    <span class="progress-label">75%</span>
+    <div class="sync-progress-bar md">
+      <div class="progress-fill" style="width: 75%;"></div>
+    </div>
+  </div>
+  <div class="progress-demo">
+    <span class="progress-label">100%</span>
+    <div class="sync-progress-bar md">
+      <div class="progress-fill" style="width: 100%;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar value={25} />
+<ProgressBar value={50} />
+<ProgressBar value={75} />
+<ProgressBar value={100} />
+```
+
+---
+
+## Variants
+
+### Default
+
+Primary gold color for general progress.
+
+<PreviewBox class="p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill default" style="width: 60%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar value={60} />
+```
+
+### Gold
+
+Accent gold for highlighted progress.
+
+<PreviewBox class="p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill gold" style="width: 60%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar value={60} variant="gold" />
+```
+
+### Success
+
+Indicates completion or positive outcome.
+
+<PreviewBox class="p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill success" style="width: 100%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar value={100} variant="success" />
+```
+
+### Warning
+
+Indicates attention needed.
+
+<PreviewBox class="p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill warning" style="width: 45%;"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar value={45} variant="warning" />
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="progress-demo">
+    <span class="progress-label size">sm</span>
+    <div class="sync-progress-bar sm">
+      <div class="progress-fill" style="width: 60%;"></div>
+    </div>
+  </div>
+  <div class="progress-demo">
+    <span class="progress-label size">md</span>
+    <div class="sync-progress-bar md">
+      <div class="progress-fill" style="width: 60%;"></div>
+    </div>
+  </div>
+  <div class="progress-demo">
+    <span class="progress-label size">lg</span>
+    <div class="sync-progress-bar lg">
+      <div class="progress-fill" style="width: 60%;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+| Size | Height | Usage |
+|------|--------|-------|
+| `sm` | 4px | Subtle progress indicators |
+| `md` | 8px | Default |
+| `lg` | 12px | Prominent progress displays |
+
+---
+
+## Indeterminate
+
+For loading states where progress is unknown.
+
+<PreviewBox class="p-lg">
+  <div class="sync-progress-bar md">
+    <div class="progress-fill indeterminate"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ProgressBar indeterminate />
+<ProgressBar indeterminate variant="gold" />
+```
+
+---
+
+## Animation
+
+Progress changes animate smoothly by default.
+
+```tsx
+// Animated (default)
+<ProgressBar value={progress} />
+
+// Instant updates
+<ProgressBar value={progress} animated={false} />
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | **Required** | Progress 0-100 |
+| `variant` | `'default' \| 'success' \| 'warning' \| 'gold'` | `'default'` | Color variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Bar height |
+| `animated` | `boolean` | `true` | Animate changes |
+| `indeterminate` | `boolean` | `false` | Loading animation |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Progress'` | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { ProgressBar, Card, Badge } from '@synchronicity/react-native';
+import { View, Text } from 'react-native';
+
+function LearningProgress({ completed, total }) {
+  const percentage = Math.round((completed / total) * 100);
+  const isComplete = percentage === 100;
+
+  return (
+    <Card variant="outlined">
+      <View style={styles.header}>
+        <Text style={styles.title}>Learning Progress</Text>
+        <Badge variant={isComplete ? 'success' : 'gold'}>
+          {isComplete ? 'Complete' : `${percentage}%`}
+        </Badge>
+      </View>
+
+      <ProgressBar
+        value={percentage}
+        variant={isComplete ? 'success' : 'gold'}
+        size="md"
+        accessibilityLabel={`Learning progress: ${percentage}% complete`}
+      />
+
+      <Text style={styles.subtitle}>
+        {completed} of {total} trigrams learned
+      </Text>
+    </Card>
+  );
+}
+```
+
+<style>{`
+  .sync-progress-bar {
+    width: 100%;
+    background: #2a2a38;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sync-progress-bar.sm { height: 4px; border-radius: 2px; }
+  .sync-progress-bar.md { height: 8px; border-radius: 4px; }
+  .sync-progress-bar.lg { height: 12px; border-radius: 6px; }
+
+  .progress-fill {
+    height: 100%;
+    background: #d4af37;
+    border-radius: inherit;
+    transition: width 0.3s ease;
+  }
+
+  .progress-fill.default { background: #d4af37; }
+  .progress-fill.gold { background: #d4af37; }
+  .progress-fill.success { background: #10b981; }
+  .progress-fill.warning { background: #f59e0b; }
+
+  .progress-fill.indeterminate {
+    width: 30%;
+    animation: indeterminate 1.5s ease-in-out infinite;
+  }
+
+  @keyframes indeterminate {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(200%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  .progress-demo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-label {
+    font-size: 14px;
+    color: #8a8a9a;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  .progress-label.size {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-progress-bar {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .progress-fill.default,
+  .preview-content[data-theme="light"] .progress-fill.gold {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .progress-label {
+    color: #6b5f55;
+  }
+`}</style>

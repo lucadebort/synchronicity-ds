@@ -1,0 +1,366 @@
+---
+title: Switch
+description: Toggle control for boolean settings and preferences
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Switch
+
+Switch is a toggle control for turning settings on or off. It provides clear visual feedback with smooth animation and supports multiple sizes.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-xl p-lg">
+  <div class="sync-switch off">
+    <div class="switch-thumb"></div>
+  </div>
+  <div class="sync-switch on">
+    <div class="switch-thumb on"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="switch-demo">
+    <span class="switch-label">Notifications</span>
+    <div class="sync-switch on">
+      <div class="switch-thumb on"></div>
+    </div>
+  </div>
+  <div class="switch-demo">
+    <span class="switch-label">Dark Mode</span>
+    <div class="sync-switch off">
+      <div class="switch-thumb"></div>
+    </div>
+  </div>
+  <div class="switch-demo">
+    <span class="switch-label">Auto-save</span>
+    <div class="sync-switch on">
+      <div class="switch-thumb on"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+const [notifications, setNotifications] = useState(true);
+const [darkMode, setDarkMode] = useState(false);
+const [autoSave, setAutoSave] = useState(true);
+
+<Switch
+  value={notifications}
+  onValueChange={setNotifications}
+  accessibilityLabel="Notifications"
+/>
+<Switch
+  value={darkMode}
+  onValueChange={setDarkMode}
+  accessibilityLabel="Dark mode"
+/>
+<Switch
+  value={autoSave}
+  onValueChange={setAutoSave}
+  accessibilityLabel="Auto-save"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="switch-demo">
+    <span class="switch-label size">sm</span>
+    <div class="sync-switch sm on">
+      <div class="switch-thumb sm on"></div>
+    </div>
+  </div>
+  <div class="switch-demo">
+    <span class="switch-label size">md</span>
+    <div class="sync-switch md on">
+      <div class="switch-thumb md on"></div>
+    </div>
+  </div>
+  <div class="switch-demo">
+    <span class="switch-label size">lg</span>
+    <div class="sync-switch lg on">
+      <div class="switch-thumb lg on"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+| Size | Dimensions | Thumb | Usage |
+|------|------------|-------|-------|
+| `sm` | 36×20px | 16px | Compact settings lists |
+| `md` | 48×28px | 24px | Default |
+| `lg` | 56×32px | 28px | Prominent controls |
+
+```tsx
+<Switch size="sm" value={value} onValueChange={setValue} accessibilityLabel="Small switch" />
+<Switch size="md" value={value} onValueChange={setValue} accessibilityLabel="Medium switch" />
+<Switch size="lg" value={value} onValueChange={setValue} accessibilityLabel="Large switch" />
+```
+
+---
+
+## States
+
+### Disabled
+
+<PreviewBox class="flex-row gap-xl p-lg">
+  <div class="sync-switch off disabled">
+    <div class="switch-thumb"></div>
+  </div>
+  <div class="sync-switch on disabled">
+    <div class="switch-thumb on"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Switch
+  value={false}
+  onValueChange={() => {}}
+  disabled
+  accessibilityLabel="Disabled off"
+/>
+<Switch
+  value={true}
+  onValueChange={() => {}}
+  disabled
+  accessibilityLabel="Disabled on"
+/>
+```
+
+---
+
+## Custom Colors
+
+Use `activeColor` to customize the track color when on.
+
+<PreviewBox class="flex-row gap-xl p-lg">
+  <div class="sync-switch on gold">
+    <div class="switch-thumb on"></div>
+  </div>
+  <div class="sync-switch on success">
+    <div class="switch-thumb on"></div>
+  </div>
+  <div class="sync-switch on info">
+    <div class="switch-thumb on"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Switch
+  value={true}
+  onValueChange={setValue}
+  activeColor="#d4af37"
+  accessibilityLabel="Gold switch"
+/>
+<Switch
+  value={true}
+  onValueChange={setValue}
+  activeColor="#10b981"
+  accessibilityLabel="Success switch"
+/>
+<Switch
+  value={true}
+  onValueChange={setValue}
+  activeColor="#6366f1"
+  accessibilityLabel="Info switch"
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `boolean` | **Required** | Current switch state |
+| `onValueChange` | `(value: boolean) => void` | **Required** | Called when toggled |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Switch size |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `activeColor` | `string` | Gold | Custom track color when on |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+
+---
+
+## Complete Example
+
+```tsx
+import { Switch, Card, Text } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function SettingsScreen() {
+  const [settings, setSettings] = useState({
+    notifications: true,
+    darkMode: false,
+    haptics: true,
+    analytics: false,
+  });
+
+  const updateSetting = (key: string, value: boolean) => {
+    setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
+  return (
+    <Card>
+      <SettingRow
+        label="Push Notifications"
+        value={settings.notifications}
+        onChange={(v) => updateSetting('notifications', v)}
+      />
+      <SettingRow
+        label="Dark Mode"
+        value={settings.darkMode}
+        onChange={(v) => updateSetting('darkMode', v)}
+      />
+      <SettingRow
+        label="Haptic Feedback"
+        value={settings.haptics}
+        onChange={(v) => updateSetting('haptics', v)}
+      />
+      <SettingRow
+        label="Analytics"
+        value={settings.analytics}
+        onChange={(v) => updateSetting('analytics', v)}
+      />
+    </Card>
+  );
+}
+
+function SettingRow({ label, value, onChange }) {
+  return (
+    <View style={styles.row}>
+      <Text>{label}</Text>
+      <Switch
+        value={value}
+        onValueChange={onChange}
+        accessibilityLabel={label}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+});
+```
+
+<style>{`
+  .sync-switch {
+    position: relative;
+    width: 48px;
+    height: 28px;
+    border-radius: 14px;
+    background: #2a2a38;
+    padding: 2px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .sync-switch.sm { width: 36px; height: 20px; border-radius: 10px; }
+  .sync-switch.md { width: 48px; height: 28px; border-radius: 14px; }
+  .sync-switch.lg { width: 56px; height: 32px; border-radius: 16px; }
+
+  .sync-switch.on { background: #d4af37; }
+  .sync-switch.on.gold { background: #d4af37; }
+  .sync-switch.on.success { background: #10b981; }
+  .sync-switch.on.info { background: #6366f1; }
+
+  .sync-switch.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .switch-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+  }
+
+  .sync-switch.sm .switch-thumb,
+  .switch-thumb.sm {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+  }
+
+  .sync-switch.lg .switch-thumb,
+  .switch-thumb.lg {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+  }
+
+  .switch-thumb.on {
+    transform: translateX(20px);
+  }
+
+  .sync-switch.sm .switch-thumb.on,
+  .switch-thumb.sm.on {
+    transform: translateX(16px);
+  }
+
+  .sync-switch.lg .switch-thumb.on,
+  .switch-thumb.lg.on {
+    transform: translateX(24px);
+  }
+
+  .switch-demo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 200px;
+  }
+
+  .switch-label {
+    font-size: 14px;
+    color: #e8e6e3;
+  }
+
+  .switch-label.size {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8a8a9a;
+    min-width: 30px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-switch {
+    background: #dacfc5;
+  }
+
+  .preview-content[data-theme="light"] .sync-switch.on {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .sync-switch.on.gold {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .switch-label {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .switch-label.size {
+    color: #6b5f55;
+  }
+`}</style>

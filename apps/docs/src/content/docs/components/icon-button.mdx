@@ -1,0 +1,258 @@
+---
+title: IconButton
+description: Pressable icon-only button for actions and navigation
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# IconButton
+
+IconButton provides a compact, icon-only button for actions where visual clarity is more important than text labels. Ideal for toolbars, navigation, and contextual actions.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="flex-row gap-lg">
+  <button class="sync-icon-button default md">☰</button>
+  <button class="sync-icon-button ghost md">✕</button>
+  <button class="sync-icon-button filled md">+</button>
+</PreviewBox>
+
+---
+
+## Variants
+
+### Default
+
+Outlined button with subtle border.
+
+<PreviewBox class="flex-row gap-lg">
+  <button class="sync-icon-button default md">☰</button>
+  <button class="sync-icon-button default md">⚙</button>
+  <button class="sync-icon-button default md">?</button>
+</PreviewBox>
+
+```tsx
+<IconButton icon="☰" accessibilityLabel="Menu" />
+<IconButton icon="⚙" accessibilityLabel="Settings" />
+<IconButton icon="?" accessibilityLabel="Help" />
+```
+
+### Ghost
+
+No background or border, only shows on press.
+
+<PreviewBox class="flex-row gap-lg">
+  <button class="sync-icon-button ghost md">←</button>
+  <button class="sync-icon-button ghost md">✕</button>
+  <button class="sync-icon-button ghost md">⋮</button>
+</PreviewBox>
+
+```tsx
+<IconButton icon="←" variant="ghost" accessibilityLabel="Back" />
+<IconButton icon="✕" variant="ghost" accessibilityLabel="Close" />
+<IconButton icon="⋮" variant="ghost" accessibilityLabel="More options" />
+```
+
+### Filled
+
+Solid background for emphasis.
+
+<PreviewBox class="flex-row gap-lg">
+  <button class="sync-icon-button filled md">+</button>
+  <button class="sync-icon-button filled md">♡</button>
+  <button class="sync-icon-button filled md">↓</button>
+</PreviewBox>
+
+```tsx
+<IconButton icon="+" variant="filled" accessibilityLabel="Add" />
+<IconButton icon="♡" variant="filled" accessibilityLabel="Favorite" />
+<IconButton icon="↓" variant="filled" accessibilityLabel="Download" />
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-row gap-lg align-end">
+  <button class="sync-icon-button default sm">☰</button>
+  <button class="sync-icon-button default md">☰</button>
+  <button class="sync-icon-button default lg">☰</button>
+</PreviewBox>
+
+| Size | Dimension | Icon Size | Usage |
+|------|-----------|-----------|-------|
+| `sm` | 32px | 16px | Compact toolbars |
+| `md` | 40px | 20px | Default |
+| `lg` | 48px | 24px | Primary actions |
+
+---
+
+## Rounded
+
+Use circular shape for floating actions.
+
+<PreviewBox class="flex-row gap-lg">
+  <button class="sync-icon-button filled md rounded">+</button>
+  <button class="sync-icon-button default md rounded">☰</button>
+  <button class="sync-icon-button ghost md rounded">✕</button>
+</PreviewBox>
+
+```tsx
+<IconButton icon="+" variant="filled" rounded accessibilityLabel="Add" />
+<IconButton icon="☰" rounded accessibilityLabel="Menu" />
+<IconButton icon="✕" variant="ghost" rounded accessibilityLabel="Close" />
+```
+
+---
+
+## Disabled State
+
+<PreviewBox class="flex-row gap-lg">
+  <button class="sync-icon-button default md disabled" disabled>☰</button>
+  <button class="sync-icon-button filled md disabled" disabled>+</button>
+  <button class="sync-icon-button ghost md disabled" disabled>✕</button>
+</PreviewBox>
+
+```tsx
+<IconButton icon="☰" disabled accessibilityLabel="Menu" />
+```
+
+---
+
+## With Custom Icons
+
+Use any React element as an icon.
+
+```tsx
+import { Feather } from '@expo/vector-icons';
+
+<IconButton
+  icon={<Feather name="menu" size={20} color={colors['text-secondary']} />}
+  accessibilityLabel="Menu"
+/>
+
+<IconButton
+  icon={<Feather name="settings" size={20} color={colors['text-secondary']} />}
+  variant="ghost"
+  accessibilityLabel="Settings"
+/>
+```
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | **Required** | Icon content |
+| `variant` | `'default' \| 'ghost' \| 'filled'` | `'default'` | Visual variant |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `rounded` | `boolean` | `false` | Circular shape |
+| `accessibilityLabel` | `string` | **Required** | A11y label |
+| `onPress` | `() => void` | - | Press handler |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { IconButton } from '@synchronicity/react-native';
+import { View } from 'react-native';
+
+function Header({ onMenuPress, onSettingsPress }) {
+  return (
+    <View style={styles.header}>
+      <IconButton
+        icon="☰"
+        variant="ghost"
+        accessibilityLabel="Open navigation menu"
+        onPress={onMenuPress}
+      />
+
+      <View style={styles.spacer} />
+
+      <IconButton
+        icon="⚙"
+        variant="ghost"
+        accessibilityLabel="Open settings"
+        onPress={onSettingsPress}
+      />
+    </View>
+  );
+}
+```
+
+<Aside type="caution">
+Always provide an `accessibilityLabel` for icon buttons since there's no visible text.
+</Aside>
+
+<style>{`
+  .sync-icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+    font-family: inherit;
+  }
+
+  .sync-icon-button.sm { width: 32px; height: 32px; font-size: 16px; border-radius: 6px; }
+  .sync-icon-button.md { width: 40px; height: 40px; font-size: 20px; border-radius: 8px; }
+  .sync-icon-button.lg { width: 48px; height: 48px; font-size: 24px; border-radius: 10px; }
+
+  .sync-icon-button.rounded.sm { border-radius: 16px; }
+  .sync-icon-button.rounded.md { border-radius: 20px; }
+  .sync-icon-button.rounded.lg { border-radius: 24px; }
+
+  .sync-icon-button.default {
+    background: transparent;
+    border: 1px solid #3a3a48;
+    color: #b8b6b3;
+  }
+
+  .sync-icon-button.ghost {
+    background: transparent;
+    color: #b8b6b3;
+  }
+
+  .sync-icon-button.filled {
+    background: #1e1e2e;
+    color: #b8b6b3;
+  }
+
+  .sync-icon-button:hover:not(.disabled) {
+    background: #2a2a38;
+  }
+
+  .sync-icon-button:active:not(.disabled) {
+    transform: scale(0.95);
+  }
+
+  .sync-icon-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-icon-button {
+    color: #5a4f45;
+  }
+
+  .preview-content[data-theme="light"] .sync-icon-button.default {
+    border-color: #dacfc5;
+  }
+
+  .preview-content[data-theme="light"] .sync-icon-button.filled {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .sync-icon-button:hover:not(.disabled) {
+    background: #eeebe2;
+  }
+`}</style>

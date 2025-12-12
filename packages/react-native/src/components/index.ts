@@ -4,5 +4,8 @@ export * from './Button';
 export * from './Card';
 export * from './Divider';
 export * from './EmptyState';
+export * from './IconButton';
 export * from './Input';
+export * from './ProgressBar';
 export * from './Skeleton';
+export * from './Switch';
