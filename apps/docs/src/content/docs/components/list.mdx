@@ -1,0 +1,545 @@
+---
+title: List
+description: Organized container for displaying collections of items
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# List
+
+List organizes content into a vertically stacked container with optional headers, footers, and sections. Perfect for settings, menus, and data displays.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="sync-list">
+    <div class="list-item">
+      <span class="item-leading">☰</span>
+      <div class="item-content">
+        <span class="item-title">Hexagram 1 - The Creative</span>
+        <span class="item-subtitle">Heaven over Heaven</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+    <div class="list-item">
+      <span class="item-leading">☷</span>
+      <div class="item-content">
+        <span class="item-title">Hexagram 2 - The Receptive</span>
+        <span class="item-subtitle">Earth over Earth</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+    <div class="list-item last">
+      <span class="item-leading">☳</span>
+      <div class="item-content">
+        <span class="item-title">Hexagram 51 - The Arousing</span>
+        <span class="item-subtitle">Thunder over Thunder</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="sync-list">
+    <div class="list-item">
+      <div class="item-content">
+        <span class="item-title">Item One</span>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="item-content">
+        <span class="item-title">Item Two</span>
+      </div>
+    </div>
+    <div class="list-item last">
+      <div class="item-content">
+        <span class="item-title">Item Three</span>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<List>
+  <ListItem title="Item One" />
+  <ListItem title="Item Two" />
+  <ListItem title="Item Three" />
+</List>
+```
+
+---
+
+## With Header and Footer
+
+<PreviewBox class="p-lg">
+  <div class="sync-list-container">
+    <span class="list-header">RECENT READINGS</span>
+    <div class="sync-list">
+      <div class="list-item">
+        <div class="item-content">
+          <span class="item-title">Morning Guidance</span>
+          <span class="item-subtitle">Hexagram 11 - Peace</span>
+        </div>
+      </div>
+      <div class="list-item last">
+        <div class="item-content">
+          <span class="item-title">Career Decision</span>
+          <span class="item-subtitle">Hexagram 35 - Progress</span>
+        </div>
+      </div>
+    </div>
+    <span class="list-footer">Showing last 2 readings</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<List
+  header="Recent Readings"
+  footer="Showing last 2 readings"
+>
+  <ListItem
+    title="Morning Guidance"
+    subtitle="Hexagram 11 - Peace"
+  />
+  <ListItem
+    title="Career Decision"
+    subtitle="Hexagram 35 - Progress"
+  />
+</List>
+```
+
+---
+
+## With Leading and Trailing Elements
+
+<PreviewBox class="p-lg">
+  <div class="sync-list">
+    <div class="list-item">
+      <div class="item-leading avatar">JD</div>
+      <div class="item-content">
+        <span class="item-title">John Doe</span>
+        <span class="item-subtitle">Premium Member</span>
+      </div>
+      <span class="item-trailing badge">PRO</span>
+    </div>
+    <div class="list-item">
+      <div class="item-leading icon">🔔</div>
+      <div class="item-content">
+        <span class="item-title">Notifications</span>
+      </div>
+      <div class="item-trailing switch on"></div>
+    </div>
+    <div class="list-item last">
+      <div class="item-leading icon">🌙</div>
+      <div class="item-content">
+        <span class="item-title">Dark Mode</span>
+      </div>
+      <div class="item-trailing switch"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<List>
+  <ListItem
+    title="John Doe"
+    subtitle="Premium Member"
+    leading={<Avatar initials="JD" />}
+    trailing={<Badge variant="gold">PRO</Badge>}
+  />
+  <ListItem
+    title="Notifications"
+    leading={<Icon name="bell" />}
+    trailing={<Switch value={notifications} onValueChange={setNotifications} />}
+  />
+  <ListItem
+    title="Dark Mode"
+    leading={<Icon name="moon" />}
+    trailing={<Switch value={darkMode} onValueChange={setDarkMode} />}
+  />
+</List>
+```
+
+---
+
+## Interactive Items
+
+<PreviewBox class="p-lg">
+  <div class="sync-list">
+    <div class="list-item pressable">
+      <div class="item-content">
+        <span class="item-title">Account Settings</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+    <div class="list-item pressable">
+      <div class="item-content">
+        <span class="item-title">Privacy & Security</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+    <div class="list-item pressable last">
+      <div class="item-content">
+        <span class="item-title">Help & Support</span>
+      </div>
+      <span class="item-trailing">›</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<List>
+  <ListItem
+    title="Account Settings"
+    onPress={() => navigate('AccountSettings')}
+    trailing={<ChevronRight />}
+  />
+  <ListItem
+    title="Privacy & Security"
+    onPress={() => navigate('Privacy')}
+    trailing={<ChevronRight />}
+  />
+  <ListItem
+    title="Help & Support"
+    onPress={() => navigate('Help')}
+    trailing={<ChevronRight />}
+  />
+</List>
+```
+
+---
+
+## List Sections
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="sync-list-container">
+    <span class="list-header">APPEARANCE</span>
+    <div class="sync-list">
+      <div class="list-item">
+        <div class="item-content"><span class="item-title">Theme</span></div>
+        <span class="item-trailing text">Dark</span>
+      </div>
+      <div class="list-item last">
+        <div class="item-content"><span class="item-title">Font Size</span></div>
+        <span class="item-trailing text">Medium</span>
+      </div>
+    </div>
+  </div>
+  <div class="sync-list-container">
+    <span class="list-header">ABOUT</span>
+    <div class="sync-list">
+      <div class="list-item">
+        <div class="item-content"><span class="item-title">Version</span></div>
+        <span class="item-trailing text">1.2.0</span>
+      </div>
+      <div class="list-item last">
+        <div class="item-content"><span class="item-title">Build</span></div>
+        <span class="item-trailing text">2024.12.1</span>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ListSection title="Appearance">
+  <ListItem title="Theme" trailing={<Text>Dark</Text>} />
+  <ListItem title="Font Size" trailing={<Text>Medium</Text>} />
+</ListSection>
+
+<ListSection title="About">
+  <ListItem title="Version" trailing={<Text>1.2.0</Text>} />
+  <ListItem title="Build" trailing={<Text>2024.12.1</Text>} />
+</ListSection>
+```
+
+---
+
+## API Reference
+
+### List Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | ListItem elements |
+| `header` | `string` | - | Header text above list |
+| `footer` | `string` | - | Footer text below list |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ListItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | **Required** | Primary text |
+| `subtitle` | `string` | - | Secondary text |
+| `leading` | `ReactNode` | - | Left element |
+| `trailing` | `ReactNode` | - | Right element |
+| `onPress` | `() => void` | - | Press handler |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `divider` | `boolean` | `true` | Show bottom divider |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ListSection Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | **Required** | Section title |
+| `children` | `ReactNode` | **Required** | ListItem elements |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { List, ListItem, ListSection, Switch, Avatar, Badge } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function SettingsScreen() {
+  const [notifications, setNotifications] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
+  const [haptics, setHaptics] = useState(true);
+
+  return (
+    <View style={styles.container}>
+      <List header="Account">
+        <ListItem
+          title="Profile"
+          subtitle="John Doe"
+          leading={<Avatar initials="JD" size="sm" />}
+          onPress={() => navigate('Profile')}
+          trailing={<ChevronRight />}
+        />
+      </List>
+
+      <ListSection title="Preferences">
+        <ListItem
+          title="Push Notifications"
+          trailing={
+            <Switch
+              value={notifications}
+              onValueChange={setNotifications}
+              accessibilityLabel="Notifications"
+            />
+          }
+        />
+        <ListItem
+          title="Dark Mode"
+          trailing={
+            <Switch
+              value={darkMode}
+              onValueChange={setDarkMode}
+              accessibilityLabel="Dark mode"
+            />
+          }
+        />
+        <ListItem
+          title="Haptic Feedback"
+          trailing={
+            <Switch
+              value={haptics}
+              onValueChange={setHaptics}
+              accessibilityLabel="Haptics"
+            />
+          }
+        />
+      </ListSection>
+
+      <ListSection title="Support">
+        <ListItem
+          title="Help Center"
+          onPress={() => navigate('Help')}
+          trailing={<ChevronRight />}
+        />
+        <ListItem
+          title="Rate the App"
+          onPress={rateApp}
+          trailing={<ChevronRight />}
+        />
+      </ListSection>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    gap: 24,
+  },
+});
+```
+
+<style>{`
+  .sync-list-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .list-header {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a8a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding: 0 16px;
+  }
+
+  .list-footer {
+    font-size: 13px;
+    color: #5a5a68;
+    margin-top: 8px;
+    padding: 0 16px;
+  }
+
+  .sync-list {
+    background: #2a2a38;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    min-height: 48px;
+    border-bottom: 1px solid #3a3a48;
+    gap: 12px;
+  }
+
+  .list-item.last {
+    border-bottom: none;
+  }
+
+  .list-item.pressable {
+    cursor: pointer;
+  }
+
+  .list-item.pressable:hover {
+    background: #1a1a24;
+  }
+
+  .item-leading {
+    font-size: 20px;
+  }
+
+  .item-leading.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: #d4af37;
+    color: #1a1a24;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .item-leading.icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item-title {
+    font-size: 15px;
+    color: #e8e6e3;
+  }
+
+  .item-subtitle {
+    font-size: 13px;
+    color: #8a8a9a;
+    margin-top: 2px;
+  }
+
+  .item-trailing {
+    font-size: 16px;
+    color: #5a5a68;
+  }
+
+  .item-trailing.badge {
+    font-size: 10px;
+    font-weight: 600;
+    background: #8a7424;
+    color: #f4cf67;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .item-trailing.text {
+    font-size: 14px;
+    color: #8a8a9a;
+  }
+
+  .item-trailing.switch {
+    width: 36px;
+    height: 20px;
+    background: #3a3a48;
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .item-trailing.switch::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 8px;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+  }
+
+  .item-trailing.switch.on {
+    background: #d4af37;
+  }
+
+  .item-trailing.switch.on::after {
+    transform: translateX(16px);
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .sync-list {
+    background: #ffffff;
+  }
+
+  .preview-content[data-theme="light"] .list-item {
+    border-bottom-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .list-item.pressable:hover {
+    background: #f5f3ee;
+  }
+
+  .preview-content[data-theme="light"] .item-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .item-subtitle,
+  .preview-content[data-theme="light"] .list-header {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .item-leading.avatar {
+    background: #886a00;
+    color: white;
+  }
+`}</style>

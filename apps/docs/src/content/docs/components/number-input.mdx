@@ -1,0 +1,444 @@
+---
+title: NumberInput
+description: Numeric input with increment/decrement controls
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# NumberInput
+
+NumberInput provides a numeric input field with increment and decrement buttons. Use for quantities, scores, or any bounded numeric values.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="number-input-demo">
+    <span class="input-label">QUANTITY</span>
+    <div class="number-input">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">3</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="number-input">
+    <button class="input-btn">−</button>
+    <div class="input-divider"></div>
+    <span class="input-value">5</span>
+    <div class="input-divider"></div>
+    <button class="input-btn">+</button>
+  </div>
+</PreviewBox>
+
+```tsx
+const [value, setValue] = useState(5);
+
+<NumberInput
+  value={value}
+  onValueChange={setValue}
+  accessibilityLabel="Quantity"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-md p-lg">
+  <div class="size-row">
+    <span class="size-label">sm</span>
+    <div class="number-input sm">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">3</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+  <div class="size-row">
+    <span class="size-label">md</span>
+    <div class="number-input md">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">3</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+  <div class="size-row">
+    <span class="size-label">lg</span>
+    <div class="number-input lg">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">3</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<NumberInput size="sm" value={value} onValueChange={setValue} accessibilityLabel="Small" />
+<NumberInput size="md" value={value} onValueChange={setValue} accessibilityLabel="Medium" />
+<NumberInput size="lg" value={value} onValueChange={setValue} accessibilityLabel="Large" />
+```
+
+---
+
+## With Label
+
+<PreviewBox class="p-lg">
+  <div class="number-input-demo">
+    <span class="input-label">NUMBER OF COINS</span>
+    <div class="number-input">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">3</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<NumberInput
+  label="Number of Coins"
+  value={coins}
+  onValueChange={setCoins}
+  min={1}
+  max={6}
+  accessibilityLabel="Number of coins"
+/>
+```
+
+---
+
+## Min/Max Bounds
+
+<PreviewBox class="p-lg">
+  <div class="number-input-demo">
+    <span class="input-label">RATING (1-5)</span>
+    <div class="number-input">
+      <button class="input-btn disabled">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">1</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<NumberInput
+  label="Rating (1-5)"
+  value={rating}
+  onValueChange={setRating}
+  min={1}
+  max={5}
+  accessibilityLabel="Rating"
+/>
+```
+
+---
+
+## Custom Step
+
+<PreviewBox class="p-lg">
+  <div class="number-input-demo">
+    <span class="input-label">AMOUNT (STEP: 10)</span>
+    <div class="number-input">
+      <button class="input-btn">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">50</span>
+      <div class="input-divider"></div>
+      <button class="input-btn">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<NumberInput
+  label="Amount (step: 10)"
+  value={amount}
+  onValueChange={setAmount}
+  step={10}
+  min={0}
+  max={100}
+  accessibilityLabel="Amount"
+/>
+```
+
+---
+
+## Disabled State
+
+<PreviewBox class="p-lg">
+  <div class="number-input-demo disabled">
+    <span class="input-label">LOCKED VALUE</span>
+    <div class="number-input">
+      <button class="input-btn disabled">−</button>
+      <div class="input-divider"></div>
+      <span class="input-value">6</span>
+      <div class="input-divider"></div>
+      <button class="input-btn disabled">+</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<NumberInput
+  label="Locked Value"
+  value={6}
+  onValueChange={() => {}}
+  disabled
+  accessibilityLabel="Locked value"
+/>
+```
+
+---
+
+## API Reference
+
+### NumberInput Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | **Required** | Current value |
+| `onValueChange` | `(value: number) => void` | **Required** | Change handler |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `Infinity` | Maximum value |
+| `step` | `number` | `1` | Step increment |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input size |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `label` | `string` | - | Label above input |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | Screen reader label |
+
+---
+
+## Complete Example
+
+```tsx
+import { NumberInput, Card, Button, Text } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function CoinCastingSetup() {
+  const [coinCount, setCoinCount] = useState(3);
+  const [throwCount, setThrowCount] = useState(6);
+  const [speed, setSpeed] = useState(50);
+
+  const handleStartCasting = () => {
+    startCasting({
+      coins: coinCount,
+      throws: throwCount,
+      animationSpeed: speed,
+    });
+  };
+
+  return (
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Text style={styles.title}>Casting Settings</Text>
+
+        <View style={styles.inputGroup}>
+          <NumberInput
+            label="Number of Coins"
+            value={coinCount}
+            onValueChange={setCoinCount}
+            min={1}
+            max={6}
+            accessibilityLabel="Number of coins to throw"
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <NumberInput
+            label="Number of Throws"
+            value={throwCount}
+            onValueChange={setThrowCount}
+            min={1}
+            max={12}
+            accessibilityLabel="Number of throws"
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <NumberInput
+            label="Animation Speed"
+            value={speed}
+            onValueChange={setSpeed}
+            min={10}
+            max={100}
+            step={10}
+            accessibilityLabel="Animation speed percentage"
+          />
+        </View>
+
+        <Button onPress={handleStartCasting}>
+          Start Casting
+        </Button>
+      </Card>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  card: {
+    padding: 20,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 24,
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+});
+```
+
+<style>{`
+  .number-input-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: fit-content;
+  }
+
+  .number-input-demo.disabled {
+    opacity: 0.5;
+  }
+
+  .input-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a8a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .number-input {
+    display: flex;
+    align-items: stretch;
+    background: #2a2a38;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 40px;
+  }
+
+  .number-input.sm {
+    height: 32px;
+  }
+
+  .number-input.lg {
+    height: 48px;
+  }
+
+  .input-btn {
+    width: 40px;
+    background: transparent;
+    border: none;
+    color: #e8e6e3;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .number-input.sm .input-btn {
+    width: 32px;
+    font-size: 16px;
+  }
+
+  .number-input.lg .input-btn {
+    width: 48px;
+    font-size: 24px;
+  }
+
+  .input-btn:hover:not(.disabled) {
+    background: rgba(212, 175, 55, 0.1);
+  }
+
+  .input-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .input-divider {
+    width: 1px;
+    background: #3a3a48;
+  }
+
+  .input-value {
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #e8e6e3;
+  }
+
+  .number-input.sm .input-value {
+    min-width: 50px;
+    font-size: 14px;
+  }
+
+  .number-input.lg .input-value {
+    min-width: 70px;
+    font-size: 18px;
+  }
+
+  .size-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .size-label {
+    font-size: 12px;
+    color: #8a8a9a;
+    width: 24px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .number-input {
+    background: #ffffff;
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .input-btn {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .input-btn:hover:not(.disabled) {
+    background: rgba(136, 106, 0, 0.1);
+  }
+
+  .preview-content[data-theme="light"] .input-divider {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .input-value {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .input-label {
+    color: #6b5f55;
+  }
+`}</style>

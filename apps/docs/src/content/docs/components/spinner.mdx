@@ -1,0 +1,458 @@
+---
+title: Spinner
+description: Loading indicator for async operations
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Spinner
+
+Spinner indicates loading or processing states. Use for async operations, data fetching, or form submissions.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="spinner-row">
+    <div class="spinner sm"></div>
+    <div class="spinner md"></div>
+    <div class="spinner lg"></div>
+    <div class="spinner xl"></div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="spinner md"></div>
+</PreviewBox>
+
+```tsx
+<Spinner />
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="p-lg">
+  <div class="spinner-row">
+    <div class="spinner-labeled">
+      <div class="spinner sm"></div>
+      <span class="spinner-label">sm</span>
+    </div>
+    <div class="spinner-labeled">
+      <div class="spinner md"></div>
+      <span class="spinner-label">md</span>
+    </div>
+    <div class="spinner-labeled">
+      <div class="spinner lg"></div>
+      <span class="spinner-label">lg</span>
+    </div>
+    <div class="spinner-labeled">
+      <div class="spinner xl"></div>
+      <span class="spinner-label">xl</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Spinner size="sm" />
+<Spinner size="md" />
+<Spinner size="lg" />
+<Spinner size="xl" />
+```
+
+---
+
+## Custom Colors
+
+<PreviewBox class="p-lg">
+  <div class="spinner-row">
+    <div class="spinner md gold"></div>
+    <div class="spinner md white"></div>
+    <div class="spinner md green"></div>
+    <div class="spinner md red"></div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Spinner color={colors['gold-primary']} />
+<Spinner color={colors['text-primary']} />
+<Spinner color="#22c55e" />
+<Spinner color="#ef4444" />
+```
+
+---
+
+## Loading Overlay
+
+Full-screen loading indicator with optional message.
+
+<PreviewBox class="p-lg">
+  <div class="overlay-demo">
+    <div class="overlay-content">
+      <div class="overlay-card">Content behind overlay</div>
+    </div>
+    <div class="loading-overlay">
+      <div class="spinner lg"></div>
+      <span class="overlay-message">Loading...</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<LoadingOverlay
+  visible={isLoading}
+  message="Loading..."
+/>
+```
+
+---
+
+## Inline Loading States
+
+<PreviewBox class="p-lg">
+  <div class="inline-demo">
+    <button class="demo-button loading">
+      <div class="spinner sm white"></div>
+      <span>Saving...</span>
+    </button>
+    <button class="demo-button">
+      <span>Save Changes</span>
+    </button>
+  </div>
+</PreviewBox>
+
+```tsx
+<Button disabled={isLoading}>
+  {isLoading ? (
+    <>
+      <Spinner size="sm" color="#fff" />
+      <Text>Saving...</Text>
+    </>
+  ) : (
+    <Text>Save Changes</Text>
+  )}
+</Button>
+```
+
+---
+
+## API Reference
+
+### Spinner Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Spinner size |
+| `color` | `string` | Gold primary | Spinner color |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Loading'` | Screen reader label |
+
+### LoadingOverlay Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `visible` | `boolean` | **Required** | Whether visible |
+| `message` | `string` | - | Loading message |
+| `size` | `SpinnerSize` | `'lg'` | Spinner size |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Spinner, LoadingOverlay, Button, Card } from '@synchronicity/react-native';
+import { View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+
+function DataScreen() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      await loadReadings();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const saveReading = async () => {
+    setIsSaving(true);
+    try {
+      await saveToServer();
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <LoadingOverlay
+        visible={isLoading}
+        message="Loading readings..."
+      />
+
+      <Card style={styles.card}>
+        <Text style={styles.title}>Your Reading</Text>
+        <Text style={styles.content}>Hexagram 11 - Peace</Text>
+
+        <Button
+          onPress={saveReading}
+          disabled={isSaving}
+          style={styles.button}
+        >
+          {isSaving ? (
+            <View style={styles.loadingButton}>
+              <Spinner size="sm" color="#1a1a24" />
+              <Text style={styles.buttonText}>Saving...</Text>
+            </View>
+          ) : (
+            <Text style={styles.buttonText}>Save Reading</Text>
+          )}
+        </Button>
+      </Card>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Loading States</Text>
+        <View style={styles.spinnerRow}>
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
+        </View>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  card: {
+    padding: 20,
+    marginBottom: 24,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  content: {
+    fontSize: 14,
+    color: '#8a8a9a',
+    marginBottom: 16,
+  },
+  button: {
+    marginTop: 8,
+  },
+  loadingButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  buttonText: {
+    fontWeight: '600',
+  },
+  section: {
+    marginTop: 24,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    color: '#8a8a9a',
+    marginBottom: 16,
+  },
+  spinnerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 24,
+  },
+});
+```
+
+<style>{`
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .spinner-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .spinner-labeled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .spinner-label {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .spinner {
+    border-radius: 50%;
+    border-style: solid;
+    animation: spin 1s linear infinite;
+  }
+
+  .spinner.sm {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+
+  .spinner.md {
+    width: 24px;
+    height: 24px;
+    border-width: 2.5px;
+  }
+
+  .spinner.lg {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+
+  .spinner.xl {
+    width: 48px;
+    height: 48px;
+    border-width: 4px;
+  }
+
+  .spinner.gold,
+  .spinner:not(.white):not(.green):not(.red) {
+    border-color: rgba(212, 175, 55, 0.2);
+    border-top-color: #d4af37;
+  }
+
+  .spinner.white {
+    border-color: rgba(232, 230, 227, 0.2);
+    border-top-color: #e8e6e3;
+  }
+
+  .spinner.green {
+    border-color: rgba(34, 197, 94, 0.2);
+    border-top-color: #22c55e;
+  }
+
+  .spinner.red {
+    border-color: rgba(239, 68, 68, 0.2);
+    border-top-color: #ef4444;
+  }
+
+  .overlay-demo {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1a1a24;
+  }
+
+  .overlay-content {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay-card {
+    background: #2a2a38;
+    padding: 24px;
+    border-radius: 12px;
+    color: #e8e6e3;
+  }
+
+  .loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 36, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .overlay-message {
+    font-size: 14px;
+    color: #8a8a9a;
+  }
+
+  .inline-demo {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .demo-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #d4af37;
+    color: #1a1a24;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 140px;
+  }
+
+  .demo-button.loading {
+    background: #8a7424;
+    cursor: wait;
+  }
+
+  .demo-button.loading .spinner {
+    border-color: rgba(26, 26, 36, 0.3);
+    border-top-color: #1a1a24;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .overlay-demo {
+    background: #f5f3ee;
+  }
+
+  .preview-content[data-theme="light"] .overlay-card {
+    background: #ffffff;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .loading-overlay {
+    background: rgba(245, 243, 238, 0.9);
+  }
+
+  .preview-content[data-theme="light"] .overlay-message {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .demo-button {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .demo-button.loading {
+    background: #6b5500;
+  }
+
+  .preview-content[data-theme="light"] .demo-button.loading .spinner {
+    border-color: rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+  }
+`}</style>

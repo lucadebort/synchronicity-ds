@@ -1,0 +1,502 @@
+---
+title: Tabs
+description: Horizontal tab navigation for content switching
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Tabs
+
+Tabs organize content into separate views, allowing users to switch between different sections without leaving the page.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="tabs-demo">
+    <div class="tabs-container">
+      <button class="tab active">Reading</button>
+      <button class="tab">Trigrams</button>
+      <button class="tab">History</button>
+      <div class="indicator" style="left: 0; width: 75px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo">
+    <div class="tabs-container">
+      <button class="tab active">Overview</button>
+      <button class="tab">Details</button>
+      <button class="tab">Settings</button>
+      <div class="indicator" style="left: 0; width: 80px;"></div>
+    </div>
+    <div class="tab-content">
+      <p>Overview content goes here.</p>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+const [activeTab, setActiveTab] = useState('overview');
+
+<Tabs
+  tabs={[
+    { key: 'overview', label: 'Overview' },
+    { key: 'details', label: 'Details' },
+    { key: 'settings', label: 'Settings' },
+  ]}
+  value={activeTab}
+  onValueChange={setActiveTab}
+/>
+
+<TabPanel value="overview" selectedValue={activeTab}>
+  <Text>Overview content goes here.</Text>
+</TabPanel>
+```
+
+---
+
+## With Icons
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo">
+    <div class="tabs-container">
+      <button class="tab active">
+        <span class="tab-icon">☰</span>
+        <span>Reading</span>
+      </button>
+      <button class="tab">
+        <span class="tab-icon">☯</span>
+        <span>Trigrams</span>
+      </button>
+      <button class="tab">
+        <span class="tab-icon">⏱</span>
+        <span>History</span>
+      </button>
+      <div class="indicator" style="left: 0; width: 95px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tabs
+  tabs={[
+    { key: 'reading', label: 'Reading', icon: <ReadingIcon /> },
+    { key: 'trigrams', label: 'Trigrams', icon: <TrigramsIcon /> },
+    { key: 'history', label: 'History', icon: <HistoryIcon /> },
+  ]}
+  value={activeTab}
+  onValueChange={setActiveTab}
+/>
+```
+
+---
+
+## With Badges
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo">
+    <div class="tabs-container">
+      <button class="tab">Inbox</button>
+      <button class="tab active">
+        <span>Saved</span>
+        <span class="badge">5</span>
+      </button>
+      <button class="tab">
+        <span>Archive</span>
+        <span class="badge">23</span>
+      </button>
+      <div class="indicator" style="left: 58px; width: 75px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tabs
+  tabs={[
+    { key: 'inbox', label: 'Inbox' },
+    { key: 'saved', label: 'Saved', badge: 5 },
+    { key: 'archive', label: 'Archive', badge: 23 },
+  ]}
+  value={activeTab}
+  onValueChange={setActiveTab}
+/>
+```
+
+---
+
+## Full Width
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo full-width">
+    <div class="tabs-container">
+      <button class="tab active">Cast</button>
+      <button class="tab">Interpret</button>
+      <button class="tab">Save</button>
+      <div class="indicator" style="left: 0; width: 33.33%;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tabs
+  tabs={[
+    { key: 'cast', label: 'Cast' },
+    { key: 'interpret', label: 'Interpret' },
+    { key: 'save', label: 'Save' },
+  ]}
+  value={activeTab}
+  onValueChange={setActiveTab}
+  fullWidth
+/>
+```
+
+---
+
+## Disabled Tabs
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo">
+    <div class="tabs-container">
+      <button class="tab active">Available</button>
+      <button class="tab disabled">Locked</button>
+      <button class="tab">Open</button>
+      <div class="indicator" style="left: 0; width: 85px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tabs
+  tabs={[
+    { key: 'available', label: 'Available' },
+    { key: 'locked', label: 'Locked', disabled: true },
+    { key: 'open', label: 'Open' },
+  ]}
+  value={activeTab}
+  onValueChange={setActiveTab}
+/>
+```
+
+---
+
+## Scrollable Tabs
+
+For many tabs, use `scrollable` to allow horizontal scrolling.
+
+<PreviewBox class="p-lg">
+  <div class="tabs-demo scrollable">
+    <div class="tabs-container">
+      <button class="tab active">Hexagram 1</button>
+      <button class="tab">Hexagram 2</button>
+      <button class="tab">Hexagram 11</button>
+      <button class="tab">Hexagram 23</button>
+      <button class="tab">Hexagram 44</button>
+      <div class="indicator" style="left: 0; width: 100px;"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tabs
+  tabs={hexagrams.map(h => ({
+    key: h.number.toString(),
+    label: `Hexagram ${h.number}`,
+  }))}
+  value={activeTab}
+  onValueChange={setActiveTab}
+  scrollable
+/>
+```
+
+---
+
+## API Reference
+
+### Tabs Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tabs` | `TabItem[]` | **Required** | Array of tab items |
+| `value` | `string` | **Required** | Selected tab key |
+| `onValueChange` | `(value: string) => void` | **Required** | Change handler |
+| `scrollable` | `boolean` | `false` | Enable horizontal scroll |
+| `fullWidth` | `boolean` | `false` | Tabs fill container width |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Tabs'` | Screen reader label |
+
+### TabItem
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `key` | `string` | Yes | Unique tab identifier |
+| `label` | `string` | Yes | Tab label text |
+| `icon` | `ReactNode` | No | Optional icon |
+| `badge` | `number` | No | Badge count |
+| `disabled` | `boolean` | No | Disabled state |
+
+### TabPanel Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | Panel content |
+| `value` | `string` | **Required** | Tab key this panel is for |
+| `selectedValue` | `string` | **Required** | Currently selected tab |
+| `style` | `ViewStyle` | - | Custom styles |
+
+---
+
+## Complete Example
+
+```tsx
+import { Tabs, TabPanel, Card, Text } from '@synchronicity/react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { useState } from 'react';
+
+function HexagramDetailScreen() {
+  const [activeTab, setActiveTab] = useState('meaning');
+
+  return (
+    <View style={styles.container}>
+      <Card style={styles.header}>
+        <Text style={styles.title}>☰ Hexagram 1 - The Creative</Text>
+        <Text style={styles.subtitle}>Force, Heaven, Strength</Text>
+      </Card>
+
+      <Tabs
+        tabs={[
+          { key: 'meaning', label: 'Meaning' },
+          { key: 'lines', label: 'Lines', badge: 6 },
+          { key: 'related', label: 'Related' },
+          { key: 'notes', label: 'Notes' },
+        ]}
+        value={activeTab}
+        onValueChange={setActiveTab}
+        accessibilityLabel="Hexagram details navigation"
+      />
+
+      <ScrollView style={styles.content}>
+        <TabPanel value="meaning" selectedValue={activeTab}>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Judgment</Text>
+            <Text style={styles.text}>
+              The Creative works sublime success, furthering through perseverance.
+            </Text>
+          </Card>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Image</Text>
+            <Text style={styles.text}>
+              The movement of heaven is full of power.
+              Thus the superior man makes himself strong and untiring.
+            </Text>
+          </Card>
+        </TabPanel>
+
+        <TabPanel value="lines" selectedValue={activeTab}>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Line 1</Text>
+            <Text style={styles.text}>
+              Hidden dragon. Do not act.
+            </Text>
+          </Card>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Line 2</Text>
+            <Text style={styles.text}>
+              Dragon appearing in the field.
+              It furthers one to see the great man.
+            </Text>
+          </Card>
+        </TabPanel>
+
+        <TabPanel value="related" selectedValue={activeTab}>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Related Hexagrams</Text>
+            <Text style={styles.text}>
+              Hexagram 2 - The Receptive (paired)
+            </Text>
+            <Text style={styles.text}>
+              Hexagram 11 - Peace (derived)
+            </Text>
+          </Card>
+        </TabPanel>
+
+        <TabPanel value="notes" selectedValue={activeTab}>
+          <Card style={styles.card}>
+            <Text style={styles.sectionTitle}>Your Notes</Text>
+            <Text style={styles.placeholder}>
+              No notes yet. Tap to add a note.
+            </Text>
+          </Card>
+        </TabPanel>
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    padding: 20,
+    margin: 16,
+    marginBottom: 0,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#8a8a9a',
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  card: {
+    padding: 16,
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  text: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#8a8a9a',
+  },
+  placeholder: {
+    fontSize: 14,
+    color: '#6a6a7a',
+    fontStyle: 'italic',
+  },
+});
+```
+
+<style>{`
+  .tabs-demo {
+    width: 100%;
+  }
+
+  .tabs-demo.scrollable {
+    overflow-x: auto;
+  }
+
+  .tabs-demo.full-width .tabs-container {
+    width: 100%;
+  }
+
+  .tabs-demo.full-width .tab {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .tabs-container {
+    display: flex;
+    position: relative;
+    border-bottom: 1px solid #3a3a48;
+    gap: 0;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    color: #8a8a9a;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .tab:hover:not(.disabled) {
+    color: #e8e6e3;
+  }
+
+  .tab.active {
+    color: #d4af37;
+  }
+
+  .tab.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .tab-icon {
+    font-size: 14px;
+  }
+
+  .badge {
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: #d4af37;
+    color: #1a1a24;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: #d4af37;
+    border-radius: 1px;
+    transition: left 0.3s ease, width 0.3s ease;
+  }
+
+  .tab-content {
+    padding: 20px 0;
+    color: #8a8a9a;
+  }
+
+  .tab-content p {
+    margin: 0;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .tabs-container {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .tab {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .tab:hover:not(.disabled) {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .tab.active {
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .indicator {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .badge {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .tab-content {
+    color: #6b5f55;
+  }
+`}</style>
