@@ -1,0 +1,380 @@
+---
+title: Tag
+description: Labels for categorization and filtering
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Tag
+
+Tags are compact labels for categorization, filtering, or attribute display. Use for metadata, categories, or removable selections.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle gold">Hexagram</span>
+    <span class="tag subtle">Trigram</span>
+    <span class="tag subtle success">Active</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle">Default</span>
+    <span class="tag subtle gold">Gold</span>
+    <span class="tag subtle success">Success</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag>Default</Tag>
+<Tag color="gold">Gold</Tag>
+<Tag color="success">Success</Tag>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle sm">Small</span>
+    <span class="tag subtle">Medium</span>
+    <span class="tag subtle lg">Large</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag size="sm">Small</Tag>
+<Tag size="md">Medium</Tag>
+<Tag size="lg">Large</Tag>
+```
+
+---
+
+## Variants
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag filled gold">Filled</span>
+    <span class="tag outlined gold">Outlined</span>
+    <span class="tag subtle gold">Subtle</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag variant="filled" color="gold">Filled</Tag>
+<Tag variant="outlined" color="gold">Outlined</Tag>
+<Tag variant="subtle" color="gold">Subtle</Tag>
+```
+
+---
+
+## Colors
+
+<PreviewBox class="p-lg">
+  <div class="tag-row wrap">
+    <span class="tag subtle">Default</span>
+    <span class="tag subtle gold">Gold</span>
+    <span class="tag subtle success">Success</span>
+    <span class="tag subtle warning">Warning</span>
+    <span class="tag subtle error">Error</span>
+    <span class="tag subtle info">Info</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag color="default">Default</Tag>
+<Tag color="gold">Gold</Tag>
+<Tag color="success">Success</Tag>
+<Tag color="warning">Warning</Tag>
+<Tag color="error">Error</Tag>
+<Tag color="info">Info</Tag>
+```
+
+---
+
+## Removable Tags
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle gold removable">
+      Heaven
+      <span class="remove-btn">×</span>
+    </span>
+    <span class="tag subtle gold removable">
+      Earth
+      <span class="remove-btn">×</span>
+    </span>
+    <span class="tag subtle gold removable">
+      Water
+      <span class="remove-btn">×</span>
+    </span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag color="gold" onRemove={() => handleRemove('heaven')}>Heaven</Tag>
+<Tag color="gold" onRemove={() => handleRemove('earth')}>Earth</Tag>
+<Tag color="gold" onRemove={() => handleRemove('water')}>Water</Tag>
+```
+
+---
+
+## Interactive Tags
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle gold interactive selected">Active</span>
+    <span class="tag subtle interactive">Inactive</span>
+    <span class="tag subtle interactive">Inactive</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [selected, setSelected] = useState('active');
+
+<Tag
+  onPress={() => setSelected('active')}
+  selected={selected === 'active'}
+>
+  Active
+</Tag>
+```
+
+---
+
+## With Icon
+
+<PreviewBox class="p-lg">
+  <div class="tag-row">
+    <span class="tag subtle gold">
+      <span class="tag-icon">☯</span>
+      Yin-Yang
+    </span>
+    <span class="tag subtle success">
+      <span class="tag-icon">✓</span>
+      Complete
+    </span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Tag color="gold" leftIcon={<YinYangIcon />}>Yin-Yang</Tag>
+<Tag color="success" leftIcon={<CheckIcon />}>Complete</Tag>
+```
+
+---
+
+## Tag Group
+
+<PreviewBox class="p-lg">
+  <div class="tag-group">
+    <span class="tag subtle gold">Hexagram</span>
+    <span class="tag subtle">Trigram</span>
+    <span class="tag subtle">Reading</span>
+    <span class="tag subtle">Oracle</span>
+    <span class="tag subtle">Divination</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<TagGroup>
+  <Tag color="gold">Hexagram</Tag>
+  <Tag>Trigram</Tag>
+  <Tag>Reading</Tag>
+  <Tag>Oracle</Tag>
+  <Tag>Divination</Tag>
+</TagGroup>
+```
+
+---
+
+## API Reference
+
+### Tag Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | **Required** | Tag content |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Tag size |
+| `variant` | `'filled' \| 'outlined' \| 'subtle'` | `'subtle'` | Tag variant |
+| `color` | `'default' \| 'gold' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Tag color |
+| `leftIcon` | `ReactNode` | - | Left icon |
+| `onRemove` | `() => void` | - | Remove handler |
+| `onPress` | `() => void` | - | Press handler |
+| `selected` | `boolean` | `false` | Selected state |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### TagGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | Child tags |
+| `wrap` | `boolean` | `true` | Wrap tags |
+| `gap` | `number` | `8` | Gap between tags |
+| `style` | `ViewStyle` | - | Custom styles |
+
+<style>{`
+  .tag-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tag-row.wrap {
+    flex-wrap: wrap;
+  }
+
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 10px;
+    height: 26px;
+    border-radius: 13px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .tag.sm {
+    height: 20px;
+    padding: 0 6px;
+    font-size: 10px;
+    border-radius: 10px;
+  }
+
+  .tag.lg {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 14px;
+    border-radius: 16px;
+  }
+
+  /* Variants */
+  .tag.subtle {
+    background: rgba(42, 42, 56, 0.5);
+    color: #8a8a9a;
+  }
+
+  .tag.subtle.gold {
+    background: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+  }
+
+  .tag.subtle.success {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+  }
+
+  .tag.subtle.warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+  }
+
+  .tag.subtle.error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+  }
+
+  .tag.subtle.info {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+  }
+
+  .tag.filled {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .tag.filled.gold {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .tag.outlined {
+    background: transparent;
+    border: 1px solid;
+    color: #d4af37;
+    border-color: #d4af37;
+  }
+
+  .tag.outlined.gold {
+    color: #d4af37;
+    border-color: #d4af37;
+  }
+
+  .tag.interactive {
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tag.interactive:hover {
+    opacity: 0.8;
+  }
+
+  .tag.interactive.selected {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .tag.removable {
+    padding-right: 6px;
+  }
+
+  .remove-btn {
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.7;
+    cursor: pointer;
+    margin-left: 2px;
+  }
+
+  .remove-btn:hover {
+    opacity: 1;
+  }
+
+  .tag-icon {
+    font-size: 12px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .tag.subtle {
+    background: rgba(107, 95, 85, 0.1);
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .tag.subtle.gold {
+    background: rgba(136, 106, 0, 0.15);
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .tag.filled.gold {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .tag.outlined.gold {
+    color: #886a00;
+    border-color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .tag.interactive.selected {
+    background: #886a00;
+    color: white;
+  }
+`}</style>

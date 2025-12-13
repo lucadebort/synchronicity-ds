@@ -1,0 +1,305 @@
+---
+title: Rating
+description: Star rating input and display
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Rating
+
+Rating allows users to rate items or display existing ratings. Use for feedback, reviews, or quality indicators.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="rating-demo">
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star">☆</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="rating-demo">
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star">☆</span>
+    <span class="star">☆</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [rating, setRating] = useState(3);
+
+<Rating
+  value={rating}
+  onValueChange={setRating}
+  accessibilityLabel="Rate this reading"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-md p-lg">
+  <div class="rating-row">
+    <span class="size-label">sm</span>
+    <div class="rating-demo sm">
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star">☆</span>
+      <span class="star">☆</span>
+    </div>
+  </div>
+  <div class="rating-row">
+    <span class="size-label">md</span>
+    <div class="rating-demo">
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star">☆</span>
+      <span class="star">☆</span>
+    </div>
+  </div>
+  <div class="rating-row">
+    <span class="size-label">lg</span>
+    <div class="rating-demo lg">
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star">☆</span>
+      <span class="star">☆</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Rating size="sm" value={rating} onValueChange={setRating} accessibilityLabel="Small rating" />
+<Rating size="md" value={rating} onValueChange={setRating} accessibilityLabel="Medium rating" />
+<Rating size="lg" value={rating} onValueChange={setRating} accessibilityLabel="Large rating" />
+```
+
+---
+
+## With Value Display
+
+<PreviewBox class="p-lg">
+  <div class="rating-with-value">
+    <div class="rating-demo">
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star filled">★</span>
+      <span class="star">☆</span>
+    </div>
+    <span class="rating-value">4.0</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Rating
+  value={rating}
+  onValueChange={setRating}
+  showValue
+  accessibilityLabel="Rate this"
+/>
+```
+
+---
+
+## Read-Only
+
+<PreviewBox class="p-lg">
+  <div class="rating-demo readonly">
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+    <span class="star filled">★</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<Rating
+  value={5}
+  readOnly
+  accessibilityLabel="5 star rating"
+/>
+```
+
+---
+
+## Rating Display
+
+Compact read-only display with optional review count.
+
+<PreviewBox class="p-lg">
+  <div class="rating-display-row">
+    <div class="rating-display">
+      <span class="star filled">★</span>
+      <span class="display-value">4.5</span>
+    </div>
+    <div class="rating-display">
+      <span class="star filled">★</span>
+      <span class="display-value">4.5</span>
+      <span class="review-count">(128)</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<RatingDisplay value={4.5} />
+<RatingDisplay value={4.5} reviewCount={128} />
+```
+
+---
+
+## API Reference
+
+### Rating Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | **Required** | Current rating (0-max) |
+| `onValueChange` | `(value: number) => void` | - | Change handler |
+| `max` | `number` | `5` | Maximum rating value |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Rating size |
+| `readOnly` | `boolean` | `false` | Read-only mode |
+| `showValue` | `boolean` | `false` | Show numeric value |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Rating'` | Screen reader label |
+
+### RatingDisplay Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number` | **Required** | Rating value |
+| `max` | `number` | `5` | Maximum rating |
+| `size` | `RatingSize` | `'sm'` | Display size |
+| `reviewCount` | `number` | - | Number of reviews |
+| `style` | `ViewStyle` | - | Custom styles |
+
+<style>{`
+  .rating-demo {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .rating-demo.sm {
+    gap: 4px;
+  }
+
+  .rating-demo.lg {
+    gap: 8px;
+  }
+
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .size-label {
+    font-size: 12px;
+    color: #8a8a9a;
+    width: 24px;
+  }
+
+  .star {
+    font-size: 24px;
+    color: #3a3a48;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  .rating-demo.sm .star {
+    font-size: 16px;
+  }
+
+  .rating-demo.lg .star {
+    font-size: 32px;
+  }
+
+  .star.filled {
+    color: #d4af37;
+  }
+
+  .star:hover {
+    transform: scale(1.2);
+  }
+
+  .rating-demo.readonly .star {
+    cursor: default;
+  }
+
+  .rating-demo.readonly .star:hover {
+    transform: none;
+  }
+
+  .rating-with-value {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rating-value {
+    font-size: 14px;
+    color: #8a8a9a;
+  }
+
+  .rating-display-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+  }
+
+  .rating-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .rating-display .star {
+    font-size: 14px;
+    cursor: default;
+  }
+
+  .rating-display .star:hover {
+    transform: none;
+  }
+
+  .display-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8e6e3;
+  }
+
+  .review-count {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .star {
+    color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .star.filled {
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .display-value {
+    color: #2a2520;
+  }
+`}</style>

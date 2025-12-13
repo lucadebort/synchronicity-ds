@@ -1,0 +1,376 @@
+---
+title: TimePicker
+description: Wheel-based time selection
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# TimePicker
+
+TimePicker allows users to select times using a wheel picker interface. Use for scheduling, reminders, or recording time-based data.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="picker-trigger">
+    <span class="picker-value">9:30 AM</span>
+    <span class="picker-icon">🕐</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="picker-trigger">
+    <span class="picker-value">9:30 AM</span>
+    <span class="picker-icon">🕐</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [time, setTime] = useState<Date | null>(null);
+
+<TimePicker
+  value={time}
+  onValueChange={setTime}
+  label="Reading Time"
+/>
+```
+
+---
+
+## With Label
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">REMINDER TIME</span>
+    <div class="picker-trigger">
+      <span class="picker-value">8:00 AM</span>
+      <span class="picker-icon">🕐</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TimePicker
+  value={time}
+  onValueChange={setTime}
+  label="Reminder Time"
+/>
+```
+
+---
+
+## 24-Hour Format
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">TIME (24H)</span>
+    <div class="picker-trigger">
+      <span class="picker-value">14:30</span>
+      <span class="picker-icon">🕐</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TimePicker
+  value={time}
+  onValueChange={setTime}
+  format="24h"
+/>
+```
+
+---
+
+## Minute Step
+
+Set the minute increment (e.g., 5, 10, 15 minutes).
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">APPOINTMENT (15-MIN SLOTS)</span>
+    <div class="picker-trigger">
+      <span class="picker-value">10:15 AM</span>
+      <span class="picker-icon">🕐</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TimePicker
+  value={time}
+  onValueChange={setTime}
+  minuteStep={15}
+  label="Appointment"
+/>
+```
+
+---
+
+## Wheel Interface
+
+The time picker uses a wheel-based selection for intuitive time picking.
+
+<PreviewBox class="p-lg">
+  <div class="time-picker-demo">
+    <div class="picker-header">
+      <button class="header-btn">Cancel</button>
+      <span class="header-title">Select Time</span>
+      <button class="header-btn primary">Done</button>
+    </div>
+    <div class="wheels-container">
+      <div class="wheel">
+        <div class="wheel-item dim">08</div>
+        <div class="wheel-item dim">09</div>
+        <div class="wheel-item selected">10</div>
+        <div class="wheel-item dim">11</div>
+        <div class="wheel-item dim">12</div>
+      </div>
+      <span class="separator">:</span>
+      <div class="wheel">
+        <div class="wheel-item dim">15</div>
+        <div class="wheel-item dim">20</div>
+        <div class="wheel-item selected">30</div>
+        <div class="wheel-item dim">35</div>
+        <div class="wheel-item dim">40</div>
+      </div>
+      <div class="wheel period">
+        <div class="wheel-item selected">AM</div>
+        <div class="wheel-item dim">PM</div>
+      </div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Disabled
+
+<PreviewBox class="p-lg">
+  <div class="picker-container disabled">
+    <span class="picker-label">TIME</span>
+    <div class="picker-trigger">
+      <span class="picker-value">9:30 AM</span>
+      <span class="picker-icon">🕐</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<TimePicker
+  value={time}
+  onValueChange={setTime}
+  disabled
+/>
+```
+
+---
+
+## API Reference
+
+### TimePicker Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `Date \| null` | **Required** | Selected time |
+| `onValueChange` | `(date: Date) => void` | **Required** | Change handler |
+| `format` | `'12h' \| '24h'` | `'12h'` | Time format |
+| `minuteStep` | `number` | `1` | Minute increment |
+| `label` | `string` | - | Label above picker |
+| `placeholder` | `string` | `'Select time'` | Placeholder text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `formatTime` | `(date: Date) => string` | - | Custom format function |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | - | Screen reader label |
+
+<style>{`
+  .picker-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 280px;
+    margin: 0 auto;
+  }
+
+  .picker-container.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .picker-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a8a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .picker-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 16px;
+    background: #1e1e28;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 280px;
+    margin: 0 auto;
+  }
+
+  .picker-value {
+    color: #e8e6e3;
+    font-size: 14px;
+  }
+
+  .picker-icon {
+    font-size: 18px;
+  }
+
+  .time-picker-demo {
+    background: #2a2a38;
+    border-radius: 24px;
+    padding: 16px;
+    width: 320px;
+    margin: 0 auto;
+  }
+
+  .picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #3a3a48;
+    margin-bottom: 16px;
+  }
+
+  .header-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #8a8a9a;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+
+  .header-btn.primary {
+    color: #d4af37;
+  }
+
+  .header-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e8e6e3;
+  }
+
+  .wheels-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 200px;
+    position: relative;
+    padding: 0 16px;
+  }
+
+  .wheel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+  }
+
+  .wheel.period {
+    width: 50px;
+  }
+
+  .wheel-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #e8e6e3;
+    transition: all 0.2s ease;
+  }
+
+  .wheel-item.dim {
+    font-size: 14px;
+    color: #6a6a7a;
+    opacity: 0.5;
+  }
+
+  .wheel-item.selected {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .separator {
+    font-size: 24px;
+    font-weight: 600;
+    color: #e8e6e3;
+    margin: 0 4px;
+  }
+
+  .selection-indicator {
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 1px solid #3a3a48;
+    border-bottom: 1px solid #3a3a48;
+    pointer-events: none;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .picker-trigger {
+    background: #ffffff;
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .picker-value {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .time-picker-demo {
+    background: #ffffff;
+    border: 1px solid #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .picker-header {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .header-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .header-btn.primary {
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .wheel-item {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .wheel-item.dim {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .separator {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .selection-indicator {
+    border-color: #eeebe2;
+  }
+`}</style>

@@ -1,0 +1,327 @@
+---
+title: StepIndicator
+description: Progress indicator for multi-step flows
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# StepIndicator
+
+StepIndicator shows progress through a multi-step process. Use for wizards, onboarding flows, or guided experiences.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="steps-horizontal">
+    <div class="step-item">
+      <div class="step-circle completed">✓</div>
+      <span class="step-label">Question</span>
+    </div>
+    <div class="step-connector filled"></div>
+    <div class="step-item">
+      <div class="step-circle current">2</div>
+      <span class="step-label">Cast</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-circle pending">3</div>
+      <span class="step-label">Interpret</span>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="steps-horizontal">
+    <div class="step-item">
+      <div class="step-circle completed">✓</div>
+      <span class="step-label">Step 1</span>
+    </div>
+    <div class="step-connector filled"></div>
+    <div class="step-item">
+      <div class="step-circle current">2</div>
+      <span class="step-label">Step 2</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-circle pending">3</div>
+      <span class="step-label">Step 3</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<StepIndicator
+  steps={[
+    { key: 'question', label: 'Question' },
+    { key: 'cast', label: 'Cast' },
+    { key: 'interpret', label: 'Interpret' },
+  ]}
+  currentStep={1}
+/>
+```
+
+---
+
+## Vertical Layout
+
+<PreviewBox class="p-lg">
+  <div class="steps-vertical">
+    <div class="step-item-v">
+      <div class="step-left">
+        <div class="step-circle completed">✓</div>
+        <div class="step-connector-v filled"></div>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Ask Your Question</span>
+        <span class="step-description">Focus your mind on what you want to know</span>
+      </div>
+    </div>
+    <div class="step-item-v">
+      <div class="step-left">
+        <div class="step-circle current">2</div>
+        <div class="step-connector-v"></div>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Cast Hexagram</span>
+        <span class="step-description">Throw the coins six times</span>
+      </div>
+    </div>
+    <div class="step-item-v last">
+      <div class="step-left">
+        <div class="step-circle pending">3</div>
+      </div>
+      <div class="step-content">
+        <span class="step-label">Interpretation</span>
+        <span class="step-description">Review the reading and reflect</span>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<StepIndicator
+  variant="vertical"
+  steps={[
+    { key: 'question', label: 'Ask Your Question', description: 'Focus your mind on what you want to know' },
+    { key: 'cast', label: 'Cast Hexagram', description: 'Throw the coins six times' },
+    { key: 'interpret', label: 'Interpretation', description: 'Review the reading and reflect' },
+  ]}
+  currentStep={1}
+/>
+```
+
+---
+
+## Interactive Steps
+
+Allow clicking on completed steps to navigate back.
+
+<PreviewBox class="p-lg">
+  <div class="steps-horizontal">
+    <div class="step-item clickable">
+      <div class="step-circle completed">✓</div>
+      <span class="step-label">Setup</span>
+    </div>
+    <div class="step-connector filled"></div>
+    <div class="step-item clickable">
+      <div class="step-circle completed">✓</div>
+      <span class="step-label">Details</span>
+    </div>
+    <div class="step-connector filled"></div>
+    <div class="step-item">
+      <div class="step-circle current">3</div>
+      <span class="step-label">Confirm</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item">
+      <div class="step-circle pending">4</div>
+      <span class="step-label">Done</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<StepIndicator
+  steps={steps}
+  currentStep={2}
+  onStepPress={(index) => setCurrentStep(index)}
+/>
+```
+
+---
+
+## API Reference
+
+### StepIndicator Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `steps` | `Step[]` | **Required** | Array of steps |
+| `currentStep` | `number` | **Required** | Currently active step index |
+| `variant` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout variant |
+| `onStepPress` | `(index: number) => void` | - | Click handler for completed steps |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | `'Progress indicator'` | Screen reader label |
+
+### Step
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `key` | `string` | Yes | Unique step identifier |
+| `label` | `string` | Yes | Step label text |
+| `description` | `string` | No | Optional description |
+| `completedIcon` | `ReactNode` | No | Custom completed icon |
+
+<style>{`
+  .steps-horizontal {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-item.clickable {
+    cursor: pointer;
+  }
+
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid;
+  }
+
+  .step-circle.completed {
+    border-color: #d4af37;
+    color: #d4af37;
+  }
+
+  .step-circle.current {
+    background: #d4af37;
+    border-color: #d4af37;
+    color: #1a1a24;
+  }
+
+  .step-circle.pending {
+    border-color: #3a3a48;
+    color: #3a3a48;
+  }
+
+  .step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a8a9a;
+    text-align: center;
+    max-width: 80px;
+  }
+
+  .step-connector {
+    width: 60px;
+    height: 2px;
+    background: #3a3a48;
+    margin-top: 15px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .step-connector.filled {
+    background: #d4af37;
+  }
+
+  /* Vertical */
+  .steps-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-item-v {
+    display: flex;
+    min-height: 72px;
+  }
+
+  .step-item-v.last {
+    min-height: auto;
+  }
+
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step-connector-v {
+    width: 2px;
+    flex: 1;
+    background: #3a3a48;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .step-connector-v.filled {
+    background: #d4af37;
+  }
+
+  .step-content {
+    flex: 1;
+    margin-left: 16px;
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .step-description {
+    font-size: 12px;
+    color: #6a6a7a;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .step-circle.completed {
+    border-color: #886a00;
+    color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .step-circle.current {
+    background: #886a00;
+    border-color: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .step-circle.pending {
+    border-color: #eeebe2;
+    color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .step-connector {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .step-connector.filled,
+  .preview-content[data-theme="light"] .step-connector-v.filled {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .step-connector-v {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .step-label {
+    color: #6b5f55;
+  }
+`}</style>

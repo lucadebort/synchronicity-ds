@@ -1,0 +1,362 @@
+---
+title: FloatingActionButton
+description: Primary action button that floats above content
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# FloatingActionButton
+
+FAB promotes the primary action in an interface. Use for the most important action on a screen.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="fab-demo">
+    <div class="fab primary">
+      <span class="fab-icon">+</span>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="fab-demo">
+    <div class="fab primary">
+      <span class="fab-icon">+</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<FloatingActionButton
+  icon={<PlusIcon />}
+  onPress={handleAdd}
+  accessibilityLabel="Add new reading"
+/>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="p-lg">
+  <div class="fab-row">
+    <div class="fab-labeled">
+      <div class="fab primary sm">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">sm</span>
+    </div>
+    <div class="fab-labeled">
+      <div class="fab primary md">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">md</span>
+    </div>
+    <div class="fab-labeled">
+      <div class="fab primary lg">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">lg</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<FloatingActionButton size="sm" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+<FloatingActionButton size="md" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+<FloatingActionButton size="lg" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+```
+
+---
+
+## Variants
+
+<PreviewBox class="p-lg">
+  <div class="fab-row">
+    <div class="fab-labeled">
+      <div class="fab primary">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">primary</span>
+    </div>
+    <div class="fab-labeled">
+      <div class="fab secondary">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">secondary</span>
+    </div>
+    <div class="fab-labeled">
+      <div class="fab surface">
+        <span class="fab-icon">+</span>
+      </div>
+      <span class="fab-label">surface</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<FloatingActionButton variant="primary" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+<FloatingActionButton variant="secondary" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+<FloatingActionButton variant="surface" icon={<PlusIcon />} onPress={handleAdd} accessibilityLabel="Add" />
+```
+
+---
+
+## Extended FAB
+
+FAB with a label for more context.
+
+<PreviewBox class="p-lg">
+  <div class="fab-demo">
+    <div class="fab primary extended">
+      <span class="fab-icon">+</span>
+      <span class="fab-text">New Reading</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<FloatingActionButton
+  icon={<PlusIcon />}
+  label="New Reading"
+  onPress={handleAdd}
+  accessibilityLabel="Add new reading"
+/>
+```
+
+---
+
+## Speed Dial
+
+FAB that expands to reveal additional actions.
+
+<PreviewBox class="p-lg">
+  <div class="speed-dial-demo">
+    <div class="speed-dial-actions">
+      <div class="speed-dial-action">
+        <span class="action-label">Save Reading</span>
+        <div class="action-button">💾</div>
+      </div>
+      <div class="speed-dial-action">
+        <span class="action-label">Share</span>
+        <div class="action-button">🔗</div>
+      </div>
+      <div class="speed-dial-action">
+        <span class="action-label">New Cast</span>
+        <div class="action-button">✨</div>
+      </div>
+    </div>
+    <div class="fab primary open">
+      <span class="fab-icon rotated">+</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<SpeedDial
+  icon={<PlusIcon />}
+  actions={[
+    { icon: <SaveIcon />, label: 'Save Reading', onPress: handleSave },
+    { icon: <ShareIcon />, label: 'Share', onPress: handleShare },
+    { icon: <CastIcon />, label: 'New Cast', onPress: handleCast },
+  ]}
+  accessibilityLabel="Actions menu"
+/>
+```
+
+---
+
+## API Reference
+
+### FloatingActionButton Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | **Required** | Icon to display |
+| `label` | `string` | - | Label for extended FAB |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+| `variant` | `'primary' \| 'secondary' \| 'surface'` | `'primary'` | Button variant |
+| `position` | `'bottom-right' \| 'bottom-left' \| 'bottom-center'` | `'bottom-right'` | Screen position |
+| `onPress` | `() => void` | **Required** | Press handler |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | **Required** | Screen reader label |
+
+### SpeedDial Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `ReactNode` | **Required** | Main FAB icon when closed |
+| `openIcon` | `ReactNode` | - | Icon when open |
+| `actions` | `SpeedDialAction[]` | **Required** | Speed dial actions |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state handler |
+| `position` | `FABPosition` | `'bottom-right'` | FAB position |
+| `accessibilityLabel` | `string` | **Required** | Screen reader label |
+
+<style>{`
+  .fab-demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+  }
+
+  .fab-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .fab-labeled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fab-label {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+  }
+
+  .fab:hover {
+    transform: scale(1.05);
+  }
+
+  .fab.sm {
+    width: 40px;
+    height: 40px;
+  }
+
+  .fab.md, .fab:not(.sm):not(.lg):not(.extended) {
+    width: 56px;
+    height: 56px;
+  }
+
+  .fab.lg {
+    width: 72px;
+    height: 72px;
+  }
+
+  .fab.extended {
+    width: auto;
+    border-radius: 28px;
+    padding: 0 20px;
+    height: 56px;
+    gap: 8px;
+  }
+
+  .fab.primary {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .fab.secondary {
+    background: #2a2a38;
+    color: #d4af37;
+  }
+
+  .fab.surface {
+    background: #1e1e28;
+    color: #e8e6e3;
+  }
+
+  .fab-icon {
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .fab.open .fab-icon.rotated {
+    transform: rotate(45deg);
+  }
+
+  .fab-text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .speed-dial-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .speed-dial-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  .speed-dial-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .action-label {
+    background: #2a2a38;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #e8e6e3;
+  }
+
+  .action-button {
+    width: 40px;
+    height: 40px;
+    background: #2a2a38;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .fab.primary {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .fab.secondary {
+    background: #ffffff;
+    color: #886a00;
+    border: 1px solid #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .fab.surface {
+    background: #f5f3ee;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .action-label,
+  .preview-content[data-theme="light"] .action-button {
+    background: #ffffff;
+    color: #2a2520;
+    border: 1px solid #eeebe2;
+  }
+`}</style>

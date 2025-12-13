@@ -1,0 +1,392 @@
+---
+title: DatePicker
+description: Calendar-based date selection
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# DatePicker
+
+DatePicker allows users to select dates from a calendar interface. Use for scheduling, filtering by date, or recording timestamps.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="picker-trigger">
+    <span class="picker-value">December 13, 2025</span>
+    <span class="picker-icon">📅</span>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="picker-trigger">
+    <span class="picker-value">December 13, 2025</span>
+    <span class="picker-icon">📅</span>
+  </div>
+</PreviewBox>
+
+```tsx
+const [date, setDate] = useState<Date | null>(null);
+
+<DatePicker
+  value={date}
+  onValueChange={setDate}
+  label="Reading Date"
+/>
+```
+
+---
+
+## With Label
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">READING DATE</span>
+    <div class="picker-trigger">
+      <span class="picker-value">December 13, 2025</span>
+      <span class="picker-icon">📅</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<DatePicker
+  value={date}
+  onValueChange={setDate}
+  label="Reading Date"
+/>
+```
+
+---
+
+## Placeholder
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">BIRTH DATE</span>
+    <div class="picker-trigger">
+      <span class="picker-placeholder">Select date</span>
+      <span class="picker-icon">📅</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<DatePicker
+  value={null}
+  onValueChange={setDate}
+  label="Birth Date"
+  placeholder="Select date"
+/>
+```
+
+---
+
+## Min/Max Dates
+
+<PreviewBox class="p-lg">
+  <div class="picker-container">
+    <span class="picker-label">APPOINTMENT (NEXT 30 DAYS)</span>
+    <div class="picker-trigger">
+      <span class="picker-placeholder">Select date</span>
+      <span class="picker-icon">📅</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<DatePicker
+  value={date}
+  onValueChange={setDate}
+  label="Appointment"
+  minDate={new Date()}
+  maxDate={addDays(new Date(), 30)}
+/>
+```
+
+---
+
+## Calendar Interface
+
+The calendar modal shows a full month view with navigation.
+
+<PreviewBox class="p-lg">
+  <div class="calendar-demo">
+    <div class="calendar-header">
+      <button class="nav-btn">‹</button>
+      <span class="month-title">December 2025</span>
+      <button class="nav-btn">›</button>
+    </div>
+    <div class="calendar-days-header">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+    <div class="calendar-grid">
+      <span class="day other">30</span>
+      <span class="day">1</span>
+      <span class="day">2</span>
+      <span class="day">3</span>
+      <span class="day">4</span>
+      <span class="day">5</span>
+      <span class="day">6</span>
+      <span class="day">7</span>
+      <span class="day">8</span>
+      <span class="day">9</span>
+      <span class="day">10</span>
+      <span class="day">11</span>
+      <span class="day">12</span>
+      <span class="day today">13</span>
+      <span class="day selected">14</span>
+      <span class="day">15</span>
+      <span class="day">16</span>
+      <span class="day">17</span>
+      <span class="day">18</span>
+      <span class="day">19</span>
+      <span class="day">20</span>
+    </div>
+    <div class="calendar-actions">
+      <button class="action-btn">Cancel</button>
+      <button class="action-btn primary">Today</button>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Disabled
+
+<PreviewBox class="p-lg">
+  <div class="picker-container disabled">
+    <span class="picker-label">DATE</span>
+    <div class="picker-trigger">
+      <span class="picker-value">December 13, 2025</span>
+      <span class="picker-icon">📅</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<DatePicker
+  value={date}
+  onValueChange={setDate}
+  disabled
+/>
+```
+
+---
+
+## API Reference
+
+### DatePicker Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `Date \| null` | **Required** | Selected date |
+| `onValueChange` | `(date: Date) => void` | **Required** | Change handler |
+| `minDate` | `Date` | - | Minimum selectable date |
+| `maxDate` | `Date` | - | Maximum selectable date |
+| `label` | `string` | - | Label above picker |
+| `placeholder` | `string` | `'Select date'` | Placeholder text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `formatDate` | `(date: Date) => string` | - | Custom format function |
+| `style` | `ViewStyle` | - | Custom styles |
+| `accessibilityLabel` | `string` | - | Screen reader label |
+
+<style>{`
+  .picker-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 280px;
+    margin: 0 auto;
+  }
+
+  .picker-container.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .picker-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a8a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .picker-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 16px;
+    background: #1e1e28;
+    border: 1px solid #3a3a48;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 280px;
+    margin: 0 auto;
+  }
+
+  .picker-value {
+    color: #e8e6e3;
+    font-size: 14px;
+  }
+
+  .picker-placeholder {
+    color: #8a8a9a;
+    font-size: 14px;
+  }
+
+  .picker-icon {
+    font-size: 18px;
+  }
+
+  .calendar-demo {
+    background: #2a2a38;
+    border-radius: 24px;
+    padding: 16px;
+    width: 320px;
+    margin: 0 auto;
+  }
+
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #3a3a48;
+    margin-bottom: 12px;
+  }
+
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: #e8e6e3;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .month-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e8e6e3;
+  }
+
+  .calendar-days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    padding: 8px 0;
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #e8e6e3;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .day:hover {
+    background: rgba(212, 175, 55, 0.1);
+  }
+
+  .day.other {
+    opacity: 0.3;
+  }
+
+  .day.today {
+    border: 1px solid #d4af37;
+  }
+
+  .day.selected {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .calendar-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #3a3a48;
+    margin-top: 12px;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #8a8a9a;
+    cursor: pointer;
+    padding: 8px 12px;
+  }
+
+  .action-btn.primary {
+    color: #d4af37;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .picker-trigger {
+    background: #ffffff;
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .picker-value {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .calendar-demo {
+    background: #ffffff;
+    border: 1px solid #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .calendar-header {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .nav-btn,
+  .preview-content[data-theme="light"] .month-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .day {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .day.today {
+    border-color: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .day.selected {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .calendar-actions {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .action-btn.primary {
+    color: #886a00;
+  }
+`}</style>
