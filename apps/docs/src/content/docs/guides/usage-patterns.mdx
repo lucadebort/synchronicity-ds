@@ -1,0 +1,507 @@
+---
+title: Usage Patterns
+description: Common patterns and best practices for using Synchronicity components
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Usage Patterns
+
+This guide covers common patterns and best practices for building applications with the Synchronicity Design System.
+
+---
+
+## Theming
+
+### Using the Theme Provider
+
+Wrap your app with `ThemeProvider` to enable theming across all components:
+
+```tsx
+import { ThemeProvider } from '@synchronicity/react-native';
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <YourApp />
+    </ThemeProvider>
+  );
+}
+```
+
+### Accessing Theme Values
+
+Use the provided hooks to access theme values in your components:
+
+```tsx
+import { useColors, useThemeObject, useTheme } from '@synchronicity/react-native';
+
+function MyComponent() {
+  // Get just the color palette
+  const colors = useColors();
+
+  // Get the full theme object
+  const theme = useThemeObject();
+
+  // Get theme mode and setter
+  const { mode, setMode } = useTheme();
+
+  return (
+    <View style={{ backgroundColor: colors['background'] }}>
+      <Text style={theme.typography['type-body-md']}>
+        Current theme: {mode}
+      </Text>
+    </View>
+  );
+}
+```
+
+### Theme Modes
+
+The design system supports three theme modes:
+
+| Mode | Description |
+|------|-------------|
+| `light` | Light background with dark text |
+| `dark` | Dark background with light text |
+| `oled` | Pure black background for OLED displays |
+
+```tsx
+const { setMode } = useTheme();
+
+// Switch themes programmatically
+setMode('dark');
+setMode('light');
+setMode('oled');
+```
+
+---
+
+## Form Patterns
+
+### Controlled Inputs
+
+All form components follow the controlled component pattern:
+
+```tsx
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(false);
+
+  return (
+    <View>
+      <Input
+        label="Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      <Input
+        label="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <Checkbox
+        label="Remember me"
+        checked={remember}
+        onCheckedChange={setRemember}
+      />
+
+      <Button onPress={handleSubmit}>
+        Sign In
+      </Button>
+    </View>
+  );
+}
+```
+
+### Form Validation
+
+Show validation states using the `error` prop:
+
+```tsx
+function ValidatedForm() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const validate = (value: string) => {
+    if (!value.includes('@')) {
+      setError('Please enter a valid email');
+    } else {
+      setError('');
+    }
+  };
+
+  return (
+    <Input
+      label="Email"
+      value={email}
+      onChangeText={(value) => {
+        setEmail(value);
+        validate(value);
+      }}
+      error={error}
+    />
+  );
+}
+```
+
+### Form Groups
+
+Group related inputs with consistent spacing:
+
+```tsx
+<View style={{ gap: 16 }}>
+  <Input label="First Name" value={firstName} onChangeText={setFirstName} />
+  <Input label="Last Name" value={lastName} onChangeText={setLastName} />
+  <Divider />
+  <Input label="Email" value={email} onChangeText={setEmail} />
+</View>
+```
+
+---
+
+## Loading States
+
+### Button Loading
+
+Show loading state in buttons during async operations:
+
+```tsx
+function SubmitButton() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePress = async () => {
+    setIsLoading(true);
+    try {
+      await submitForm();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Button onPress={handlePress} loading={isLoading}>
+      Submit
+    </Button>
+  );
+}
+```
+
+### Content Loading with Skeleton
+
+Use skeletons while content is loading:
+
+```tsx
+function ReadingCard({ loading, reading }) {
+  if (loading) {
+    return (
+      <Card>
+        <SkeletonGroup>
+          <Skeleton width={200} height={24} />
+          <Skeleton width="100%" height={16} />
+          <Skeleton width="80%" height={16} />
+        </SkeletonGroup>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <Text>{reading.title}</Text>
+      <Text>{reading.description}</Text>
+    </Card>
+  );
+}
+```
+
+### Full Screen Loading
+
+Use `LoadingOverlay` for full-screen loading states:
+
+```tsx
+function DataScreen() {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <LoadingOverlay visible={loading} message="Loading readings..." />
+
+      {/* Your content */}
+    </View>
+  );
+}
+```
+
+---
+
+## Feedback Patterns
+
+### Toast Notifications
+
+Use toasts for non-blocking feedback:
+
+```tsx
+import { ToastProvider, useToast } from '@synchronicity/react-native';
+
+function App() {
+  return (
+    <ToastProvider>
+      <YourApp />
+    </ToastProvider>
+  );
+}
+
+function SaveButton() {
+  const { showToast } = useToast();
+
+  const handleSave = async () => {
+    try {
+      await saveReading();
+      showToast({
+        message: 'Reading saved successfully',
+        variant: 'success',
+      });
+    } catch (error) {
+      showToast({
+        message: 'Failed to save reading',
+        variant: 'error',
+      });
+    }
+  };
+
+  return <Button onPress={handleSave}>Save</Button>;
+}
+```
+
+### Confirmation Dialogs
+
+Use `ConfirmModal` for destructive actions:
+
+```tsx
+function DeleteButton({ onDelete }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  return (
+    <>
+      <Button variant="destructive" onPress={() => setShowConfirm(true)}>
+        Delete
+      </Button>
+
+      <ConfirmModal
+        visible={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={onDelete}
+        title="Delete Reading?"
+        message="This action cannot be undone."
+        confirmText="Delete"
+        destructive
+      />
+    </>
+  );
+}
+```
+
+### Inline Alerts
+
+Use alerts for contextual messages:
+
+```tsx
+<Alert
+  variant="warning"
+  title="Unsaved Changes"
+  message="You have unsaved changes. Save before leaving?"
+  action={{ label: 'Save Now', onPress: handleSave }}
+/>
+```
+
+---
+
+## Navigation Patterns
+
+### Tab Navigation
+
+Use `Tabs` for content switching within a screen:
+
+```tsx
+function HexagramDetail() {
+  const [activeTab, setActiveTab] = useState('meaning');
+
+  return (
+    <View>
+      <Tabs
+        tabs={[
+          { key: 'meaning', label: 'Meaning' },
+          { key: 'lines', label: 'Lines', badge: 6 },
+          { key: 'notes', label: 'Notes' },
+        ]}
+        value={activeTab}
+        onValueChange={setActiveTab}
+      />
+
+      <TabPanel value="meaning" selectedValue={activeTab}>
+        <MeaningContent />
+      </TabPanel>
+
+      <TabPanel value="lines" selectedValue={activeTab}>
+        <LinesContent />
+      </TabPanel>
+
+      <TabPanel value="notes" selectedValue={activeTab}>
+        <NotesContent />
+      </TabPanel>
+    </View>
+  );
+}
+```
+
+### Multi-Step Flows
+
+Use `StepIndicator` for wizards:
+
+```tsx
+function CastingWizard() {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = [
+    { key: 'question', label: 'Ask Question' },
+    { key: 'cast', label: 'Cast Hexagram' },
+    { key: 'interpret', label: 'Interpretation' },
+  ];
+
+  return (
+    <View>
+      <StepIndicator
+        steps={steps}
+        currentStep={currentStep}
+        onStepPress={setCurrentStep}
+      />
+
+      {currentStep === 0 && <QuestionStep onNext={() => setCurrentStep(1)} />}
+      {currentStep === 1 && <CastStep onNext={() => setCurrentStep(2)} />}
+      {currentStep === 2 && <InterpretStep />}
+    </View>
+  );
+}
+```
+
+---
+
+## List Patterns
+
+### Basic Lists
+
+```tsx
+<List>
+  <ListSection header="Recent Readings">
+    <ListItem
+      title="Hexagram 1 - The Creative"
+      subtitle="Cast on December 13, 2025"
+      trailing={<ChevronRightIcon />}
+      onPress={() => navigate('reading', { id: 1 })}
+    />
+    <ListItem
+      title="Hexagram 11 - Peace"
+      subtitle="Cast on December 12, 2025"
+      trailing={<ChevronRightIcon />}
+      onPress={() => navigate('reading', { id: 2 })}
+    />
+  </ListSection>
+</List>
+```
+
+### Swipeable Actions
+
+Combine with react-native-gesture-handler for swipe actions:
+
+```tsx
+import { Swipeable } from 'react-native-gesture-handler';
+
+function SwipeableListItem({ reading, onDelete }) {
+  const renderRightActions = () => (
+    <Pressable onPress={onDelete} style={styles.deleteAction}>
+      <Text>Delete</Text>
+    </Pressable>
+  );
+
+  return (
+    <Swipeable renderRightActions={renderRightActions}>
+      <ListItem
+        title={reading.title}
+        subtitle={reading.date}
+      />
+    </Swipeable>
+  );
+}
+```
+
+---
+
+## Accessibility
+
+### Labels and Hints
+
+Always provide accessibility labels:
+
+```tsx
+<IconButton
+  icon={<MenuIcon />}
+  accessibilityLabel="Open menu"
+  accessibilityHint="Opens the navigation menu"
+  onPress={openMenu}
+/>
+
+<Switch
+  value={darkMode}
+  onValueChange={setDarkMode}
+  accessibilityLabel="Dark mode"
+  accessibilityState={{ checked: darkMode }}
+/>
+```
+
+### Grouping Related Elements
+
+```tsx
+<View accessibilityRole="form" accessibilityLabel="Login form">
+  <Input label="Email" accessibilityLabel="Email address" />
+  <Input label="Password" accessibilityLabel="Password" />
+  <Button accessibilityLabel="Sign in">Sign In</Button>
+</View>
+```
+
+---
+
+## Performance Tips
+
+### Memoize Callbacks
+
+```tsx
+const handlePress = useCallback(() => {
+  // Handle press
+}, [dependency]);
+
+<Button onPress={handlePress}>Action</Button>
+```
+
+### Use Native Driver
+
+All animations in Synchronicity use `useNativeDriver: true` where possible for optimal performance.
+
+### Lazy Load Heavy Components
+
+```tsx
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
+
+function Screen() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <HeavyComponent />
+    </Suspense>
+  );
+}
+```
