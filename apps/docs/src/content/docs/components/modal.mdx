@@ -1,0 +1,362 @@
+---
+title: Modal
+description: Dialog overlay for focused interactions
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Modal
+
+Modal presents content in a focused overlay, blocking interaction with the underlying page. Use for confirmations, forms, or important decisions.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="modal-demo">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">Confirm Action</span>
+        <button class="close-btn">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary">Cancel</button>
+        <button class="modal-btn primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="modal-demo">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">Modal Title</span>
+        <button class="close-btn">×</button>
+      </div>
+      <div class="modal-body">
+        <p>Modal content goes here. This can be any React component.</p>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Modal
+  visible={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Modal Title"
+>
+  <Text>Modal content goes here.</Text>
+</Modal>
+```
+
+---
+
+## Sizes
+
+<PreviewBox class="flex-col gap-lg p-lg">
+  <div class="size-row">
+    <span class="size-label">sm</span>
+    <div class="modal-content sm">
+      <div class="modal-header">
+        <span class="modal-title">Small Modal</span>
+      </div>
+      <div class="modal-body compact">
+        <p>Compact content</p>
+      </div>
+    </div>
+  </div>
+  <div class="size-row">
+    <span class="size-label">md</span>
+    <div class="modal-content md">
+      <div class="modal-header">
+        <span class="modal-title">Medium Modal</span>
+      </div>
+      <div class="modal-body compact">
+        <p>Standard content width</p>
+      </div>
+    </div>
+  </div>
+  <div class="size-row">
+    <span class="size-label">lg</span>
+    <div class="modal-content lg">
+      <div class="modal-header">
+        <span class="modal-title">Large Modal</span>
+      </div>
+      <div class="modal-body compact">
+        <p>More space for complex content</p>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Modal size="sm" visible={isOpen} onClose={handleClose} title="Small">...</Modal>
+<Modal size="md" visible={isOpen} onClose={handleClose} title="Medium">...</Modal>
+<Modal size="lg" visible={isOpen} onClose={handleClose} title="Large">...</Modal>
+```
+
+---
+
+## With Footer
+
+<PreviewBox class="p-lg">
+  <div class="modal-content md">
+    <div class="modal-header">
+      <span class="modal-title">Save Reading</span>
+      <button class="close-btn">×</button>
+    </div>
+    <div class="modal-body">
+      <p>Do you want to save this reading to your journal?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary">Discard</button>
+      <button class="modal-btn primary">Save</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Modal
+  visible={isOpen}
+  onClose={handleClose}
+  title="Save Reading"
+  footer={
+    <View style={styles.footer}>
+      <Button variant="secondary" onPress={handleDiscard}>Discard</Button>
+      <Button onPress={handleSave}>Save</Button>
+    </View>
+  }
+>
+  <Text>Do you want to save this reading?</Text>
+</Modal>
+```
+
+---
+
+## Confirm Modal
+
+Pre-built confirmation dialog.
+
+<PreviewBox class="p-lg">
+  <div class="modal-content sm">
+    <div class="modal-header centered">
+      <span class="modal-title">Delete Reading?</span>
+    </div>
+    <div class="modal-body centered">
+      <p>This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn secondary">Cancel</button>
+      <button class="modal-btn danger">Delete</button>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ConfirmModal
+  visible={showConfirm}
+  onClose={() => setShowConfirm(false)}
+  onConfirm={handleDelete}
+  title="Delete Reading?"
+  message="This action cannot be undone."
+  confirmText="Delete"
+  destructive
+/>
+```
+
+---
+
+## API Reference
+
+### Modal Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `visible` | `boolean` | **Required** | Whether visible |
+| `onClose` | `() => void` | **Required** | Close handler |
+| `title` | `string` | - | Modal title |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Modal size |
+| `closeOnBackdrop` | `boolean` | `true` | Close on backdrop press |
+| `showCloseButton` | `boolean` | `true` | Show close button |
+| `children` | `ReactNode` | **Required** | Modal content |
+| `footer` | `ReactNode` | - | Footer content |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ConfirmModal Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `visible` | `boolean` | **Required** | Whether visible |
+| `onClose` | `() => void` | **Required** | Close handler |
+| `onConfirm` | `() => void` | **Required** | Confirm handler |
+| `title` | `string` | **Required** | Dialog title |
+| `message` | `string` | **Required** | Dialog message |
+| `cancelText` | `string` | `'Cancel'` | Cancel button text |
+| `confirmText` | `string` | `'Confirm'` | Confirm button text |
+| `destructive` | `boolean` | `false` | Destructive action |
+
+<style>{`
+  .modal-demo {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: -20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+  }
+
+  .modal-content {
+    position: relative;
+    background: #2a2a38;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden;
+  }
+
+  .modal-content.sm {
+    max-width: 200px;
+  }
+
+  .modal-content.md {
+    max-width: 280px;
+  }
+
+  .modal-content.lg {
+    max-width: 360px;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #3a3a48;
+  }
+
+  .modal-header.centered {
+    justify-content: center;
+  }
+
+  .modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e8e6e3;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #8a8a9a;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-body.compact {
+    padding: 16px;
+  }
+
+  .modal-body.centered {
+    text-align: center;
+  }
+
+  .modal-body p {
+    color: #8a8a9a;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .modal-footer {
+    display: flex;
+    gap: 12px;
+    padding: 16px 20px;
+    border-top: 1px solid #3a3a48;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .modal-btn.primary {
+    background: #d4af37;
+    color: #1a1a24;
+  }
+
+  .modal-btn.secondary {
+    background: #1e1e28;
+    color: #8a8a9a;
+  }
+
+  .modal-btn.danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .size-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .size-label {
+    font-size: 12px;
+    color: #8a8a9a;
+    width: 24px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .modal-content {
+    background: #ffffff;
+  }
+
+  .preview-content[data-theme="light"] .modal-header,
+  .preview-content[data-theme="light"] .modal-footer {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .modal-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .modal-body p {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .modal-btn.primary {
+    background: #886a00;
+    color: white;
+  }
+
+  .preview-content[data-theme="light"] .modal-btn.secondary {
+    background: #f5f3ee;
+    color: #6b5f55;
+  }
+`}</style>

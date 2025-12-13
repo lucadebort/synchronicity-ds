@@ -1,0 +1,290 @@
+---
+title: Banner
+description: Inline notification banners
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Banner
+
+Banner displays important messages inline with content. Use for announcements, status updates, or contextual information.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="banner info">
+    <span class="banner-icon">ℹ️</span>
+    <div class="banner-content">
+      <span class="banner-title">New Feature Available</span>
+      <span class="banner-message">Try our new daily reading feature!</span>
+    </div>
+    <button class="banner-dismiss">×</button>
+  </div>
+</PreviewBox>
+
+---
+
+## Variants
+
+<PreviewBox class="flex-col gap-md p-lg">
+  <div class="banner info">
+    <span class="banner-icon">ℹ️</span>
+    <div class="banner-content">
+      <span class="banner-message">This is an info message.</span>
+    </div>
+  </div>
+  <div class="banner success">
+    <span class="banner-icon">✓</span>
+    <div class="banner-content">
+      <span class="banner-message">This is a success message.</span>
+    </div>
+  </div>
+  <div class="banner warning">
+    <span class="banner-icon">⚠️</span>
+    <div class="banner-content">
+      <span class="banner-message">This is a warning message.</span>
+    </div>
+  </div>
+  <div class="banner error">
+    <span class="banner-icon">✕</span>
+    <div class="banner-content">
+      <span class="banner-message">This is an error message.</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Banner variant="info" message="This is an info message." />
+<Banner variant="success" message="This is a success message." />
+<Banner variant="warning" message="This is a warning message." />
+<Banner variant="error" message="This is an error message." />
+```
+
+---
+
+## With Title
+
+<PreviewBox class="p-lg">
+  <div class="banner success">
+    <span class="banner-icon">✓</span>
+    <div class="banner-content">
+      <span class="banner-title">Reading Saved</span>
+      <span class="banner-message">Your reading has been saved to your journal.</span>
+    </div>
+    <button class="banner-dismiss">×</button>
+  </div>
+</PreviewBox>
+
+```tsx
+<Banner
+  variant="success"
+  title="Reading Saved"
+  message="Your reading has been saved to your journal."
+  onDismiss={() => setShowBanner(false)}
+/>
+```
+
+---
+
+## With Action
+
+<PreviewBox class="p-lg">
+  <div class="banner info">
+    <span class="banner-icon">ℹ️</span>
+    <div class="banner-content">
+      <span class="banner-title">Update Available</span>
+      <span class="banner-message">A new version is available with new hexagrams.</span>
+      <button class="banner-action">Update Now</button>
+    </div>
+    <button class="banner-dismiss">×</button>
+  </div>
+</PreviewBox>
+
+```tsx
+<Banner
+  variant="info"
+  title="Update Available"
+  message="A new version is available with new hexagrams."
+  action={{ label: 'Update Now', onPress: handleUpdate }}
+  onDismiss={() => setShowBanner(false)}
+/>
+```
+
+---
+
+## Announcement Banner
+
+Full-width announcement strip.
+
+<PreviewBox class="p-lg">
+  <div class="announcement-banner">
+    <span class="announcement-text">New: Daily hexagram readings are now available!</span>
+    <button class="announcement-dismiss">×</button>
+  </div>
+</PreviewBox>
+
+```tsx
+<AnnouncementBanner
+  message="New: Daily hexagram readings are now available!"
+  onPress={() => navigate('/daily')}
+  onDismiss={() => setShowAnnouncement(false)}
+/>
+```
+
+---
+
+## API Reference
+
+### Banner Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | **Required** | Banner message |
+| `title` | `string` | - | Banner title |
+| `variant` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Banner variant |
+| `icon` | `ReactNode` | - | Custom icon |
+| `onDismiss` | `() => void` | - | Dismiss handler |
+| `action` | `{ label: string; onPress: () => void }` | - | Action button |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### AnnouncementBanner Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `message` | `string` | **Required** | Announcement text |
+| `onPress` | `() => void` | - | Press handler |
+| `onDismiss` | `() => void` | - | Dismiss handler |
+| `style` | `ViewStyle` | - | Custom styles |
+
+<style>{`
+  .banner {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border-left: 4px solid;
+    border-radius: 8px;
+    gap: 12px;
+  }
+
+  .banner.info {
+    background: rgba(59, 130, 246, 0.15);
+    border-left-color: #3b82f6;
+  }
+
+  .banner.success {
+    background: rgba(34, 197, 94, 0.15);
+    border-left-color: #22c55e;
+  }
+
+  .banner.warning {
+    background: rgba(245, 158, 11, 0.15);
+    border-left-color: #f59e0b;
+  }
+
+  .banner.error {
+    background: rgba(239, 68, 68, 0.15);
+    border-left-color: #ef4444;
+  }
+
+  .banner-icon {
+    font-size: 16px;
+    width: 24px;
+    text-align: center;
+  }
+
+  .banner.info .banner-icon { color: #3b82f6; }
+  .banner.success .banner-icon { color: #22c55e; }
+  .banner.warning .banner-icon { color: #f59e0b; }
+  .banner.error .banner-icon { color: #ef4444; }
+
+  .banner-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .banner-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e8e6e3;
+  }
+
+  .banner-message {
+    font-size: 13px;
+    color: #8a8a9a;
+    line-height: 1.4;
+  }
+
+  .banner-action {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .banner.info .banner-action { color: #3b82f6; }
+  .banner.success .banner-action { color: #22c55e; }
+  .banner.warning .banner-action { color: #f59e0b; }
+  .banner.error .banner-action { color: #ef4444; }
+
+  .banner-dismiss {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #8a8a9a;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .announcement-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #d4af37;
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  .announcement-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a24;
+    text-align: center;
+    flex: 1;
+  }
+
+  .announcement-dismiss {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a24;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .banner-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .banner-message {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .announcement-banner {
+    background: #886a00;
+  }
+
+  .preview-content[data-theme="light"] .announcement-text,
+  .preview-content[data-theme="light"] .announcement-dismiss {
+    color: white;
+  }
+`}</style>

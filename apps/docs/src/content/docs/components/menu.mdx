@@ -1,0 +1,340 @@
+---
+title: Menu
+description: Dropdown menu with options
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Menu
+
+Menu displays a list of actions or options in a dropdown. Use for overflow actions, navigation, or contextual options.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="menu-demo">
+    <div class="menu-content">
+      <div class="menu-item">
+        <span class="menu-icon">✏️</span>
+        <span class="menu-label">Edit</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">📋</span>
+        <span class="menu-label">Duplicate</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">🔗</span>
+        <span class="menu-label">Share</span>
+      </div>
+      <div class="menu-divider"></div>
+      <div class="menu-item destructive">
+        <span class="menu-icon">🗑️</span>
+        <span class="menu-label">Delete</span>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="p-lg">
+  <div class="menu-trigger-demo">
+    <button class="trigger-btn">⋮</button>
+    <div class="menu-content positioned">
+      <div class="menu-item">Edit</div>
+      <div class="menu-item">Share</div>
+      <div class="menu-item destructive">Delete</div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Menu
+  trigger={<IconButton icon={<MoreIcon />} accessibilityLabel="Menu" />}
+  items={[
+    { key: 'edit', label: 'Edit' },
+    { key: 'share', label: 'Share' },
+    { key: 'delete', label: 'Delete', destructive: true },
+  ]}
+  onSelect={(key) => handleAction(key)}
+/>
+```
+
+---
+
+## With Icons
+
+<PreviewBox class="p-lg">
+  <div class="menu-content">
+    <div class="menu-item">
+      <span class="menu-icon">✏️</span>
+      <span class="menu-label">Edit Reading</span>
+    </div>
+    <div class="menu-item">
+      <span class="menu-icon">📋</span>
+      <span class="menu-label">Copy to Clipboard</span>
+    </div>
+    <div class="menu-item">
+      <span class="menu-icon">⭐</span>
+      <span class="menu-label">Add to Favorites</span>
+    </div>
+    <div class="menu-item">
+      <span class="menu-icon">📤</span>
+      <span class="menu-label">Export</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Menu
+  trigger={<IconButton icon={<MoreIcon />} accessibilityLabel="Options" />}
+  items={[
+    { key: 'edit', label: 'Edit Reading', icon: <EditIcon /> },
+    { key: 'copy', label: 'Copy to Clipboard', icon: <CopyIcon /> },
+    { key: 'favorite', label: 'Add to Favorites', icon: <StarIcon /> },
+    { key: 'export', label: 'Export', icon: <ExportIcon /> },
+  ]}
+  onSelect={handleSelect}
+/>
+```
+
+---
+
+## With Dividers
+
+<PreviewBox class="p-lg">
+  <div class="menu-content">
+    <div class="menu-item">View Details</div>
+    <div class="menu-item">Edit</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item">Move to Folder</div>
+    <div class="menu-item">Archive</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item destructive">Delete</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Menu
+  items={[
+    { key: 'view', label: 'View Details' },
+    { key: 'edit', label: 'Edit', divider: true },
+    { key: 'move', label: 'Move to Folder' },
+    { key: 'archive', label: 'Archive', divider: true },
+    { key: 'delete', label: 'Delete', destructive: true },
+  ]}
+  onSelect={handleSelect}
+  trigger={<Button>Actions</Button>}
+/>
+```
+
+---
+
+## Disabled Items
+
+<PreviewBox class="p-lg">
+  <div class="menu-content">
+    <div class="menu-item">Open</div>
+    <div class="menu-item disabled">Edit (Locked)</div>
+    <div class="menu-item">Share</div>
+    <div class="menu-item disabled">Delete (Protected)</div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Menu
+  items={[
+    { key: 'open', label: 'Open' },
+    { key: 'edit', label: 'Edit (Locked)', disabled: true },
+    { key: 'share', label: 'Share' },
+    { key: 'delete', label: 'Delete (Protected)', disabled: true },
+  ]}
+  onSelect={handleSelect}
+  trigger={<Button>Options</Button>}
+/>
+```
+
+---
+
+## Context Menu
+
+Long-press to trigger.
+
+<PreviewBox class="p-lg">
+  <div class="context-menu-demo">
+    <div class="context-target">
+      <span>Long press this card</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<ContextMenu
+  items={[
+    { key: 'edit', label: 'Edit' },
+    { key: 'share', label: 'Share' },
+    { key: 'delete', label: 'Delete', destructive: true },
+  ]}
+  onSelect={handleSelect}
+>
+  <Card>
+    <Text>Long press for options</Text>
+  </Card>
+</ContextMenu>
+```
+
+---
+
+## API Reference
+
+### Menu Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `MenuItem[]` | **Required** | Menu items |
+| `trigger` | `ReactNode` | **Required** | Trigger element |
+| `onSelect` | `(key: string) => void` | **Required** | Selection handler |
+| `placement` | `'bottom-start' \| 'bottom-end' \| 'top-start' \| 'top-end'` | `'bottom-end'` | Menu placement |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### MenuItem
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `key` | `string` | Yes | Unique item identifier |
+| `label` | `string` | Yes | Item label |
+| `icon` | `ReactNode` | No | Item icon |
+| `disabled` | `boolean` | No | Disabled state |
+| `destructive` | `boolean` | No | Destructive styling |
+| `divider` | `boolean` | No | Show divider after |
+
+### ContextMenu Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `MenuItem[]` | **Required** | Menu items |
+| `onSelect` | `(key: string) => void` | **Required** | Selection handler |
+| `children` | `ReactNode` | **Required** | Long-pressable content |
+| `delayMs` | `number` | `500` | Long press delay |
+
+<style>{`
+  .menu-demo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .menu-content {
+    background: #2a2a38;
+    border-radius: 12px;
+    padding: 8px 0;
+    min-width: 180px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .menu-content.positioned {
+    position: absolute;
+    top: 40px;
+    right: 0;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #e8e6e3;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .menu-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+  }
+
+  .menu-item.destructive {
+    color: #ef4444;
+  }
+
+  .menu-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .menu-icon {
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+  }
+
+  .menu-label {
+    flex: 1;
+  }
+
+  .menu-divider {
+    height: 1px;
+    background: #3a3a48;
+    margin: 4px 16px;
+  }
+
+  .menu-trigger-demo {
+    position: relative;
+    display: inline-block;
+  }
+
+  .trigger-btn {
+    width: 40px;
+    height: 40px;
+    background: #2a2a38;
+    border: none;
+    border-radius: 8px;
+    color: #e8e6e3;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .context-menu-demo {
+    display: flex;
+    justify-content: center;
+  }
+
+  .context-target {
+    background: #2a2a38;
+    padding: 32px 48px;
+    border-radius: 12px;
+    border: 2px dashed #3a3a48;
+    color: #8a8a9a;
+    font-size: 14px;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .menu-content {
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .preview-content[data-theme="light"] .menu-item {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .menu-item:hover {
+    background: rgba(136, 106, 0, 0.1);
+  }
+
+  .preview-content[data-theme="light"] .menu-divider {
+    background: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .trigger-btn {
+    background: #f5f3ee;
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .context-target {
+    background: #ffffff;
+    border-color: #eeebe2;
+    color: #6b5f55;
+  }
+`}</style>

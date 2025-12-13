@@ -1,0 +1,287 @@
+---
+title: Collapsible
+description: Expandable/collapsible content sections
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# Collapsible
+
+Collapsible shows and hides content with a toggle. Use for FAQs, expandable sections, or progressive disclosure.
+
+## Preview
+
+<PreviewBox defaultTheme="dark" class="p-lg">
+  <div class="collapsible expanded">
+    <div class="collapsible-header">
+      <span class="collapsible-title">What is the I Ching?</span>
+      <span class="collapsible-chevron">▼</span>
+    </div>
+    <div class="collapsible-content">
+      <p>The I Ching, or Book of Changes, is an ancient Chinese divination text and one of the oldest of the Chinese classics.</p>
+    </div>
+  </div>
+</PreviewBox>
+
+---
+
+## Basic Usage
+
+<PreviewBox class="flex-col gap-sm p-lg">
+  <div class="collapsible expanded">
+    <div class="collapsible-header">
+      <span class="collapsible-title">Show Details</span>
+      <span class="collapsible-chevron rotated">▼</span>
+    </div>
+    <div class="collapsible-content">
+      <p>Hidden content revealed when expanded.</p>
+    </div>
+  </div>
+  <div class="collapsible">
+    <div class="collapsible-header">
+      <span class="collapsible-title">More Information</span>
+      <span class="collapsible-chevron">▼</span>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Collapsible title="Show Details">
+  <Text>Hidden content revealed when expanded.</Text>
+</Collapsible>
+
+<Collapsible title="More Information">
+  <Text>Another section of content.</Text>
+</Collapsible>
+```
+
+---
+
+## Default Expanded
+
+<PreviewBox class="p-lg">
+  <div class="collapsible expanded">
+    <div class="collapsible-header">
+      <span class="collapsible-title">Interpretation</span>
+      <span class="collapsible-chevron rotated">▼</span>
+    </div>
+    <div class="collapsible-content">
+      <p>This hexagram represents the creative principle, symbolizing strength and initiative. It encourages taking bold action while maintaining patience.</p>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Collapsible title="Interpretation" defaultExpanded>
+  <Text>This hexagram represents the creative principle...</Text>
+</Collapsible>
+```
+
+---
+
+## Accordion Group
+
+Only one section can be expanded at a time.
+
+<PreviewBox class="p-lg">
+  <div class="collapsible-group">
+    <div class="collapsible expanded">
+      <div class="collapsible-header">
+        <span class="collapsible-title">What is the I Ching?</span>
+        <span class="collapsible-chevron rotated">▼</span>
+      </div>
+      <div class="collapsible-content">
+        <p>The I Ching is an ancient Chinese divination text that has been in continuous use for over 3,000 years.</p>
+      </div>
+    </div>
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span class="collapsible-title">How do I cast a hexagram?</span>
+        <span class="collapsible-chevron">▼</span>
+      </div>
+    </div>
+    <div class="collapsible">
+      <div class="collapsible-header">
+        <span class="collapsible-title">What do the lines mean?</span>
+        <span class="collapsible-chevron">▼</span>
+      </div>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<CollapsibleGroup accordion>
+  <Collapsible title="What is the I Ching?">
+    <Text>The I Ching is an ancient Chinese divination text...</Text>
+  </Collapsible>
+  <Collapsible title="How do I cast a hexagram?">
+    <Text>There are several traditional methods...</Text>
+  </Collapsible>
+  <Collapsible title="What do the lines mean?">
+    <Text>Each line can be either yin or yang...</Text>
+  </Collapsible>
+</CollapsibleGroup>
+```
+
+---
+
+## Custom Header
+
+<PreviewBox class="p-lg">
+  <div class="collapsible expanded">
+    <div class="collapsible-header custom">
+      <div class="custom-header-content">
+        <span class="hexagram-symbol">☰</span>
+        <div class="header-text">
+          <span class="collapsible-title">Hexagram 1 - The Creative</span>
+          <span class="header-subtitle">Force, Heaven, Strength</span>
+        </div>
+      </div>
+      <span class="collapsible-chevron rotated">▼</span>
+    </div>
+    <div class="collapsible-content">
+      <p>The Creative works sublime success, furthering through perseverance.</p>
+    </div>
+  </div>
+</PreviewBox>
+
+```tsx
+<Collapsible
+  title={
+    <View style={styles.customHeader}>
+      <Text style={styles.symbol}>☰</Text>
+      <View>
+        <Text style={styles.title}>Hexagram 1 - The Creative</Text>
+        <Text style={styles.subtitle}>Force, Heaven, Strength</Text>
+      </View>
+    </View>
+  }
+>
+  <Text>The Creative works sublime success...</Text>
+</Collapsible>
+```
+
+---
+
+## API Reference
+
+### Collapsible Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string \| ReactNode` | **Required** | Header content |
+| `children` | `ReactNode` | **Required** | Collapsible content |
+| `defaultExpanded` | `boolean` | `false` | Initial expanded state |
+| `expanded` | `boolean` | - | Controlled expanded state |
+| `onExpandedChange` | `(expanded: boolean) => void` | - | Expansion handler |
+| `noAnimation` | `boolean` | `false` | Disable animation |
+| `style` | `ViewStyle` | - | Container styles |
+| `headerStyle` | `ViewStyle` | - | Header styles |
+| `contentStyle` | `ViewStyle` | - | Content styles |
+
+### CollapsibleGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | **Required** | Child collapsibles |
+| `accordion` | `boolean` | `false` | Only one expanded at a time |
+| `style` | `ViewStyle` | - | Custom styles |
+
+<style>{`
+  .collapsible {
+    border-bottom: 1px solid #3a3a48;
+  }
+
+  .collapsible-group .collapsible:last-child {
+    border-bottom: none;
+  }
+
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 4px;
+    cursor: pointer;
+  }
+
+  .collapsible-header.custom {
+    padding: 12px 4px;
+  }
+
+  .custom-header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hexagram-symbol {
+    font-size: 24px;
+    color: #d4af37;
+  }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+    color: #8a8a9a;
+  }
+
+  .collapsible-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e8e6e3;
+  }
+
+  .collapsible-chevron {
+    font-size: 10px;
+    color: #8a8a9a;
+    transition: transform 0.3s ease;
+  }
+
+  .collapsible-chevron.rotated {
+    transform: rotate(180deg);
+  }
+
+  .collapsible-content {
+    padding: 0 4px 16px;
+    display: none;
+  }
+
+  .collapsible.expanded .collapsible-content {
+    display: block;
+  }
+
+  .collapsible-content p {
+    color: #8a8a9a;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .collapsible-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Light theme */
+  .preview-content[data-theme="light"] .collapsible {
+    border-color: #eeebe2;
+  }
+
+  .preview-content[data-theme="light"] .collapsible-title {
+    color: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .collapsible-content p {
+    color: #6b5f55;
+  }
+
+  .preview-content[data-theme="light"] .hexagram-symbol {
+    color: #886a00;
+  }
+`}</style>
