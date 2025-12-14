@@ -1,0 +1,131 @@
+---
+title: TrigramVisual
+description: Display I Ching trigrams with labels and Chinese characters
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Renders a single I Ching trigram (3 lines) with optional labels and Chinese characters. Includes utilities for displaying trigram pairs and grids.
+
+## Import
+
+```tsx
+import { TrigramVisual, TrigramPair, TrigramGrid } from '@synchronicity/react-native';
+```
+
+## The Eight Trigrams
+
+| Name | Chinese | Symbol | Lines |
+|------|---------|--------|-------|
+| Heaven | 乾 (qián) | ☰ | ━━━ ━━━ ━━━ |
+| Earth | 坤 (kūn) | ☷ | ━ ━ ━ ━ ━ ━ |
+| Thunder | 震 (zhèn) | ☳ | ━ ━ ━ ━ ━━━ |
+| Water | 坎 (kǎn) | ☵ | ━ ━ ━━━ ━ ━ |
+| Mountain | 艮 (gèn) | ☶ | ━━━ ━ ━ ━ ━ |
+| Wind | 巽 (xùn) | ☴ | ━━━ ━━━ ━ ━ |
+| Fire | 離 (lí) | ☲ | ━━━ ━ ━ ━━━ |
+| Lake | 兌 (duì) | ☱ | ━ ━ ━━━ ━━━ |
+
+## Basic Usage
+
+```tsx
+<TrigramVisual name="heaven" />
+<TrigramVisual name="earth" />
+<TrigramVisual name="fire" />
+```
+
+## With Labels
+
+```tsx
+<TrigramVisual name="heaven" showLabel />
+<TrigramVisual name="water" showLabel showChinese />
+```
+
+## Custom Lines
+
+Specify lines directly (bottom, middle, top where `true` = yang):
+
+```tsx
+<TrigramVisual lines={[true, false, true]} />
+```
+
+## Sizes
+
+```tsx
+<TrigramVisual name="thunder" size="sm" />
+<TrigramVisual name="thunder" size="md" />
+<TrigramVisual name="thunder" size="lg" />
+```
+
+## TrigramPair
+
+Shows upper and lower trigrams with labels:
+
+```tsx
+<TrigramPair
+  upper="heaven"
+  lower="earth"
+  showLabels
+/>
+```
+
+## TrigramGrid
+
+Displays all 8 trigrams in a grid:
+
+```tsx
+<TrigramGrid
+  size="sm"
+  columns={4}
+  selected="fire"
+  onSelect={(name) => console.log(name)}
+/>
+```
+
+## Props
+
+### TrigramVisual
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `TrigramName` | - | Trigram by name |
+| `lines` | `[boolean, boolean, boolean]` | - | Lines directly (bottom, middle, top) |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of trigram |
+| `showLabel` | `boolean` | `false` | Show trigram name |
+| `showChinese` | `boolean` | `false` | Show Chinese character |
+| `labelColor` | `string` | - | Custom label color |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### TrigramPair
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `upper` | `TrigramName` | required | Upper trigram name |
+| `lower` | `TrigramName` | required | Lower trigram name |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of trigrams |
+| `showLabels` | `boolean` | `true` | Show "Upper"/"Lower" labels |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### TrigramGrid
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md'` | `'sm'` | Size of each trigram |
+| `columns` | `4 \| 8` | `4` | Number of columns |
+| `selected` | `TrigramName` | - | Currently selected trigram |
+| `onSelect` | `(name: TrigramName) => void` | - | Selection handler |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### TrigramName
+
+```ts
+type TrigramName =
+  | 'heaven'
+  | 'earth'
+  | 'thunder'
+  | 'water'
+  | 'mountain'
+  | 'wind'
+  | 'fire'
+  | 'lake';
+```

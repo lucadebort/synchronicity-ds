@@ -1,0 +1,100 @@
+---
+title: HexagramLine
+description: Individual hexagram line with values and changing line support
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+A single I Ching line component that displays yang (solid) or yin (broken) lines with support for changing lines and traditional values.
+
+## Import
+
+```tsx
+import { HexagramLine, LineStack } from '@synchronicity/react-native';
+```
+
+## Line Values
+
+The I Ching uses a traditional numbering system for lines:
+
+| Value | Name | Type | Changes To |
+|-------|------|------|------------|
+| 6 | Old Yin | Changing Yin | Yang |
+| 7 | Young Yang | Stable Yang | - |
+| 8 | Young Yin | Stable Yin | - |
+| 9 | Old Yang | Changing Yang | Yin |
+
+## Basic Usage
+
+```tsx
+<HexagramLine value={7} />
+<HexagramLine value={8} />
+<HexagramLine value={9} />
+<HexagramLine value={6} />
+```
+
+## With Position Numbers
+
+Display line positions (1-6 from bottom):
+
+```tsx
+<HexagramLine value={9} position={1} showNumber />
+<HexagramLine value={7} position={2} showNumber />
+<HexagramLine value={8} position={3} showNumber />
+```
+
+## Changing Lines
+
+Changing lines (6 and 9) are highlighted in gold:
+
+```tsx
+<HexagramLine value={9} animated />
+<HexagramLine value={6} showTransformed />
+```
+
+## Sizes
+
+```tsx
+<HexagramLine value={7} size="sm" />
+<HexagramLine value={7} size="md" />
+<HexagramLine value={7} size="lg" />
+```
+
+## LineStack
+
+Render multiple lines stacked vertically (like a hexagram):
+
+```tsx
+<LineStack
+  values={[7, 8, 9, 6, 7, 8]}
+  showNumbers
+  onLinePress={(index, value) => console.log(index, value)}
+/>
+```
+
+## Props
+
+### HexagramLine
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `6 \| 7 \| 8 \| 9` | required | Line value |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of line |
+| `showNumber` | `boolean` | `false` | Show position number |
+| `position` | `number` | - | Line position (1-6) |
+| `highlighted` | `boolean` | `false` | Highlight the line |
+| `animated` | `boolean` | `false` | Animate changing lines |
+| `showTransformed` | `boolean` | `false` | Show transformed state |
+| `onPress` | `() => void` | - | Press handler |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### LineStack
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `values` | `LineValue[]` | required | Array of line values |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of lines |
+| `gap` | `number` | `6` | Gap between lines |
+| `showNumbers` | `boolean` | `false` | Show position numbers |
+| `onLinePress` | `(index, value) => void` | - | Line press handler |
+| `style` | `ViewStyle` | - | Custom styles |

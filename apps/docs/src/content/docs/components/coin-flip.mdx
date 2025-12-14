@@ -1,389 +1,96 @@
 ---
 title: CoinFlip
-description: Animated coin component with physics-based flip for casting
+description: Animated coin for I Ching casting with flip animation
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import PreviewBox from '../../../components/PreviewBox.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-# CoinFlip
+An animated coin component for I Ching divination. Displays heads (yang/乾) or tails (yin/坤) with realistic flip animation.
 
-CoinFlip provides a physics-based animated coin for the three-coin casting method. It uses Reanimated 3 for 60fps native animations with realistic toss, spin, and landing physics.
-
-## Preview
-
-<PreviewBox defaultTheme="dark">
-  <div class="coin-container">
-    <div class="coin heads">
-      <div class="yang-symbol">
-        <div class="yang-line"></div>
-      </div>
-    </div>
-    <span class="coin-label">Heads (Yang)</span>
-  </div>
-</PreviewBox>
-
----
-
-## Coin Faces
-
-The coin has two faces representing Yin and Yang:
-
-<PreviewBox class="flex-row">
-  <div class="face-demo">
-    <div class="coin heads">
-      <div class="yang-symbol">
-        <div class="yang-line"></div>
-      </div>
-    </div>
-    <span class="face-label">Heads (Yang)</span>
-    <span class="face-value">Value: 3</span>
-  </div>
-  <div class="face-demo">
-    <div class="coin tails">
-      <div class="yin-symbol">
-        <div class="yin-segment"></div>
-        <div class="yin-segment"></div>
-      </div>
-    </div>
-    <span class="face-label">Tails (Yin)</span>
-    <span class="face-value">Value: 2</span>
-  </div>
-</PreviewBox>
-
-| Face | Symbol | Line Value | Visual |
-|------|--------|------------|--------|
-| **Heads** | Yang (&#9472;&#9472;&#9472;) | 3 | Solid gold background, solid line |
-| **Tails** | Yin (&#9472; &#9472;) | 2 | Muted gold background, broken line |
-
----
-
-## Animation Sequence
-
-The flip animation follows a realistic physics sequence:
-
-<PreviewBox>
-  <div class="animation-timeline">
-    <div class="phase">
-      <div class="phase-visual toss"></div>
-      <span class="phase-label">1. Toss Up</span>
-      <span class="phase-duration">600ms</span>
-    </div>
-    <div class="phase">
-      <div class="phase-visual spin"></div>
-      <span class="phase-label">2. Spin</span>
-      <span class="phase-duration">1000ms</span>
-    </div>
-    <div class="phase">
-      <div class="phase-visual fall"></div>
-      <span class="phase-label">3. Fall</span>
-      <span class="phase-duration">400ms</span>
-    </div>
-    <div class="phase">
-      <div class="phase-visual settle"></div>
-      <span class="phase-label">4. Settle</span>
-      <span class="phase-duration">Spring</span>
-    </div>
-  </div>
-</PreviewBox>
-
-| Phase | Duration | Easing | Description |
-|-------|----------|--------|-------------|
-| Toss Up | 600ms | `Easing.out(quad)` | Coin rises with deceleration |
-| Spin | 1000ms | `Easing.out(cubic)` | 3-5 full rotations + Y wobble |
-| Fall | 400ms | `Easing.in(quad)` | Gravity acceleration |
-| Settle | Spring | `damping: 12` | Bounce and settle |
-
----
-
-## Usage
+## Import
 
 ```tsx
-import { CoinFlip } from '@synchronicity/react-native';
-import { useState } from 'react';
-
-function CastingScreen() {
-  const [flipTrigger, setFlipTrigger] = useState(0);
-  const [result, setResult] = useState<'heads' | 'tails' | null>(null);
-
-  const handleFlip = () => {
-    setFlipTrigger(prev => prev + 1);
-  };
-
-  const handleComplete = (result: 'heads' | 'tails') => {
-    setResult(result);
-    // Add to line calculation
-  };
-
-  return (
-    <View>
-      <CoinFlip
-        trigger={flipTrigger}
-        onComplete={handleComplete}
-      />
-      <Button onPress={handleFlip}>Flip Coin</Button>
-    </View>
-  );
-}
+import { CoinFlip, CoinValue } from '@synchronicity/react-native';
 ```
 
----
+## Coin Values
 
-## API Reference
+In traditional I Ching coin casting:
+- **Heads (乾)** = 3 points (yang side)
+- **Tails (坤)** = 2 points (yin side)
 
-### Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `trigger` | `number` | Increment to trigger a new flip |
-| `onComplete` | `(result: 'heads' \| 'tails') => void` | Called when animation completes |
-
-### Animation Values
+## Basic Usage
 
 ```tsx
-// Transform values used
-rotateX: SharedValue<number>   // 0-1080+ degrees (3-5 spins)
-rotateY: SharedValue<number>   // Wobble variation
-translateY: SharedValue<number> // Vertical position
-scale: SharedValue<number>     // Landing pulse
-opacity: SharedValue<number>   // Fade control
+<CoinFlip side="heads" />
+<CoinFlip side="tails" />
 ```
 
----
-
-## Physics Details
-
-The animation uses randomized physics for natural variation:
+## Interactive
 
 ```tsx
-// Random spin count (3-5 full rotations)
-const spins = 3 + Math.floor(Math.random() * 3);
+const [side, setSide] = useState<CoinSide>('heads');
+const [flipping, setFlipping] = useState(false);
 
-// Random Y-axis wobble
-const yawVariation = (Math.random() - 0.5) * 180;
+const handleFlip = () => {
+  setFlipping(true);
+};
 
-// Target rotation based on result
-const targetRotation = result === 'heads' ? 0 : 180;
+const handleComplete = () => {
+  setFlipping(false);
+  setSide(Math.random() > 0.5 ? 'heads' : 'tails');
+};
+
+<CoinFlip
+  side={side}
+  flipping={flipping}
+  onPress={handleFlip}
+  onFlipComplete={handleComplete}
+/>
 ```
 
----
+## Sizes
 
-## Visual Specifications
+```tsx
+<CoinFlip side="heads" size="sm" />
+<CoinFlip side="heads" size="md" />
+<CoinFlip side="heads" size="lg" />
+```
 
-| Property | Value |
-|----------|-------|
-| Coin Size | 120px diameter |
-| Border | 3px gold |
-| Background (Heads) | `goldLight` |
-| Background (Tails) | `goldMuted` |
-| Symbol Line | 60px wide, 8px height |
+## With Value Display
 
----
+```tsx
+<View style={{ alignItems: 'center' }}>
+  <CoinFlip side="heads" />
+  <CoinValue side="heads" />
+</View>
+```
+
+## Props
+
+### CoinFlip
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `'heads' \| 'tails'` | required | Current side showing |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of coin |
+| `flipping` | `boolean` | `false` | Whether coin is flipping |
+| `flipDuration` | `number` | `500` | Animation duration (ms) |
+| `onFlipComplete` | `() => void` | - | Called when flip ends |
+| `onPress` | `() => void` | - | Press handler |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### CoinValue
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `'heads' \| 'tails'` | required | Coin side |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Text size |
+| `style` | `ViewStyle` | - | Custom styles |
 
 ## Accessibility
 
-<Aside type="note">
-The coin flip is primarily a visual animation. For accessibility, the result is announced after the animation completes, and haptic feedback provides tactile confirmation.
-</Aside>
-
-```tsx
-// After animation completes
-announceForAccessibility(`Coin landed on ${result}`);
-haptics.impact('medium');
-```
-
----
-
-## Complete Example
-
-```tsx
-import { CoinFlip } from '@synchronicity/react-native';
-import { useState, useCallback } from 'react';
-
-function ThreeCoinCasting({ onLineComplete }) {
-  const [flipTrigger, setFlipTrigger] = useState(0);
-  const [tosses, setTosses] = useState<('heads' | 'tails')[]>([]);
-
-  const handleFlip = useCallback(() => {
-    setFlipTrigger(prev => prev + 1);
-  }, []);
-
-  const handleComplete = useCallback((result: 'heads' | 'tails') => {
-    const newTosses = [...tosses, result];
-    setTosses(newTosses);
-
-    if (newTosses.length === 3) {
-      // Calculate line value: heads=3, tails=2
-      const value = newTosses.reduce(
-        (sum, t) => sum + (t === 'heads' ? 3 : 2),
-        0
-      );
-      onLineComplete(value);
-      setTosses([]);
-    }
-  }, [tosses, onLineComplete]);
-
-  return (
-    <View style={styles.container}>
-      <CoinFlip trigger={flipTrigger} onComplete={handleComplete} />
-
-      <View style={styles.tossIndicators}>
-        {[0, 1, 2].map(i => (
-          <View
-            key={i}
-            style={[
-              styles.indicator,
-              tosses[i] && styles.indicatorFilled,
-            ]}
-          />
-        ))}
-      </View>
-
-      <Button
-        variant="primary"
-        onPress={handleFlip}
-        disabled={tosses.length === 3}
-      >
-        Flip Coin ({tosses.length}/3)
-      </Button>
-    </View>
-  );
-}
-```
-
-<style>{`
-  .coin-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .coin {
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
-    border: 3px solid #d4af37;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .coin.heads {
-    background: #f4cf67;
-  }
-
-  .coin.tails {
-    background: #c9a432;
-  }
-
-  .yang-symbol {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .yang-line {
-    width: 60px;
-    height: 8px;
-    background: #0a0a0f;
-    border-radius: 2px;
-  }
-
-  .yin-symbol {
-    display: flex;
-    gap: 15px;
-  }
-
-  .yin-segment {
-    width: 22px;
-    height: 8px;
-    background: #0a0a0f;
-    border-radius: 2px;
-  }
-
-  .coin-label {
-    font-size: 14px;
-    color: #8a8a9a;
-  }
-
-  .face-demo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .face-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #e8e6e3;
-  }
-
-  .face-value {
-    font-size: 11px;
-    color: #6a6a7a;
-  }
-
-  .preview-content[data-theme="light"] .face-label {
-    color: #2a2520;
-  }
-
-  .animation-timeline {
-    display: flex;
-    gap: 16px;
-    align-items: flex-end;
-  }
-
-  .phase {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .phase-visual {
-    width: 40px;
-    height: 40px;
-    background: rgba(212, 175, 55, 0.2);
-    border: 2px solid #d4af37;
-    border-radius: 20px;
-  }
-
-  .phase-visual.toss {
-    transform: translateY(-20px);
-  }
-
-  .phase-visual.spin {
-    animation: spin 1s linear infinite;
-  }
-
-  .phase-visual.fall {
-    transform: translateY(10px);
-  }
-
-  .phase-visual.settle {
-    transform: scale(1.1);
-  }
-
-  @keyframes spin {
-    from { transform: rotateX(0deg); }
-    to { transform: rotateX(360deg); }
-  }
-
-  .phase-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #e8e6e3;
-  }
-
-  .phase-duration {
-    font-size: 10px;
-    color: #6a6a7a;
-    font-family: monospace;
-  }
-
-  .preview-content[data-theme="light"] .phase-label {
-    color: #2a2520;
-  }
-`}</style>
+- Uses `accessibilityRole="button"` for interactive coins
+- Provides `accessibilityLabel` with current side
+- Disables during animation with `accessibilityState`

@@ -1,270 +1,146 @@
 ---
 title: ThreeCoins
-description: Three coins flipping simultaneously for the casting ritual
+description: Three-coin casting component for I Ching divination
 ---
 
-import { Aside } from '@astrojs/starlight/components';
-import PreviewBox from '../../../components/PreviewBox.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-# ThreeCoins
+A complete three-coin casting component for I Ching divination. Includes animated throws and result calculation.
 
-ThreeCoins displays three coins flipping simultaneously with staggered animations. It's the visual component for the traditional three-coin casting method.
-
-## Preview
-
-<PreviewBox defaultTheme="dark">
-  <div class="three-coins">
-    <div class="coin">
-      <div class="yang-line"></div>
-    </div>
-    <div class="coin">
-      <div class="yang-line"></div>
-    </div>
-    <div class="coin">
-      <div class="yang-line"></div>
-    </div>
-  </div>
-</PreviewBox>
-
----
-
-## Animation Sequence
-
-The three coins flip with staggered timing for a natural, cascading effect:
-
-<PreviewBox>
-  <div class="animation-sequence">
-    <div class="coin-timing">
-      <div class="coin small">1</div>
-      <div class="timing-bar">
-        <div class="bar-fill" style="width: 380px; margin-left: 0;"></div>
-      </div>
-      <span class="timing-label">0ms delay, 380ms</span>
-    </div>
-    <div class="coin-timing">
-      <div class="coin small">2</div>
-      <div class="timing-bar">
-        <div class="bar-fill" style="width: 420px; margin-left: 50px;"></div>
-      </div>
-      <span class="timing-label">50ms delay, 420ms</span>
-    </div>
-    <div class="coin-timing">
-      <div class="coin small">3</div>
-      <div class="timing-bar">
-        <div class="bar-fill" style="width: 400px; margin-left: 100px;"></div>
-      </div>
-      <span class="timing-label">100ms delay, 400ms</span>
-    </div>
-  </div>
-</PreviewBox>
-
-| Coin | Delay | Up Duration | Down Duration | Rotation | Height |
-|------|-------|-------------|---------------|----------|--------|
-| 1 | 0ms | 200ms | 180ms | 540deg (1.5x) | -120px |
-| 2 | 50ms | 220ms | 200ms | 720deg (2x) | -140px |
-| 3 | 100ms | 210ms | 190ms | 630deg (1.75x) | -130px |
-
----
-
-## Usage
+## Import
 
 ```tsx
-import { ThreeCoins } from '@synchronicity/react-native';
-import { useState } from 'react';
-
-function CastingScreen() {
-  const [flipTrigger, setFlipTrigger] = useState(0);
-
-  const handleFlip = () => {
-    setFlipTrigger(prev => prev + 1);
-  };
-
-  const handleComplete = (results) => {
-    // results: ['heads' | 'tails', 'heads' | 'tails', 'heads' | 'tails']
-    const value = results.reduce(
-      (sum, r) => sum + (r === 'heads' ? 3 : 2),
-      0
-    );
-    console.log('Line value:', value); // 6, 7, 8, or 9
-  };
-
-  return (
-    <View>
-      <ThreeCoins
-        trigger={flipTrigger}
-        onComplete={handleComplete}
-      />
-      <Button onPress={handleFlip}>Toss Coins</Button>
-    </View>
-  );
-}
+import { ThreeCoins, ThrowHistory } from '@synchronicity/react-native';
 ```
 
----
+## How Coin Casting Works
 
-## Line Value Calculation
+Three coins are thrown to determine each line:
 
-The three coins produce values that determine the line type:
+| Result | Value | Line Type | Meaning |
+|--------|-------|-----------|---------|
+| 2+2+2 | 6 | Old Yin | Changing broken line |
+| 2+2+3 | 7 | Young Yang | Stable solid line |
+| 2+3+3 | 8 | Young Yin | Stable broken line |
+| 3+3+3 | 9 | Old Yang | Changing solid line |
 
-| Coin 1 | Coin 2 | Coin 3 | Total | Line Type |
-|--------|--------|--------|-------|-----------|
-| Tails (2) | Tails (2) | Tails (2) | **6** | Old Yin (changing &#9472; &#9472;) |
-| Heads (3) | Tails (2) | Tails (2) | **7** | Young Yang (stable &#9472;&#9472;&#9472;) |
-| Heads (3) | Heads (3) | Tails (2) | **8** | Young Yin (stable &#9472; &#9472;) |
-| Heads (3) | Heads (3) | Heads (3) | **9** | Old Yang (changing &#9472;&#9472;&#9472;) |
-
-<Aside type="note">
-Values 6 and 9 are "changing lines" that transform into their opposite when calculating the future hexagram.
-</Aside>
-
----
-
-## API Reference
-
-### Props
-
-| Prop | Type | Description |
-|------|------|-------------|
-| `trigger` | `number` | Increment to trigger a new flip |
-| `onComplete` | `(results: ['heads' \| 'tails', 'heads' \| 'tails', 'heads' \| 'tails']) => void` | Called when all coins land |
-
----
-
-## Visual Specifications
-
-| Property | Value |
-|----------|-------|
-| Coin Size | 80px diameter |
-| Border | 3px gold |
-| Background | `goldLight` |
-| Yang Line | 40x6px |
-| Container Gap | `theme.spacing.default` |
-| Container Height | 300px |
-
----
-
-## Complete Example
+## Basic Usage
 
 ```tsx
-import { ThreeCoins } from '@synchronicity/react-native';
-import { useState, useCallback } from 'react';
-
-function CastLine({ onLineComplete }) {
-  const [trigger, setTrigger] = useState(0);
-  const [lineCount, setLineCount] = useState(0);
-  const [hexagramLines, setHexagramLines] = useState([]);
-
-  const handleToss = useCallback(() => {
-    setTrigger(prev => prev + 1);
-  }, []);
-
-  const handleComplete = useCallback((results) => {
-    const value = results.reduce(
-      (sum, r) => sum + (r === 'heads' ? 3 : 2),
-      0
-    );
-
-    const newLines = [...hexagramLines, value];
-    setHexagramLines(newLines);
-    setLineCount(prev => prev + 1);
-
-    if (newLines.length === 6) {
-      onLineComplete(newLines);
-    }
-  }, [hexagramLines, onLineComplete]);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.progress}>
-        Line {lineCount + 1} of 6
-      </Text>
-
-      <ThreeCoins
-        trigger={trigger}
-        onComplete={handleComplete}
-      />
-
-      <Button
-        variant="primary"
-        size="lg"
-        onPress={handleToss}
-        disabled={lineCount >= 6}
-      >
-        Toss Coins
-      </Button>
-    </View>
-  );
-}
+<ThreeCoins />
 ```
 
-<style>{`
-  .three-coins {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-  }
+## Interactive Throwing
 
-  .coin {
-    width: 80px;
-    height: 80px;
-    border-radius: 40px;
-    background: #f4cf67;
-    border: 3px solid #d4af37;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+```tsx
+const [throwing, setThrowing] = useState(false);
 
-  .coin.small {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #0a0a0f;
-  }
+const handleThrow = () => setThrowing(true);
 
-  .yang-line {
-    width: 40px;
-    height: 6px;
-    background: #0a0a0f;
-    border-radius: 2px;
-  }
+const handleComplete = (result: ThrowResult) => {
+  setThrowing(false);
+  console.log(result.value, result.lineType);
+};
 
-  .animation-sequence {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    max-width: 400px;
-  }
+<ThreeCoins
+  throwing={throwing}
+  onPress={handleThrow}
+  onThrowComplete={handleComplete}
+  showValue
+/>
+```
 
-  .coin-timing {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+## Display Specific Coins
 
-  .timing-bar {
-    flex: 1;
-    height: 16px;
-    background: rgba(212, 175, 55, 0.1);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-  }
+```tsx
+<ThreeCoins
+  coins={['heads', 'tails', 'heads']}
+  showValue
+/>
+```
 
-  .bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #d4af37, #f4cf67);
-    border-radius: 4px;
-  }
+## Sizes
 
-  .timing-label {
-    font-size: 10px;
-    color: #6a6a7a;
-    white-space: nowrap;
-    width: 120px;
+```tsx
+<ThreeCoins size="sm" />
+<ThreeCoins size="md" />
+<ThreeCoins size="lg" />
+```
+
+## ThrowHistory
+
+Display a history of throws:
+
+```tsx
+<ThrowHistory
+  throws={[
+    { coins: ['heads', 'heads', 'tails'], value: 8, lineType: 'yin' },
+    { coins: ['heads', 'heads', 'heads'], value: 9, lineType: 'changing-yang' },
+    { coins: ['tails', 'tails', 'heads'], value: 7, lineType: 'yang' },
+  ]}
+/>
+```
+
+## Building a Complete Reading
+
+```tsx
+const [throws, setThrows] = useState<ThrowResult[]>([]);
+const [throwing, setThrowing] = useState(false);
+
+const handleThrow = () => {
+  if (throws.length < 6) {
+    setThrowing(true);
   }
-`}</style>
+};
+
+const handleComplete = (result: ThrowResult) => {
+  setThrowing(false);
+  setThrows(prev => [...prev, result]);
+};
+
+<View>
+  <ThreeCoins
+    throwing={throwing}
+    onPress={handleThrow}
+    onThrowComplete={handleComplete}
+    showValue
+    disabled={throws.length >= 6}
+  />
+  <Text>Line {throws.length + 1} of 6</Text>
+  <ThrowHistory throws={throws} />
+</View>
+```
+
+## Props
+
+### ThreeCoins
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `coins` | `[CoinSide, CoinSide, CoinSide]` | - | Current coin states |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size of coins |
+| `throwing` | `boolean` | `false` | Whether coins are being thrown |
+| `throwDuration` | `number` | `800` | Animation duration (ms) |
+| `onThrowComplete` | `(result: ThrowResult) => void` | - | Called with result |
+| `onPress` | `() => void` | - | Press handler |
+| `disabled` | `boolean` | `false` | Disable interaction |
+| `showValue` | `boolean` | `false` | Show calculated value |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ThrowHistory
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `throws` | `ThrowResult[]` | required | Array of throw results |
+| `size` | `'sm' \| 'md'` | `'sm'` | Display size |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ThrowResult
+
+```ts
+type ThrowResult = {
+  coins: [CoinSide, CoinSide, CoinSide];
+  value: 6 | 7 | 8 | 9;
+  lineType: 'yin' | 'yang' | 'changing-yin' | 'changing-yang';
+};
+```

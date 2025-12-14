@@ -1,0 +1,143 @@
+---
+title: ReadingCard
+description: Card component for displaying I Ching reading summaries
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+A card component for displaying I Ching reading summaries with hexagram visualization, metadata, and navigation.
+
+## Import
+
+```tsx
+import { ReadingCard, ReadingCardCompact } from '@synchronicity/react-native';
+```
+
+## Basic Usage
+
+```tsx
+<ReadingCard
+  hexagramNumber={1}
+  name="The Creative"
+  chineseName="乾"
+  lines={['yang', 'yang', 'yang', 'yang', 'yang', 'yang']}
+/>
+```
+
+## With Date and Question
+
+```tsx
+<ReadingCard
+  hexagramNumber={11}
+  name="Peace"
+  chineseName="泰"
+  lines={['yang', 'yang', 'yang', 'yin', 'yin', 'yin']}
+  date={new Date()}
+  question="What should I focus on this week?"
+/>
+```
+
+## With Changing Lines
+
+When a reading has changing lines, show the transformation:
+
+```tsx
+<ReadingCard
+  hexagramNumber={1}
+  name="The Creative"
+  chineseName="乾"
+  lines={['changing-yang', 'yang', 'yang', 'yang', 'yang', 'yang']}
+  hasChangingLines={true}
+  transformedNumber={44}
+  transformedName="Coming to Meet"
+/>
+```
+
+## Interactive
+
+```tsx
+<ReadingCard
+  hexagramNumber={29}
+  name="The Abysmal"
+  chineseName="坎"
+  lines={['yin', 'yang', 'yin', 'yin', 'yang', 'yin']}
+  date={new Date('2024-01-15')}
+  onPress={() => navigation.navigate('ReadingDetail', { id: 123 })}
+/>
+```
+
+## Sizes
+
+```tsx
+<ReadingCard {...props} size="sm" />
+<ReadingCard {...props} size="md" />
+<ReadingCard {...props} size="lg" />
+```
+
+## Compact Variant
+
+For use in lists where space is limited:
+
+```tsx
+<ReadingCardCompact
+  hexagramNumber={1}
+  name="The Creative"
+  lines={['yang', 'yang', 'yang', 'yang', 'yang', 'yang']}
+  date={new Date()}
+  onPress={() => handleSelect(1)}
+/>
+```
+
+## Reading List Example
+
+```tsx
+<FlatList
+  data={readings}
+  renderItem={({ item }) => (
+    <ReadingCardCompact
+      hexagramNumber={item.hexagramNumber}
+      name={item.name}
+      lines={item.lines}
+      date={item.date}
+      onPress={() => navigation.navigate('Reading', { id: item.id })}
+    />
+  )}
+  ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+/>
+```
+
+## Props
+
+### ReadingCard
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `hexagramNumber` | `number` | required | Hexagram number (1-64) |
+| `name` | `string` | required | Hexagram name |
+| `chineseName` | `string` | - | Chinese name |
+| `lines` | `LineType[]` | required | Array of 6 line types |
+| `date` | `Date` | - | Reading date |
+| `question` | `string` | - | Question or intention |
+| `hasChangingLines` | `boolean` | - | Whether reading has changing lines |
+| `transformedNumber` | `number` | - | Transformed hexagram number |
+| `transformedName` | `string` | - | Transformed hexagram name |
+| `onPress` | `() => void` | - | Press handler |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Card size |
+| `style` | `ViewStyle` | - | Custom styles |
+
+### ReadingCardCompact
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `hexagramNumber` | `number` | required | Hexagram number |
+| `name` | `string` | required | Hexagram name |
+| `lines` | `LineType[]` | required | Array of 6 line types |
+| `date` | `Date` | - | Reading date |
+| `onPress` | `() => void` | - | Press handler |
+| `style` | `ViewStyle` | - | Custom styles |
+
+## Accessibility
+
+- Interactive cards use `accessibilityRole="button"`
+- Cards provide descriptive `accessibilityLabel`
+- Press states are indicated visually with opacity change
