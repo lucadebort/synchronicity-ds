@@ -1,0 +1,403 @@
+---
+title: ReadingListItem
+description: List item for displaying I Ching reading entries with animations
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import PreviewBox from '../../../components/PreviewBox.astro';
+
+# ReadingListItem
+
+ReadingListItem displays a reading entry in lists with hexagram visual, animated transitions for changing lines, and context menu support.
+
+## Preview
+
+<PreviewBox defaultTheme="dark">
+  <div class="reading-item">
+    <div class="reading-hexagram">
+      <div class="hex-lines">
+        <div class="hex-line yang"></div>
+        <div class="hex-line yin"></div>
+        <div class="hex-line yang"></div>
+        <div class="hex-line yang"></div>
+        <div class="hex-line yin"></div>
+        <div class="hex-line yang"></div>
+      </div>
+    </div>
+    <div class="reading-info">
+      <span class="reading-number">1. &#20094; &middot; Qi&aacute;n</span>
+      <span class="reading-name">The Creative</span>
+    </div>
+    <div class="reading-meta">
+      <span class="reading-date">Today</span>
+    </div>
+    <span class="reading-chevron">&rsaquo;</span>
+  </div>
+</PreviewBox>
+
+---
+
+## With Changing Lines
+
+When a reading has changing lines, the item shows animated transitions between current and future hexagrams.
+
+<PreviewBox>
+  <div class="reading-item with-transition">
+    <div class="reading-hexagram">
+      <div class="hex-lines">
+        <div class="hex-line yang"></div>
+        <div class="hex-line yin changing"></div>
+        <div class="hex-line yang"></div>
+        <div class="hex-line yang changing"></div>
+        <div class="hex-line yin"></div>
+        <div class="hex-line yang"></div>
+      </div>
+      <div class="changing-dots">
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    <div class="reading-info">
+      <span class="reading-number">1. &#20094; &middot; Qi&aacute;n <span class="transition-arrow">&rarr;</span></span>
+      <span class="reading-name">The Creative</span>
+    </div>
+    <div class="reading-meta">
+      <span class="reading-date">Yesterday</span>
+    </div>
+    <span class="reading-chevron">&rsaquo;</span>
+  </div>
+</PreviewBox>
+
+```tsx
+<ReadingListItem
+  reading={{
+    hexagramNumber: 1,
+    hexagramName: "The Creative",
+    changingLines: [2, 4],
+    futureHexagram: 44,
+    timestamp: Date.now(),
+  }}
+  onPress={handlePress}
+/>
+```
+
+---
+
+## Anatomy
+
+<PreviewBox>
+  <div class="reading-item anatomy">
+    <div class="anatomy-zone hex">
+      <div class="reading-hexagram">
+        <div class="hex-lines small">
+          <div class="hex-line yang"></div>
+          <div class="hex-line yin"></div>
+          <div class="hex-line yang"></div>
+          <div class="hex-line yang"></div>
+          <div class="hex-line yin"></div>
+          <div class="hex-line yang"></div>
+        </div>
+      </div>
+      <span class="anatomy-label">1</span>
+    </div>
+    <div class="anatomy-zone info">
+      <div class="reading-info">
+        <span class="reading-number">1. &#20094; &middot; Qi&aacute;n</span>
+        <span class="reading-name">The Creative</span>
+      </div>
+      <span class="anatomy-label">2</span>
+    </div>
+    <div class="anatomy-zone meta">
+      <span class="reading-date">Today</span>
+      <span class="anatomy-label">3</span>
+    </div>
+    <div class="anatomy-zone chevron">
+      <span class="reading-chevron">&rsaquo;</span>
+      <span class="anatomy-label">4</span>
+    </div>
+  </div>
+</PreviewBox>
+
+| Element | Description |
+|---------|-------------|
+| **1. Hexagram Visual** | Tiny hexagram with optional changing line indicators |
+| **2. Reading Info** | Number, Chinese name, pinyin, English name |
+| **3. Meta** | Relative date (Today, Yesterday, or date) |
+| **4. Chevron** | Navigation indicator |
+
+---
+
+## Animation Behavior
+
+For readings with changing lines, text and hexagram visuals animate in sync:
+
+1. **Current state** fades out and slides left
+2. **Future state** fades in and slides from right
+3. Animations loop continuously using shared `Animated.Value`
+
+This creates a unified visual that shows transformation.
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `reading` | `Reading` | - | Reading data object |
+| `onPress` | `(reading: Reading) => void` | - | Press handler |
+| `showDate` | `boolean` | `true` | Show date in meta area |
+| `formatDate` | `(timestamp: number) => string` | - | Custom date formatter |
+
+### Reading Type
+
+```ts
+interface Reading {
+  id: string;
+  hexagramNumber: number;
+  hexagramName: string;
+  hexagramChinese: string;
+  timestamp: number;
+  question?: string;
+  changingLines: number[];
+  futureHexagram?: number;
+}
+```
+
+---
+
+## Context Menu
+
+Long-press triggers a context menu with quick actions:
+
+- View Details
+- Share Reading
+- Delete Reading
+
+```tsx
+<HexagramContextMenu
+  hexagramNumber={reading.hexagramNumber}
+  hexagramName={reading.hexagramName}
+  changingLines={reading.changingLines}
+  futureHexagramNumber={reading.futureHexagram}
+  onViewDetails={handlePress}
+>
+  <TouchableOpacity ...>
+    {/* Item content */}
+  </TouchableOpacity>
+</HexagramContextMenu>
+```
+
+---
+
+## Accessibility
+
+- **Role**: `accessibilityRole="button"`
+- **Label**: Full description including hexagram number, name, and transition
+- **Hint**: Instructions for interaction
+
+```tsx
+accessibilityLabel="1. The Creative, 乾 Qián, changing to Breakthrough"
+accessibilityHint="Reading from Today. Tap to view details."
+```
+
+---
+
+## Complete Example
+
+```tsx
+import { ReadingListItem } from '@synchronicity/react-native';
+import { FlatList } from 'react-native';
+
+function ReadingsList({ readings, onReadingPress }) {
+  return (
+    <FlatList
+      data={readings}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <ReadingListItem
+          reading={item}
+          onPress={onReadingPress}
+          showDate={true}
+        />
+      )}
+      ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+    />
+  );
+}
+```
+
+<style>{`
+  .reading-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #12121a;
+    border: 1px solid #2a2a38;
+    border-radius: 8px;
+    padding: 12px;
+    max-width: 360px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .reading-item:hover {
+    border-color: #d4af37;
+  }
+
+  .preview-content[data-theme="light"] .reading-item {
+    background: #faf8f3;
+    border-color: #e0dcd0;
+  }
+
+  .reading-hexagram {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    width: 50px;
+  }
+
+  .hex-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hex-lines.small {
+    gap: 2px;
+  }
+
+  .hex-line {
+    border-radius: 1px;
+    width: 28px;
+    height: 2px;
+  }
+
+  .hex-line.yang {
+    background: #e8e6e3;
+  }
+
+  .hex-line.yin {
+    background: linear-gradient(90deg,
+      #e8e6e3 0%, #e8e6e3 35%,
+      transparent 35%, transparent 65%,
+      #e8e6e3 65%, #e8e6e3 100%
+    );
+  }
+
+  .hex-line.changing {
+    background: #d4af37 !important;
+  }
+
+  .hex-line.yin.changing {
+    background: linear-gradient(90deg,
+      #d4af37 0%, #d4af37 35%,
+      transparent 35%, transparent 65%,
+      #d4af37 65%, #d4af37 100%
+    ) !important;
+  }
+
+  .preview-content[data-theme="light"] .hex-line.yang {
+    background: #2a2520;
+  }
+
+  .preview-content[data-theme="light"] .hex-line.yin {
+    background: linear-gradient(90deg,
+      #2a2520 0%, #2a2520 35%,
+      transparent 35%, transparent 65%,
+      #2a2520 65%, #2a2520 100%
+    );
+  }
+
+  .changing-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .dot {
+    width: 3px;
+    height: 2px;
+    border-radius: 1px;
+    background: transparent;
+  }
+
+  .dot.active {
+    background: #d4af37;
+  }
+
+  .reading-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .reading-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #d4af37;
+  }
+
+  .transition-arrow {
+    color: #6a6a7a;
+    font-weight: 400;
+  }
+
+  .reading-name {
+    font-size: 13px;
+    color: #b8b6b3;
+  }
+
+  .preview-content[data-theme="light"] .reading-name {
+    color: #5a4f45;
+  }
+
+  .reading-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .reading-date {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6a6a7a;
+  }
+
+  .reading-chevron {
+    font-size: 20px;
+    color: #6a6a7a;
+  }
+
+  /* Anatomy styles */
+  .reading-item.anatomy {
+    position: relative;
+  }
+
+  .anatomy-zone {
+    position: relative;
+  }
+
+  .anatomy-label {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+    background: #d4af37;
+    color: #0a0a0f;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`}</style>
