@@ -11,12 +11,15 @@ hero:
       link: /getting-started/introduction/
       icon: right-arrow
       variant: primary
+    - text: View Components
+      link: /components/
+      variant: secondary
     - text: Foundations
       link: /foundations/overview/
-      variant: secondary
+      variant: minimal
 ---
 
-import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components';
 
 <div class="intro-section">
 
@@ -49,21 +52,131 @@ Every token, every animation, every interaction has been considered—not just f
 
 ---
 
-## Architecture
+## Quick Start
 
-The token system follows a three-tier hierarchy, separating raw values from their meaning and usage:
+Get up and running in seconds:
 
-| Tier | Purpose | Example |
-|------|---------|---------|
-| **Primitives** | Raw, theme-agnostic values | `gold-60`, `void-90`, `space-4` |
-| **Semantic** | Purpose-driven, theme-aware | `text-primary`, `background`, `spacing-md` |
-| **Component** | Specific to UI elements | `button.primary.background` |
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @synchronicity/react-native @synchronicity/tokens
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @synchronicity/react-native @synchronicity/tokens
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @synchronicity/react-native @synchronicity/tokens
+    ```
+  </TabItem>
+</Tabs>
 
-This architecture enables scalable theming, consistent design decisions, and maintainable code.
+Then wrap your app with the theme provider:
+
+```tsx
+import { ThemeProvider } from '@synchronicity/react-native';
+import { Button, HexagramVisual } from '@synchronicity/react-native';
+
+export default function App() {
+  return (
+    <ThemeProvider theme="dark">
+      <Button variant="primary">Begin Reading</Button>
+      <HexagramVisual
+        lines={['yang', 'yin', 'yang', 'yang', 'yin', 'yin']}
+        size="lg"
+      />
+    </ThemeProvider>
+  );
+}
+```
 
 ---
 
-## Three Themes
+## 45 Thoughtfully Crafted Components
+
+From foundational UI elements to specialized divination tools, every component is designed with care.
+
+<CardGrid stagger>
+  <Card title="Form & Input" icon="document">
+    **11 components** for gathering input—Input, TextArea, Checkbox, Radio, Switch, Slider, Rating, DatePicker, TimePicker, NumberInput, SearchInput
+  </Card>
+  <Card title="Actions & Navigation" icon="right-arrow">
+    **10 components** for user action—Button, IconButton, FloatingActionButton, Chip, TabBar, Tabs, SegmentedControl, StepIndicator, Menu
+  </Card>
+  <Card title="Feedback & Display" icon="information">
+    **12 components** for communication—Alert, Banner, Toast, Badge, Tag, ProgressBar, Spinner, Skeleton, EmptyState, Avatar, Divider
+  </Card>
+  <Card title="Structure & Layout" icon="puzzle">
+    **6 components** for organization—Card, List, Accordion, Collapsible, Modal, BottomSheet, ActionSheet, Popover, Tooltip
+  </Card>
+  <Card title="I Ching Divination" icon="star">
+    **6 specialized components** for contemplative practice—HexagramVisual, HexagramLine, TrigramVisual, CoinFlip, ThreeCoins, ReadingCard
+  </Card>
+</CardGrid>
+
+[Explore all components →](/components/)
+
+---
+
+## I Ching Divination Components
+
+Built specifically for divination applications, these components handle traditional casting methods and reading displays.
+
+<CardGrid>
+  <Card title="Hexagram Display" icon="star">
+    Render the 64 hexagrams with support for changing lines. Includes `HexagramVisual`, `HexagramLine`, and `LineStack` for flexible layouts.
+  </Card>
+  <Card title="Coin Casting" icon="random">
+    Animated three-coin method with automatic line calculation. Realistic flip animations and result tracking with `CoinFlip` and `ThreeCoins`.
+  </Card>
+  <Card title="Trigram System" icon="puzzle">
+    Display the eight trigrams with Chinese characters and labels. Grid view for selection, pair view for upper/lower display.
+  </Card>
+  <Card title="Reading Cards" icon="document">
+    Beautiful cards for displaying reading summaries with hexagram visualization, dates, questions, and changing line indicators.
+  </Card>
+</CardGrid>
+
+Example coin casting flow:
+
+```tsx
+import { ThreeCoins, HexagramVisual } from '@synchronicity/react-native';
+
+function CastingScreen() {
+  const [lines, setLines] = useState<LineType[]>([]);
+  const [throwing, setThrowing] = useState(false);
+
+  const handleThrow = () => setThrowing(true);
+
+  const handleComplete = (result: ThrowResult) => {
+    setThrowing(false);
+    setLines(prev => [...prev, result.lineType]);
+  };
+
+  return (
+    <View>
+      <ThreeCoins
+        throwing={throwing}
+        onPress={handleThrow}
+        onThrowComplete={handleComplete}
+        showValue
+      />
+      {lines.length === 6 && (
+        <HexagramVisual lines={lines} size="xl" />
+      )}
+    </View>
+  );
+}
+```
+
+[View I Ching components →](/components/#i-ching-specific)
+
+---
+
+## Three Contemplative Themes
 
 <CardGrid>
   <Card title="Light" icon="sun">
@@ -77,6 +190,24 @@ This architecture enables scalable theming, consistent design decisions, and mai
   </Card>
 </CardGrid>
 
+All themes maintain WCAG AA contrast ratios and include gold-tinted shadows for consistent warmth.
+
+---
+
+## Three-Tier Token Architecture
+
+The token system follows a clear hierarchy, separating raw values from their meaning and usage:
+
+| Tier | Purpose | Example |
+|------|---------|---------|
+| **Primitives** | Raw, theme-agnostic values | `gold-60`, `void-90`, `space-4` |
+| **Semantic** | Purpose-driven, theme-aware | `text-primary`, `background`, `spacing-md` |
+| **Component** | Specific to UI elements | `button-primary-background`, `radius-modal` |
+
+This architecture enables scalable theming, consistent design decisions, and maintainable code across your entire application.
+
+[Learn more about tokens →](/tokens/architecture/)
+
 ---
 
 ## Token Categories
@@ -84,15 +215,28 @@ This architecture enables scalable theming, consistent design decisions, and mai
 | Category | Description |
 |----------|-------------|
 | **Color** | Gold spectrum, warm & cool grays, ethereal accents, semantic states |
-| **Typography** | System fonts with contemplative rhythm—display, heading, body, caption |
+| **Typography** | System fonts with contemplative rhythm—display, heading, body, label, caption |
 | **Spacing** | 4px base scale with semantic mapping—xs through 3xl |
 | **Motion** | Duration and easing including breathing animation timings (3.6s in, 1.2s hold, 4.8s out) |
-| **Radius** | Gentle curves that soften without losing clarity—sm, md, lg, xl |
+| **Radius** | Gentle curves that soften without losing clarity—sm, md, lg, xl, full |
 | **Shadow** | Gold-tinted shadows for warmth, optimized for mobile performance |
 | **Haptics** | Tactile feedback patterns—selection, impact, notification |
 
 ---
 
+## Built for React Native
+
+Synchronicity is purpose-built for React Native applications with:
+
+- 🎨 **Animated API support** - Smooth, performant animations
+- 📱 **Mobile-first** - Touch targets, gestures, haptics
+- ♿ **Accessible** - Screen reader support, keyboard navigation
+- 🌙 **OLED optimized** - True black theme for battery savings
+- 📦 **Tree-shakeable** - Import only what you need
+- 🎯 **TypeScript** - Full type safety with IntelliSense
+
+---
+
 <Aside type="tip" title="Ready to begin?">
-Start with the [Introduction](/getting-started/introduction/) to understand the philosophy, or dive into [Foundations](/foundations/overview/) to explore the design principles.
+Start with the [Introduction](/getting-started/introduction/) to understand the philosophy, explore the [Components](/components/) to see what's available, or dive into [Foundations](/foundations/overview/) to learn the design principles.
 </Aside>
