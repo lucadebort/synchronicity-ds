@@ -50,7 +50,14 @@ A design system for applications that honor the user's attention. Born from I Ch
 
 ## Three Contemplative Themes
 
-<div class="theme-showcase" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0;">
+<div class="theme-showcase" style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin: 2rem 0;">
+<style>
+@media (min-width: 768px) {
+  .theme-showcase {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+</style>
 
 <div style="background: linear-gradient(135deg, #faf8f3 0%, #f5f2ea 100%); border-radius: 12px; padding: 2rem; border: 1px solid #dacfc5;">
   <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
@@ -152,7 +159,19 @@ function CastingScreen() {
 
 From foundational UI to specialized divination tools.
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+<div class="component-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 2rem 0;">
+<style>
+@media (min-width: 640px) {
+  .component-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+@media (min-width: 1024px) {
+  .component-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+}
+</style>
 
 <div style="text-align: center; padding: 1rem;">
   <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
