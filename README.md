@@ -2,7 +2,7 @@
 
 A contemplative design system for mindful applications. Born from I Ching divination practice, crafted for React Native.
 
-**[📖 Documentation](https://lucadebort.github.io/synchronicity-ds/)** • **[🎨 Components](https://lucadebort.github.io/synchronicity-ds/components/)** • **[🧭 Foundations](https://lucadebort.github.io/synchronicity-ds/foundations/overview/)**
+**[📖 Documentation](https://synchronicity-ds.vercel.app/)** • **[🎨 Components](https://synchronicity-ds.vercel.app/components/)** • **[🧭 Foundations](https://synchronicity-ds.vercel.app/foundations/overview/)**
 
 ---
 
@@ -191,7 +191,7 @@ MIT License - see LICENSE file for details
 
 ## Links
 
-- **Documentation:** https://lucadebort.github.io/synchronicity-ds/
+- **Documentation:** https://synchronicity-ds.vercel.app/
 - **GitHub:** https://github.com/lucadebort/synchronicity-ds
 - **NPM Package:** @synchronicity/react-native (coming soon)
 
