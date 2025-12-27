@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Pressable,
   View,
@@ -60,6 +60,7 @@ export function IconButton({
 }: IconButtonProps) {
   const colors = useColors();
   const theme = useThemeObject();
+  const [isFocused, setIsFocused] = useState(false);
 
   const sizeConfig = {
     sm: { size: 32, iconSize: 16, radius: 6 },
@@ -107,6 +108,8 @@ export function IconButton({
     <Pressable
       onPress={onPress}
       disabled={disabled}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="button"
       accessibilityState={{ disabled }}
@@ -117,8 +120,8 @@ export function IconButton({
           height: currentSize.size,
           borderRadius,
           backgroundColor: getBackgroundColor(pressed),
-          borderColor: getBorderColor(),
-          borderWidth: variant === 'default' ? 1 : 0,
+          borderColor: isFocused && !disabled ? colors['border-focus'] : getBorderColor(),
+          borderWidth: isFocused && !disabled ? 2 : (variant === 'default' ? 1 : 0),
           opacity: disabled ? 0.5 : 1,
         },
         style,

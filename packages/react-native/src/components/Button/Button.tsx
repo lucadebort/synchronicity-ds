@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Pressable,
   Text,
@@ -73,6 +73,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
   ) => {
   const colors = useColors();
   const isDisabled = disabled || loading;
+  const [isFocused, setIsFocused] = useState(false);
 
   // Get colors based on variant and state
   const getBackgroundColor = (pressed: boolean) => {
@@ -156,6 +157,8 @@ export const Button = React.forwardRef<View, ButtonProps>(
       ref={ref}
       onPress={onPress}
       disabled={isDisabled}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
       accessibilityLabel={accessibilityLabel || children}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
@@ -166,11 +169,12 @@ export const Button = React.forwardRef<View, ButtonProps>(
           paddingHorizontal: currentSize.paddingHorizontal,
           minWidth: fullWidth ? undefined : currentSize.minWidth,
           backgroundColor: getBackgroundColor(pressed),
-          borderColor: getBorderColor(),
+          borderColor: isFocused && !isDisabled ? colors['border-focus'] : getBorderColor(),
           borderRadius: pill
             ? buttonTokens['button-radius-pill']
             : buttonTokens['button-radius'],
           opacity: pressed && !isDisabled ? 0.9 : 1,
+          borderWidth: isFocused && !isDisabled ? 2 : 1,
         },
         fullWidth && styles.fullWidth,
         style,

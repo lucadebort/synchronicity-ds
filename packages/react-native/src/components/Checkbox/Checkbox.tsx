@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Pressable,
   View,
@@ -51,6 +51,7 @@ export function Checkbox({
   const colors = useColors();
   const theme = useThemeObject();
   const scale = useRef(new Animated.Value(checked || indeterminate ? 1 : 0)).current;
+  const [isFocused, setIsFocused] = useState(false);
 
   const sizeConfig = {
     sm: { box: 16, icon: 10, borderRadius: 4, borderWidth: 1.5 },
@@ -77,12 +78,17 @@ export function Checkbox({
 
   const isActive = checked || indeterminate;
   const backgroundColor = isActive ? colors['gold-primary'] : 'transparent';
-  const borderColor = isActive ? colors['gold-primary'] : colors['border-default'];
+  const getBorderColor = () => {
+    if (isFocused && !disabled) return colors['border-focus'];
+    return isActive ? colors['gold-primary'] : colors['border-default'];
+  };
 
   return (
     <Pressable
       onPress={handlePress}
       disabled={disabled}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
       accessibilityRole="checkbox"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ checked: indeterminate ? 'mixed' : checked, disabled }}
@@ -92,8 +98,8 @@ export function Checkbox({
           width: currentSize.box,
           height: currentSize.box,
           borderRadius: currentSize.borderRadius,
-          borderWidth: currentSize.borderWidth,
-          borderColor,
+          borderWidth: isFocused && !disabled ? 2 : currentSize.borderWidth,
+          borderColor: getBorderColor(),
           backgroundColor,
           opacity: disabled ? 0.5 : 1,
         },

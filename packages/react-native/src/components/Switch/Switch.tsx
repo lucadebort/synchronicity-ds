@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Pressable,
   Animated,
@@ -50,6 +50,7 @@ export function Switch({
   const colors = useColors();
   const theme = useThemeObject();
   const translateX = useRef(new Animated.Value(value ? 1 : 0)).current;
+  const [isFocused, setIsFocused] = useState(false);
 
   const sizeConfig = {
     sm: { width: 36, height: 20, thumbSize: 16, padding: 2 },
@@ -88,6 +89,8 @@ export function Switch({
     <Pressable
       onPress={handlePress}
       disabled={disabled}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
       accessibilityRole="switch"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ checked: value, disabled }}
@@ -100,6 +103,8 @@ export function Switch({
           backgroundColor: trackColor,
           padding: currentSize.padding,
           opacity: disabled ? 0.5 : 1,
+          borderWidth: isFocused && !disabled ? 2 : 0,
+          borderColor: isFocused && !disabled ? colors['border-focus'] : 'transparent',
         },
         style,
       ]}
