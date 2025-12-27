@@ -51,28 +51,28 @@ export function Alert({
 
   const variantStyles: Record<AlertVariant, { bg: string; border: string; text: string; title: string }> = {
     info: {
-      bg: 'rgba(99, 102, 241, 0.1)',
-      border: 'rgba(99, 102, 241, 0.3)',
-      text: '#a5b4fc',
-      title: '#c7d2fe',
+      bg: colors['alert-info-bg'],
+      border: colors['alert-info-border'],
+      text: colors['alert-info-text'],
+      title: colors['alert-info-title'],
     },
     success: {
-      bg: 'rgba(16, 185, 129, 0.1)',
-      border: 'rgba(16, 185, 129, 0.3)',
-      text: '#6ee7b7',
-      title: '#a7f3d0',
+      bg: colors['alert-success-bg'],
+      border: colors['alert-success-border'],
+      text: colors['alert-success-text'],
+      title: colors['alert-success-title'],
     },
     warning: {
-      bg: 'rgba(245, 158, 11, 0.1)',
-      border: 'rgba(245, 158, 11, 0.3)',
-      text: '#fcd34d',
-      title: '#fde68a',
+      bg: colors['alert-warning-bg'],
+      border: colors['alert-warning-border'],
+      text: colors['alert-warning-text'],
+      title: colors['alert-warning-title'],
     },
     error: {
-      bg: 'rgba(239, 68, 68, 0.1)',
-      border: 'rgba(239, 68, 68, 0.3)',
-      text: '#fca5a5',
-      title: '#fecaca',
+      bg: colors['alert-error-bg'],
+      border: colors['alert-error-border'],
+      text: colors['alert-error-text'],
+      title: colors['alert-error-title'],
     },
   };
 

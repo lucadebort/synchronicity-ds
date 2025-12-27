@@ -12,12 +12,12 @@ import {
 import { buttonTokens } from '@synchronicity/tokens';
 import { useColors } from '../../hooks/useTheme';
 
-export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends Omit<PressableProps, 'style'> {
   /** Visual style variant */
-  kind?: ButtonKind;
+  variant?: ButtonVariant;
   /** Size of the button */
   size?: ButtonSize;
   /** Button label text */
@@ -30,8 +30,8 @@ export interface ButtonProps extends Omit<PressableProps, 'style'> {
   fullWidth?: boolean;
   /** Pill-shaped button (fully rounded) */
   pill?: boolean;
-  /** Accessibility label (REQUIRED for a11y compliance) */
-  accessibilityLabel: string;
+  /** Accessibility label - defaults to children text if not provided */
+  accessibilityLabel?: string;
   /** Custom style overrides */
   style?: StyleProp<ViewStyle>;
   /** Custom text style overrides */
@@ -44,9 +44,8 @@ export interface ButtonProps extends Omit<PressableProps, 'style'> {
  * @example
  * ```tsx
  * <Button
- *   kind="primary"
+ *   variant="primary"
  *   size="md"
- *   accessibilityLabel="Submit form"
  *   onPress={handleSubmit}
  * >
  *   Submit
@@ -54,7 +53,7 @@ export interface ButtonProps extends Omit<PressableProps, 'style'> {
  * ```
  */
 export function Button({
-  kind = 'primary',
+  variant = 'primary',
   size = 'md',
   children,
   loading = false,
@@ -70,11 +69,11 @@ export function Button({
   const colors = useColors();
   const isDisabled = disabled || loading;
 
-  // Get colors based on kind and state
+  // Get colors based on variant and state
   const getBackgroundColor = (pressed: boolean) => {
     if (isDisabled) return colors['interactive-disabled'];
 
-    switch (kind) {
+    switch (variant) {
       case 'primary':
         return pressed
           ? colors['interactive-primary-active']
@@ -97,7 +96,7 @@ export function Button({
   const getTextColor = () => {
     if (isDisabled) return colors['text-disabled'];
 
-    switch (kind) {
+    switch (variant) {
       case 'primary':
       case 'danger':
         return colors['text-on-color'];
@@ -112,7 +111,7 @@ export function Button({
   const getBorderColor = () => {
     if (isDisabled) return 'transparent';
 
-    switch (kind) {
+    switch (variant) {
       case 'secondary':
         return colors['border-default'];
       default:
@@ -151,7 +150,7 @@ export function Button({
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
-      accessibilityLabel={accessibilityLabel}
+      accessibilityLabel={accessibilityLabel || children}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled, busy: loading }}
       style={({ pressed }) => [

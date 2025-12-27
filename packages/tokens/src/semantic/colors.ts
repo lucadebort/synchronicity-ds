@@ -63,6 +63,24 @@ export const lightColors = {
   'support-info': ethereal['ethereal-blue-50'],
   'support-info-subtle': ethereal['ethereal-blue-10'],
 
+  // Alert States
+  'alert-info-bg': 'rgba(107, 124, 154, 0.1)',
+  'alert-info-border': ethereal['ethereal-blue-30'],
+  'alert-info-text': ethereal['ethereal-blue-60'],
+  'alert-info-title': ethereal['ethereal-blue-70'],
+  'alert-success-bg': 'rgba(13, 143, 104, 0.1)',
+  'alert-success-border': support['support-green-30'],
+  'alert-success-text': support['support-green-60'],
+  'alert-success-title': support['support-green-70'],
+  'alert-warning-bg': 'rgba(216, 118, 0, 0.1)',
+  'alert-warning-border': support['support-amber-30'],
+  'alert-warning-text': support['support-amber-60'],
+  'alert-warning-title': support['support-amber-70'],
+  'alert-error-bg': 'rgba(201, 58, 58, 0.1)',
+  'alert-error-border': support['support-red-30'],
+  'alert-error-text': support['support-red-60'],
+  'alert-error-title': support['support-red-70'],
+
   // Grays (for direct access)
   'gray-900': gray['gray-warm-70'],
   'gray-700': gray['gray-warm-60'],
@@ -139,6 +157,24 @@ export const darkColors = {
   'support-info': ethereal['ethereal-blue-40'],
   'support-info-subtle': ethereal['ethereal-blue-60'],
 
+  // Alert States
+  'alert-info-bg': 'rgba(99, 102, 241, 0.1)',
+  'alert-info-border': 'rgba(99, 102, 241, 0.3)',
+  'alert-info-text': '#a5b4fc',
+  'alert-info-title': '#c7d2fe',
+  'alert-success-bg': 'rgba(16, 185, 129, 0.1)',
+  'alert-success-border': 'rgba(16, 185, 129, 0.3)',
+  'alert-success-text': '#6ee7b7',
+  'alert-success-title': '#a7f3d0',
+  'alert-warning-bg': 'rgba(245, 158, 11, 0.1)',
+  'alert-warning-border': 'rgba(245, 158, 11, 0.3)',
+  'alert-warning-text': '#fcd34d',
+  'alert-warning-title': '#fde68a',
+  'alert-error-bg': 'rgba(239, 68, 68, 0.1)',
+  'alert-error-border': 'rgba(239, 68, 68, 0.3)',
+  'alert-error-text': '#fca5a5',
+  'alert-error-title': '#fecaca',
+
   // Grays (for direct access)
   'gray-900': gray['gray-cool-80'],
   'gray-700': gray['gray-cool-70'],
@@ -214,6 +250,24 @@ export const trueBlackColors = {
   'support-error-subtle': support['support-red-60'],
   'support-info': ethereal['ethereal-blue-40'],
   'support-info-subtle': ethereal['ethereal-blue-60'],
+
+  // Alert States - Same as dark
+  'alert-info-bg': 'rgba(99, 102, 241, 0.1)',
+  'alert-info-border': 'rgba(99, 102, 241, 0.3)',
+  'alert-info-text': '#a5b4fc',
+  'alert-info-title': '#c7d2fe',
+  'alert-success-bg': 'rgba(16, 185, 129, 0.1)',
+  'alert-success-border': 'rgba(16, 185, 129, 0.3)',
+  'alert-success-text': '#6ee7b7',
+  'alert-success-title': '#a7f3d0',
+  'alert-warning-bg': 'rgba(245, 158, 11, 0.1)',
+  'alert-warning-border': 'rgba(245, 158, 11, 0.3)',
+  'alert-warning-text': '#fcd34d',
+  'alert-warning-title': '#fde68a',
+  'alert-error-bg': 'rgba(239, 68, 68, 0.1)',
+  'alert-error-border': 'rgba(239, 68, 68, 0.3)',
+  'alert-error-text': '#fca5a5',
+  'alert-error-title': '#fecaca',
 
   // Grays - Same as dark
   'gray-900': gray['gray-cool-80'],
