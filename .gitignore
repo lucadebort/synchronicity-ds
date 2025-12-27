@@ -19,6 +19,8 @@ build
 *.swp
 *.swo
 .DS_Store
+.claude
+*.code-workspace
 
 # Logs
 *.log

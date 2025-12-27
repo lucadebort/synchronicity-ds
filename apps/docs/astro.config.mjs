@@ -15,7 +15,7 @@ export default defineConfig({
 			},
 			customCss: ['./src/styles/custom.css'],
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/your-org/synchronicity-design-system' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/lucadebort/synchronicity-ds' },
 			],
 			sidebar: [
 				{
