@@ -162,6 +162,13 @@ export default defineConfig({
 						content: '#d4af37',
 					},
 				},
+				{
+					tag: 'script',
+					attrs: {
+						src: '/breadcrumb.js',
+						defer: true,
+					},
+				},
 			],
 		}),
 	],

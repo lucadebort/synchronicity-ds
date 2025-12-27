@@ -251,10 +251,10 @@ select[data-theme-select] {
    Starlight's Content Gap - Use default with overrides
 
    Keep Starlight's automatic spacing but override for specific cases.
-   ------------------------------------------------------------ */
+   ------------------------------------------------------------ 
 .sl-markdown-content :not(a, strong, em, del, span, input, code, br) + :not(a, strong, em, del, span, input, code, br, :where(.not-content *)) {
   margin-top: var(--sl-content-gap-y);
-}
+}*/
 
 /* Fix inline styled elements from getting unwanted margins */
 .theme-showcase > div {
@@ -296,6 +296,122 @@ div[style*="display: flex"][style*="gap: 4px"] > div {
 /* Fix color-grid swatches */
 .color-grid > div {
   margin-top: 0 !important;
+}
+
+/* Fix bullet list items in gold accent section */
+div[style*="display: grid"][style*="gap: 0.75rem"] > div[style*="display: flex"] {
+  margin-top: 0 !important;
+}
+
+/* Nuclear option - force all flex items with align-items: center to have no top margin */
+.sl-markdown-content div[style*="align-items: center"] {
+  margin-top: 0 !important;
+}
+
+/* Target gold bullet list specifically */
+.sl-markdown-content .gold-bullet-list > div,
+.gold-bullet-list > div,
+div.gold-bullet-list > div {
+  margin-top: 0 !important;
+}
+
+/* Fix duplicate H1 headings - Starlight renders H1 twice */
+.sl-markdown-content h1:first-of-type {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   Section Label & Sticky Breadcrumb
+   ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   Heading Spacing - Override Starlight defaults
+   ------------------------------------------------------------ */
+
+/* H1 - Reserve space for section label on subpages */
+.content-panel h1 {
+  margin-top: 1.5rem !important; /* Reserved for section label */
+  margin-bottom: 1rem !important; /* 16px - group with intro content */
+}
+
+/* H2 - Major sections need breathing room */
+.sl-markdown-content h2 {
+  margin-top: 3rem !important; /* 48px - clear visual break */
+  margin-bottom: 0.75rem !important; /* 12px - close to content */
+}
+
+/* H3 - Subsections */
+.sl-markdown-content h3 {
+  margin-top: 2.5rem !important; /* 40px - good separation */
+  margin-bottom: 0.75rem !important; /* 12px */
+}
+
+/* H4-H6 - Minor headings */
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6 {
+  margin-top: 2rem !important; /* 32px */
+  margin-bottom: 0.75rem !important; /* 12px */
+}
+
+/* Section label above H1 */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sl-color-gray-4);
+  margin-bottom: 0.5rem;
+  display: block;
+  position: absolute;
+  margin-top: -1.5rem; /* Position in reserved space above H1 */
+}
+
+/* Sticky breadcrumb that appears on scroll */
+#sticky-breadcrumb {
+  position: fixed;
+  top: var(--sl-nav-height);
+  /* left and width set by JavaScript to match content panel */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  background: rgba(10, 10, 15, 0.95);
+  border-bottom: 1px solid var(--sl-color-hairline);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sl-color-gray-3);
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Show breadcrumb when scrolled */
+#sticky-breadcrumb.visible {
+  opacity: 1;
+}
+
+/* Light theme styling for breadcrumb */
+#sticky-breadcrumb.light-theme {
+  background: rgba(250, 248, 243, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #5a4f45;
+}
+
+/* Add scroll margin to headings for sticky breadcrumb + nav */
+#_top {
+  scroll-margin-top: 88px; /* 64px nav + 24px margin */
+}
+
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.sl-markdown-content h5,
+.sl-markdown-content h6 {
+  scroll-margin-top: 32px;
 }
 
 /* ------------------------------------------------------------
@@ -931,3 +1047,4 @@ div[style*="display: flex"][style*="gap: 4px"] > div {
     border: 1px solid #ccc;
   }
 }
+
