@@ -7,6 +7,11 @@
  */
 
 function initBreadcrumb() {
+  // Skip breadcrumb on homepage (splash template)
+  if (window.location.pathname === '/' || window.location.pathname === '/synchronicity-design-system/') {
+    return;
+  }
+
   const contentPanel = document.querySelector('.content-panel');
   const h1 = document.querySelector('.content-panel h1');
 
