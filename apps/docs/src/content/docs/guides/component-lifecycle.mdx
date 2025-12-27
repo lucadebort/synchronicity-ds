@@ -4,7 +4,6 @@ description: Understanding component maturity stages and versioning
 ---
 
 import { Aside } from '@astrojs/starlight/components';
-import StatusBadge from '../../../components/StatusBadge.astro';
 
 All components in the Synchronicity Design System follow a clear lifecycle from initial development to stable release. This ensures predictability when integrating components and sets clear expectations for API stability.
 
@@ -13,8 +12,6 @@ All components in the Synchronicity Design System follow a clear lifecycle from 
 ## Lifecycle Stages
 
 ### 🟢 Stable
-
-<StatusBadge status="stable" version="2.1.0" since="1.0.0" />
 
 **Production ready with guaranteed API stability.**
 
@@ -31,8 +28,6 @@ All components in the Synchronicity Design System follow a clear lifecycle from 
 
 ### 🟡 Beta
 
-<StatusBadge status="beta" version="1.0.0-beta.2" since="1.0.0-beta.1" />
-
 **Feature complete, undergoing user testing.**
 
 - API is stable but may receive minor adjustments
@@ -47,8 +42,6 @@ All components in the Synchronicity Design System follow a clear lifecycle from 
 ---
 
 ### 🔵 Alpha
-
-<StatusBadge status="alpha" version="0.5.0-alpha.1" />
 
 **Feature complete, API may change significantly.**
 
@@ -65,8 +58,6 @@ All components in the Synchronicity Design System follow a clear lifecycle from 
 
 ### ⚪ Draft
 
-<StatusBadge status="draft" />
-
 **In active development, highly unstable.**
 
 - Experimental implementation
@@ -81,8 +72,6 @@ All components in the Synchronicity Design System follow a clear lifecycle from 
 ---
 
 ### 🔴 Deprecated
-
-<StatusBadge status="deprecated" />
 
 **Scheduled for removal, use alternative instead.**
 
@@ -182,18 +171,15 @@ Before a component reaches **stable** status, it must pass:
 
 ---
 
-## Reading Component Status
+## Component Status Tracking
 
-Each component documentation page displays its current status at the top:
+Components follow a clear maturity progression:
 
-```mdx
-<StatusBadge status="stable" version="2.1.0" since="1.0.0" />
-```
-
-This tells you:
-- **Status**: Current maturity level (stable, beta, alpha, draft, deprecated)
-- **Version**: Current version number
-- **Since**: Version when component was introduced
+- **🟢 Stable**: Production ready with guaranteed API stability
+- **🟡 Beta**: Feature complete, undergoing user testing
+- **🔵 Alpha**: Feature complete but API may change
+- **⚪ Draft**: In active development, unstable
+- **🔴 Deprecated**: Scheduled for removal
 
 Use this information to:
 - Assess production readiness
