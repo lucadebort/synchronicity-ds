@@ -71,6 +71,7 @@ export function Tabs({
   const indicatorPosition = useRef(new Animated.Value(0)).current;
   const indicatorWidth = useRef(new Animated.Value(0)).current;
   const [tabLayouts, setTabLayouts] = useState<{ [key: string]: { x: number; width: number } }>({});
+  const [focusedTab, setFocusedTab] = useState<string | null>(null);
 
   const selectedIndex = tabs.findIndex((tab) => tab.key === value);
 
@@ -133,11 +134,15 @@ export function Tabs({
             const isSelected = tab.key === value;
             const isDisabled = tab.disabled;
 
+            const isFocused = focusedTab === tab.key;
+
             return (
               <Pressable
                 key={tab.key}
                 onPress={() => handleTabPress(tab.key, tab.disabled)}
                 onLayout={handleTabLayout(tab.key)}
+                onFocus={() => setFocusedTab(tab.key)}
+                onBlur={() => setFocusedTab(null)}
                 disabled={isDisabled}
                 accessibilityRole="tab"
                 accessibilityLabel={tab.label}
@@ -145,7 +150,11 @@ export function Tabs({
                 style={[
                   styles.tab,
                   fullWidth && styles.tabFullWidth,
-                  { opacity: isDisabled ? 0.5 : 1 },
+                  {
+                    opacity: isDisabled ? 0.5 : 1,
+                    borderBottomWidth: isFocused && !isDisabled ? 2 : 0,
+                    borderBottomColor: isFocused && !isDisabled ? colors['border-focus'] : 'transparent',
+                  },
                 ]}
               >
                 {tab.icon && <View style={styles.tabIcon}>{tab.icon}</View>}
