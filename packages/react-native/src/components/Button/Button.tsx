@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  View,
   type PressableProps,
   type StyleProp,
   type ViewStyle,
@@ -52,20 +53,24 @@ export interface ButtonProps extends Omit<PressableProps, 'style'> {
  * </Button>
  * ```
  */
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  children,
-  loading = false,
-  disabled = false,
-  fullWidth = false,
-  pill = false,
-  accessibilityLabel,
-  style,
-  textStyle,
-  onPress,
-  ...props
-}: ButtonProps) {
+export const Button = React.forwardRef<View, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      children,
+      loading = false,
+      disabled = false,
+      fullWidth = false,
+      pill = false,
+      accessibilityLabel,
+      style,
+      textStyle,
+      onPress,
+      ...props
+    },
+    ref
+  ) => {
   const colors = useColors();
   const isDisabled = disabled || loading;
 
@@ -148,6 +153,7 @@ export function Button({
 
   return (
     <Pressable
+      ref={ref}
       onPress={onPress}
       disabled={isDisabled}
       accessibilityLabel={accessibilityLabel || children}
@@ -194,7 +200,10 @@ export function Button({
       )}
     </Pressable>
   );
-}
+  }
+);
+
+Button.displayName = 'Button';
 
 const styles = StyleSheet.create({
   base: {
