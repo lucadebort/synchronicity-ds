@@ -50,6 +50,7 @@ export default defineConfig({
 					label: 'Guides',
 					items: [
 						{ label: 'Usage Patterns', slug: 'guides/usage-patterns' },
+						{ label: 'Component Lifecycle', slug: 'guides/component-lifecycle' },
 					],
 				},
 				{

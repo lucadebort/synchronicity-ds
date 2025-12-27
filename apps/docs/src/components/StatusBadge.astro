@@ -1,0 +1,96 @@
+---
+export interface Props {
+  status: 'stable' | 'beta' | 'alpha' | 'draft' | 'deprecated';
+  version?: string;
+  since?: string;
+}
+
+const { status, version, since } = Astro.props;
+
+const statusConfig = {
+  stable: { emoji: '🟢', label: 'Stable', color: '#0d8f68' },
+  beta: { emoji: '🟡', label: 'Beta', color: '#d87600' },
+  alpha: { emoji: '🔵', label: 'Alpha', color: '#6b7c9a' },
+  draft: { emoji: '⚪', label: 'Draft', color: '#78716c' },
+  deprecated: { emoji: '🔴', label: 'Deprecated', color: '#c93a3a' },
+};
+
+const config = statusConfig[status];
+---
+
+<div class="status-badge-container">
+  <div class="status-badge" style={`--badge-color: ${config.color}`}>
+    <span class="status-emoji">{config.emoji}</span>
+    <span class="status-label">{config.label}</span>
+  </div>
+  {version && (
+    <div class="version-info">
+      <span class="version-label">Current:</span>
+      <span class="version-number">{version}</span>
+    </div>
+  )}
+  {since && (
+    <div class="version-info">
+      <span class="version-label">Since:</span>
+      <span class="version-number">{since}</span>
+    </div>
+  )}
+</div>
+
+<style>
+  .status-badge-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--sl-color-bg-sidebar);
+    border-radius: 8px;
+    border-left: 3px solid var(--badge-color);
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--sl-color-gray-6);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .status-emoji {
+    font-size: 1rem;
+  }
+
+  .status-label {
+    color: var(--badge-color);
+  }
+
+  .version-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+  }
+
+  .version-label {
+    color: var(--sl-color-gray-3);
+    font-weight: 500;
+  }
+
+  .version-number {
+    color: var(--sl-color-text);
+    font-family: var(--sl-font-mono);
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .status-badge-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>

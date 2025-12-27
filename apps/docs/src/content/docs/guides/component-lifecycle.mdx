@@ -1,0 +1,275 @@
+---
+title: Component Lifecycle
+description: Understanding component maturity stages and versioning
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import StatusBadge from '../../../components/StatusBadge.astro';
+
+All components in the Synchronicity Design System follow a clear lifecycle from initial development to stable release. This ensures predictability when integrating components and sets clear expectations for API stability.
+
+---
+
+## Lifecycle Stages
+
+### 🟢 Stable
+
+<StatusBadge status="stable" version="2.1.0" since="1.0.0" />
+
+**Production ready with guaranteed API stability.**
+
+- Fully tested across iOS and Android
+- Complete documentation with examples
+- Accessibility audit passed (WCAG 2.1 AA)
+- API frozen, only receives bug fixes
+- Follows semantic versioning for updates
+- Safe for production use
+
+**Breaking changes** require a major version bump and deprecation period.
+
+---
+
+### 🟡 Beta
+
+<StatusBadge status="beta" version="1.0.0-beta.2" since="1.0.0-beta.1" />
+
+**Feature complete, undergoing user testing.**
+
+- API is stable but may receive minor adjustments
+- Documentation complete
+- Most testing complete, edge cases being validated
+- Accessibility tested
+- Safe for non-critical features
+- Feedback actively incorporated
+
+**Use when**: You want early access to new components and can tolerate minor API changes.
+
+---
+
+### 🔵 Alpha
+
+<StatusBadge status="alpha" version="0.5.0-alpha.1" />
+
+**Feature complete, API may change significantly.**
+
+- Core functionality implemented
+- Basic documentation available
+- API subject to breaking changes without warning
+- Testing in progress
+- Use with caution
+- Expect bugs and rough edges
+
+**Use when**: You're actively collaborating on development or need bleeding-edge features.
+
+---
+
+### ⚪ Draft
+
+<StatusBadge status="draft" />
+
+**In active development, highly unstable.**
+
+- Experimental implementation
+- API unstable and changing rapidly
+- Limited or no documentation
+- Not recommended for any production use
+- May be removed without notice
+- Proof of concept stage
+
+**Use when**: You're contributing to development or exploring future direction.
+
+---
+
+### 🔴 Deprecated
+
+<StatusBadge status="deprecated" />
+
+**Scheduled for removal, use alternative instead.**
+
+- No longer maintained
+- Will be removed in next major version
+- Migration guide provided
+- Security fixes only
+- Alternative component recommended
+- 6-month deprecation period minimum
+
+**Action required**: Migrate to suggested alternative before next major version.
+
+<Aside type="caution">
+Deprecated components will show console warnings in development mode. Plan migration promptly.
+</Aside>
+
+---
+
+## Versioning Strategy
+
+Synchronicity follows **Semantic Versioning 2.0.0**:
+
+### Major Version (X.0.0)
+
+- Breaking API changes
+- Component removals
+- Token restructuring
+- New required dependencies
+
+**Example**: `variant` prop renamed to `type`
+
+### Minor Version (0.X.0)
+
+- New components
+- New features (backward compatible)
+- New props with defaults
+- Performance improvements
+
+**Example**: Adding `pill` prop to Button with default `false`
+
+### Patch Version (0.0.X)
+
+- Bug fixes
+- Documentation updates
+- Internal refactoring
+- Accessibility improvements (non-breaking)
+
+**Example**: Fixing focus indicator color in dark theme
+
+---
+
+## Component Maturity Checklist
+
+Before a component reaches **stable** status, it must pass:
+
+### Code Quality
+- [ ] 100% TypeScript coverage
+- [ ] All variants implemented
+- [ ] All size options functional
+- [ ] Error states handled
+- [ ] Loading states (if applicable)
+- [ ] Design tokens used exclusively (no hardcoded values)
+
+### Testing
+- [ ] Unit tests for all props
+- [ ] Interaction tests (press, focus, blur)
+- [ ] Accessibility tests
+- [ ] Theme switching verified
+- [ ] iOS tested (simulator + device)
+- [ ] Android tested (emulator + device)
+
+### Accessibility
+- [ ] WCAG 2.1 AA compliant
+- [ ] Touch targets ≥ 44×44pt
+- [ ] Color contrast verified (all themes)
+- [ ] Screen reader tested (VoiceOver + TalkBack)
+- [ ] Keyboard navigation (where applicable)
+- [ ] Focus indicators visible (2px)
+- [ ] Proper ARIA roles and labels
+
+### Documentation
+- [ ] Overview and purpose clear
+- [ ] All variants documented with examples
+- [ ] Props table complete
+- [ ] Usage guidelines (Do/Don't)
+- [ ] Accessibility section
+- [ ] 3+ code examples
+- [ ] Token reference
+- [ ] Complete example
+
+### Review
+- [ ] Design review approved
+- [ ] API review approved
+- [ ] Accessibility audit passed
+- [ ] Cross-platform tested
+- [ ] No console warnings
+
+---
+
+## Reading Component Status
+
+Each component documentation page displays its current status at the top:
+
+```mdx
+<StatusBadge status="stable" version="2.1.0" since="1.0.0" />
+```
+
+This tells you:
+- **Status**: Current maturity level (stable, beta, alpha, draft, deprecated)
+- **Version**: Current version number
+- **Since**: Version when component was introduced
+
+Use this information to:
+- Assess production readiness
+- Plan upgrade paths
+- Understand API stability guarantees
+- Identify components needing alternatives
+
+---
+
+## Migration Guides
+
+When components are deprecated, migration guides are provided:
+
+### Example: Button `kind` → `variant`
+
+**Deprecated in**: 2.0.0
+**Removed in**: 3.0.0
+**Alternative**: Use `variant` prop instead
+
+```tsx
+// ❌ Old (deprecated)
+<Button kind="primary">Submit</Button>
+
+// ✅ New (stable)
+<Button variant="primary">Submit</Button>
+```
+
+**Automated migration**:
+```bash
+npx @synchronicity/codemod button-kind-to-variant
+```
+
+---
+
+## Contributing to Lifecycle
+
+Want to help advance components through lifecycle stages?
+
+1. **Testing**: Use components in real projects, report issues
+2. **Feedback**: Share API improvement ideas
+3. **Documentation**: Submit examples and use cases
+4. **Accessibility**: Test with screen readers, report issues
+5. **Code**: Submit PRs for bug fixes or features
+
+See [CONTRIBUTING.md](https://github.com/lucadebort/synchronicity-ds/blob/main/CONTRIBUTING.md) for details.
+
+---
+
+## Frequently Asked Questions
+
+### Can I use beta components in production?
+
+**Yes**, if you accept the risk of minor API changes. Beta components are feature-complete and tested, but may receive small API adjustments based on user feedback.
+
+### How long is the deprecation period?
+
+**Minimum 6 months** and one major version. Security fixes are provided during this period.
+
+### What happens to alpha components?
+
+They may **graduate to beta** after testing, **remain in alpha** for extended development, or be **removed** if they don't meet quality standards.
+
+### How do I track component status changes?
+
+- Subscribe to [release notes](https://github.com/lucadebort/synchronicity-ds/releases)
+- Watch the [changelog](https://github.com/lucadebort/synchronicity-ds/blob/main/CHANGELOG.md)
+- Enable update notifications in your package manager
+
+### Can stable components change?
+
+Only through **patch/minor versions** for bug fixes and backward-compatible improvements. Breaking changes require a new major version and deprecation period.
+
+---
+
+## Related
+
+- [CONTRIBUTING.md](https://github.com/lucadebort/synchronicity-ds/blob/main/CONTRIBUTING.md) - Component proposal process
+- [Semantic Versioning](https://semver.org/) - Versioning specification
+- [Changelog](https://github.com/lucadebort/synchronicity-ds/blob/main/CHANGELOG.md) - Version history
