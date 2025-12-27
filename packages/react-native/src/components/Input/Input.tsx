@@ -47,21 +47,25 @@ export interface InputProps extends Omit<TextInputProps, 'style'> {
  * />
  * ```
  */
-export function Input({
-  label,
-  helperText,
-  error,
-  variant = 'default',
-  size = 'md',
-  leftElement,
-  rightElement,
-  fullWidth = false,
-  containerStyle,
-  inputStyle,
-  onFocus,
-  onBlur,
-  ...props
-}: InputProps) {
+export const Input = React.forwardRef<TextInput, InputProps>(
+  (
+    {
+      label,
+      helperText,
+      error,
+      variant = 'default',
+      size = 'md',
+      leftElement,
+      rightElement,
+      fullWidth = false,
+      containerStyle,
+      inputStyle,
+      onFocus,
+      onBlur,
+      ...props
+    },
+    ref
+  ) => {
   const colors = useColors();
   const theme = useThemeObject();
   const [isFocused, setIsFocused] = useState(false);
@@ -156,6 +160,7 @@ export function Input({
         )}
 
         <TextInput
+          ref={ref}
           style={[
             styles.input,
             {
@@ -196,7 +201,9 @@ export function Input({
       )}
     </View>
   );
-}
+});
+
+Input.displayName = 'Input';
 
 const styles = StyleSheet.create({
   fullWidth: {
