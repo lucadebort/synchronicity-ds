@@ -20,7 +20,7 @@
     "release": "turbo run build --filter=@synchronicity/* && changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
+    "@changesets/cli": "^2.29.8",
     "prettier": "^3.2.5",
     "turbo": "^2.0.0",
     "typescript": "^5.4.0"
