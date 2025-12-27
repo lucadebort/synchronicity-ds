@@ -3,11 +3,26 @@ title: Foundations Overview
 description: The design principles and philosophy behind Synchronicity
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
 
 # Foundations
 
 Synchronicity is built on a philosophy of **contemplative design**—creating digital experiences that encourage mindfulness, clarity, and purposeful interaction.
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
+  <div style="padding: 1.25rem; background: linear-gradient(135deg, #faf8f3 0%, #f5f2ea 100%); border-radius: 10px; border: 1px solid #e0dcd0;">
+    <div style="font-size: 11px; font-weight: 600; color: #6b4f00; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Light</div>
+    <div style="height: 50px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 8px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);"></div>
+  </div>
+  <div style="padding: 1.25rem; background: linear-gradient(135deg, #1a1a24 0%, #0f0f18 100%); border-radius: 10px; border: 1px solid #2a2a40;">
+    <div style="font-size: 11px; font-weight: 600; color: #d4af37; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Dark</div>
+    <div style="height: 50px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 8px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);"></div>
+  </div>
+  <div style="padding: 1.25rem; background: #000000; border-radius: 10px; border: 1px solid #1a1a24;">
+    <div style="font-size: 11px; font-weight: 600; color: #d4af37; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">True Black</div>
+    <div style="height: 50px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 8px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);"></div>
+  </div>
+</div>
 
 ## Core Principles
 
@@ -28,70 +43,248 @@ Synchronicity is built on a philosophy of **contemplative design**—creating di
 
 ## The Three Themes
 
-Synchronicity supports three distinct themes, each crafted for specific contexts:
+Each theme is crafted for specific contexts and optimized for its environment.
 
-### Light Mode
-Designed for daytime use and well-lit environments. Features warm cream backgrounds (`#faf8f3`) that reduce eye strain while maintaining excellent readability.
+<div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
+  <div style="padding: 1.5rem; background: linear-gradient(135deg, #faf8f3 0%, #f5f2ea 100%); border-radius: 12px; border: 1px solid #dacfc5;">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+      <div style="font-size: 2rem;">☀️</div>
+      <div>
+        <div style="font-size: 16px; font-weight: 600; color: #2a2520;">Light Mode</div>
+        <div style="font-family: monospace; font-size: 11px; color: #6b5f55;">#faf8f3</div>
+      </div>
+    </div>
+    <div style="font-size: 14px; color: #5a4f45; line-height: 1.5;">Designed for daytime use and well-lit environments. Warm cream backgrounds reduce eye strain while maintaining excellent readability.</div>
+  </div>
 
-### Dark Mode
-Optimized for low-light environments and OLED displays. Uses deep void backgrounds (`#0a0a0f`) that make gold accents luminous and reduce battery consumption.
+  <div style="padding: 1.5rem; background: linear-gradient(135deg, #1a1a24 0%, #0f0f18 100%); border-radius: 12px; border: 1px solid #2a2a40;">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+      <div style="font-size: 2rem;">🌙</div>
+      <div>
+        <div style="font-size: 16px; font-weight: 600; color: #e8e6e3;">Dark Mode</div>
+        <div style="font-family: monospace; font-size: 11px; color: #8a8a9a;">#0a0a0f</div>
+      </div>
+    </div>
+    <div style="font-size: 14px; color: #8a8a9a; line-height: 1.5;">Optimized for low-light environments and OLED displays. Deep void backgrounds make gold accents luminous and reduce battery consumption.</div>
+  </div>
 
-### True Black Mode
-Maximum contrast with pure black backgrounds (`#000000`). Ideal for OLED displays seeking maximum battery savings and users who prefer stark contrast.
+  <div style="padding: 1.5rem; background: #000000; border-radius: 12px; border: 1px solid #1a1a24;">
+    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+      <div style="font-size: 2rem;">⚫</div>
+      <div>
+        <div style="font-size: 16px; font-weight: 600; color: #e8e6e3;">True Black Mode</div>
+        <div style="font-family: monospace; font-size: 11px; color: #8a8a9a;">#000000</div>
+      </div>
+    </div>
+    <div style="font-size: 14px; color: #8a8a9a; line-height: 1.5;">Maximum contrast with pure black backgrounds. Ideal for OLED displays seeking maximum battery savings and users who prefer stark contrast.</div>
+  </div>
+</div>
 
 ## Design Language
 
+<div style="display: grid; gap: 2rem; margin: 2.5rem 0;">
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px; border-left: 4px solid #d4af37;">
+
 ### Gold as Sacred Accent
 
-Gold (#d4af37) is used sparingly throughout the system. It represents:
-- **Primary actions** - The most important interactive elements
-- **Achievement** - Success states and completions
-- **Value** - Content worth highlighting
-- **Wisdom** - Knowledge and insight
+<div style="display: flex; align-items: flex-start; gap: 1.5rem; margin: 1.5rem 0;">
+  <div style="flex-shrink: 0;">
+    <div style="width: 100px; height: 100px; background: #d4af37; border-radius: 12px; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);"></div>
+    <div style="font-family: monospace; font-weight: 600; font-size: 13px; margin-top: 0.5rem; text-align: center;">#d4af37</div>
+  </div>
+  <div style="flex: 1;">
+    <div style="font-size: 14px; color: var(--sl-color-gray-2); margin-bottom: 1rem;">Gold is used sparingly throughout the system to maintain its impact and meaning.</div>
+    <div style="display: grid; gap: 0.75rem;">
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="flex-shrink: 0; width: 6px; height: 6px; background: #d4af37; border-radius: 50%; margin-top: 0.4rem;"></div>
+        <div><strong>Primary actions</strong> — The most important interactive elements</div>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="flex-shrink: 0; width: 6px; height: 6px; background: #d4af37; border-radius: 50%; margin-top: 0.4rem;"></div>
+        <div><strong>Achievement</strong> — Success states and completions</div>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="flex-shrink: 0; width: 6px; height: 6px; background: #d4af37; border-radius: 50%; margin-top: 0.4rem;"></div>
+        <div><strong>Value</strong> — Content worth highlighting</div>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="flex-shrink: 0; width: 6px; height: 6px; background: #d4af37; border-radius: 50%; margin-top: 0.4rem;"></div>
+        <div><strong>Wisdom</strong> — Knowledge and insight</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
 
 ### Breathing Rhythm
 
-Motion in Synchronicity follows a breathing pattern:
+<div style="font-size: 14px; color: var(--sl-color-gray-2); margin-bottom: 1.5rem;">Motion in Synchronicity follows a 9.6-second breathing pattern for meditative quality.</div>
 
-| Phase | Duration | Purpose |
-|-------|----------|---------|
-| Inhale | 3.6s | Building anticipation, gathering energy |
-| Hold | 1.2s | Moment of stillness, completion |
-| Exhale | 4.8s | Release, resolution, calm |
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem;">
+  <div style="text-align: center; padding: 1.25rem; background: var(--sl-color-black); border-radius: 10px;">
+    <div style="font-size: 28px; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">3.6s</div>
+    <div style="font-size: 12px; font-weight: 600; color: var(--sl-color-gray-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Inhale</div>
+    <div style="font-size: 11px; color: var(--sl-color-gray-4);">Building anticipation</div>
+  </div>
+  <div style="text-align: center; padding: 1.25rem; background: var(--sl-color-black); border-radius: 10px;">
+    <div style="font-size: 28px; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">1.2s</div>
+    <div style="font-size: 12px; font-weight: 600; color: var(--sl-color-gray-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Hold</div>
+    <div style="font-size: 11px; color: var(--sl-color-gray-4);">Moment of stillness</div>
+  </div>
+  <div style="text-align: center; padding: 1.25rem; background: var(--sl-color-black); border-radius: 10px;">
+    <div style="font-size: 28px; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">4.8s</div>
+    <div style="font-size: 12px; font-weight: 600; color: var(--sl-color-gray-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Exhale</div>
+    <div style="font-size: 11px; color: var(--sl-color-gray-4);">Release and calm</div>
+  </div>
+</div>
 
-This 9.6-second cycle can be used for loading states, transitions, and meditative UI elements.
+</div>
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
 
 ### Color Temperature
 
-Colors shift temperature based on theme:
-- **Light mode**: Warm grays (beige undertones) for a cozy, paper-like feel
-- **Dark mode**: Cool grays (blue undertones) for a deep, void-like quality
+<div style="font-size: 14px; color: var(--sl-color-gray-2); margin-bottom: 1.5rem;">Colors shift temperature to match each theme's atmosphere.</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+  <div>
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 0.75rem;">Light Mode — Warm Grays</div>
+    <div style="display: flex; gap: 4px; margin-bottom: 0.5rem;">
+      <div style="flex: 1; height: 50px; background: #f0ede6; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #ddd9cf; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #a9a295; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #6b6459; border-radius: 6px;"></div>
+    </div>
+    <div style="font-size: 11px; color: var(--sl-color-gray-3);">Beige undertones for cozy, paper-like feel</div>
+  </div>
+  <div>
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 0.75rem;">Dark Mode — Cool Grays</div>
+    <div style="display: flex; gap: 4px; margin-bottom: 0.5rem;">
+      <div style="flex: 1; height: 50px; background: #e8e6e3; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #b0adb0; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #6a6a7a; border-radius: 6px;"></div>
+      <div style="flex: 1; height: 50px; background: #3a3a48; border-radius: 6px;"></div>
+    </div>
+    <div style="font-size: 11px; color: var(--sl-color-gray-3);">Blue undertones for deep, void-like quality</div>
+  </div>
+</div>
+
+</div>
+
+</div>
 
 ## Architecture
 
-The design system follows a **3-tier token architecture**:
+Our 3-tier token system ensures consistency and flexibility.
 
-```
-┌─────────────────────────────────────────┐
-│           Component Tokens              │  ← Specific component values
-│         (button, card, input)           │
-├─────────────────────────────────────────┤
-│           Semantic Tokens               │  ← Theme-aware, purpose-driven
-│    (text-primary, background, accent)   │
-├─────────────────────────────────────────┤
-│          Primitive Tokens               │  ← Raw values, theme-agnostic
-│      (gold-60, space-4, void-90)        │
-└─────────────────────────────────────────┘
-```
+<div style="margin: 2.5rem 0;">
+  <div style="display: flex; flex-direction: column; gap: 1px; border-radius: 12px; overflow: hidden; border: 1px solid var(--sl-color-hairline);">
+    <div style="background: var(--sl-color-gray-6); padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem;">
+      <div style="flex: 0 0 48px; height: 48px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #0a0a0f; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);">3</div>
+      <div style="flex: 1;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 0.5rem;">Component Tokens</div>
+        <div style="font-size: 13px; color: var(--sl-color-gray-2); margin-bottom: 0.75rem;">Specific component values</div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">button-primary-bg</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">card-border</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">input-text</span>
+        </div>
+      </div>
+    </div>
 
-This architecture enables:
-- **Scalability**: Add new themes without touching components
-- **Consistency**: Single source of truth for values
-- **Flexibility**: Override at any level as needed
+    <div style="background: var(--sl-color-gray-6); padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; border-top: 1px solid var(--sl-color-hairline-light);">
+      <div style="flex: 0 0 48px; height: 48px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #0a0a0f; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);">2</div>
+      <div style="flex: 1;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 0.5rem;">Semantic Tokens</div>
+        <div style="font-size: 13px; color: var(--sl-color-gray-2); margin-bottom: 0.75rem;">Theme-aware, purpose-driven</div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">text-primary</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">background</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">accent</span>
+        </div>
+      </div>
+    </div>
 
-## Next Steps
+    <div style="background: var(--sl-color-gray-6); padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem; border-top: 1px solid var(--sl-color-hairline-light);">
+      <div style="flex: 0 0 48px; height: 48px; background: linear-gradient(135deg, #d4af37 0%, #c9a432 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #0a0a0f; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);">1</div>
+      <div style="flex: 1;">
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 0.5rem;">Primitive Tokens</div>
+        <div style="font-size: 13px; color: var(--sl-color-gray-2); margin-bottom: 0.75rem;">Raw values, theme-agnostic</div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">gold-60</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">space-4</span>
+          <span style="font-size: 11px; font-family: monospace; padding: 0.25rem 0.5rem; background: var(--sl-color-gray-5); border-radius: 4px;">void-90</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-- [Colors](/foundations/colors/) - Explore the color system
-- [Typography](/foundations/typography/) - Learn about type scale
-- [Spacing](/foundations/spacing/) - Understand the spacing system
-- [Motion](/foundations/motion/) - Discover animation patterns
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+    <div style="padding: 1.25rem; background: var(--sl-color-gray-6); border-radius: 10px; border: 1px solid var(--sl-color-hairline-light);">
+      <div style="font-size: 11px; font-weight: 600; color: #d4af37; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Scalability</div>
+      <div style="font-size: 13px; color: var(--sl-color-gray-2);">Add themes without touching components</div>
+    </div>
+    <div style="padding: 1.25rem; background: var(--sl-color-gray-6); border-radius: 10px; border: 1px solid var(--sl-color-hairline-light);">
+      <div style="font-size: 11px; font-weight: 600; color: #d4af37; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Consistency</div>
+      <div style="font-size: 13px; color: var(--sl-color-gray-2);">Single source of truth</div>
+    </div>
+    <div style="padding: 1.25rem; background: var(--sl-color-gray-6); border-radius: 10px; border: 1px solid var(--sl-color-hairline-light);">
+      <div style="font-size: 11px; font-weight: 600; color: #d4af37; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Flexibility</div>
+      <div style="font-size: 13px; color: var(--sl-color-gray-2);">Override at any level</div>
+    </div>
+  </div>
+</div>
+
+## Explore the Foundations
+
+<CardGrid>
+  <Card title="Colors" icon="palette">
+    Explore the complete gold spectrum, neutrals, and ethereal accent colors.
+
+    <div style="display: flex; gap: 0.375rem; margin-top: 1rem;">
+      <div style="width: 36px; height: 36px; background: #d4af37; border-radius: 6px;"></div>
+      <div style="width: 36px; height: 36px; background: #0a0a0f; border-radius: 6px;"></div>
+      <div style="width: 36px; height: 36px; background: #faf8f3; border-radius: 6px;"></div>
+    </div>
+
+    [View Colors →](/foundations/colors/)
+  </Card>
+
+  <Card title="Typography" icon="document">
+    Learn the type scale, font weights, and semantic hierarchy.
+
+    <div style="margin-top: 1rem; font-family: var(--sl-font); line-height: 1.3;">
+      <div style="font-size: 24px; font-weight: 700;">Aa</div>
+      <div style="font-size: 13px; color: var(--sl-color-gray-3);">System · 16px base</div>
+    </div>
+
+    [View Typography →](/foundations/typography/)
+  </Card>
+
+  <Card title="Spacing" icon="setting">
+    Understand the 8px grid system and breathing room.
+
+    <div style="display: flex; gap: 0.375rem; margin-top: 1rem; align-items: flex-end;">
+      <div style="width: 20px; height: 20px; background: var(--sl-color-accent); border-radius: 3px;"></div>
+      <div style="width: 20px; height: 28px; background: var(--sl-color-accent); border-radius: 3px;"></div>
+      <div style="width: 20px; height: 36px; background: var(--sl-color-accent); border-radius: 3px;"></div>
+    </div>
+
+    [View Spacing →](/foundations/spacing/)
+  </Card>
+
+  <Card title="Motion" icon="star">
+    Discover breathing animations and organic timing.
+
+    <div style="margin-top: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--sl-color-accent); opacity: 0.8;"></div>
+      <div style="font-family: var(--sl-font-mono); font-size: 12px; color: var(--sl-color-gray-3);">9.6s cycle</div>
+    </div>
+
+    [View Motion →](/foundations/motion/)
+  </Card>
+</CardGrid>

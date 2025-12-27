@@ -159,31 +159,39 @@ a {
 /* ------------------------------------------------------------
    Tables
    ------------------------------------------------------------ */
-table {
-  border-collapse: separate;
-  border-spacing: 0;
+.sl-markdown-content table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 8px;
-  overflow: hidden;
   margin: 1.5rem 0;
 }
 
-th {
-  background: var(--sl-color-gray-6);
-  font-weight: 600;
-  text-align: left;
-}
-
-th, td {
+.sl-markdown-content th,
+.sl-markdown-content td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--sl-color-hairline-light);
+  text-align: left;
+  word-wrap: break-word;
 }
 
-tr:last-child td {
+.sl-markdown-content th {
+  background: var(--sl-color-gray-6);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sl-markdown-content th:last-child,
+.sl-markdown-content td:last-child {
+  width: 100%;
+}
+
+.sl-markdown-content tr:last-child td {
   border-bottom: none;
 }
 
-tbody tr:hover {
+.sl-markdown-content tbody tr:hover {
   background: var(--sl-color-gray-6);
 }
 
@@ -225,6 +233,72 @@ nav.sidebar a[aria-current="page"] {
 }
 
 /* ------------------------------------------------------------
+   Theme Select - Center arrow vertically
+   ------------------------------------------------------------ */
+.theme-select,
+starlight-theme-select select,
+select[data-theme-select] {
+  background-position: right 0.75rem center !important;
+}
+
+/* PreviewBox theme select - center the dropdown icon */
+.theme-select-icon {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ------------------------------------------------------------
+   Starlight's Content Gap - Use default with overrides
+
+   Keep Starlight's automatic spacing but override for specific cases.
+   ------------------------------------------------------------ */
+.sl-markdown-content :not(a, strong, em, del, span, input, code, br) + :not(a, strong, em, del, span, input, code, br, :where(.not-content *)) {
+  margin-top: var(--sl-content-gap-y);
+}
+
+/* Fix inline styled elements from getting unwanted margins */
+.theme-showcase > div {
+  margin-top: 0 !important;
+}
+
+.theme-showcase div[style*="display: flex"] {
+  margin-top: 0 !important;
+}
+
+.theme-showcase div[style*="display: flex"] > div {
+  margin-top: 0 !important;
+}
+
+/* Fix PreviewBox elements from getting unwanted margins */
+.theme-select-icon {
+  margin-top: 0 !important;
+}
+
+.sl-markdown-content .preview-box * {
+  margin-top: 0 !important;
+}
+
+/* Fix component count grid from getting unwanted margins */
+div[style*="display: grid"] > div {
+  margin-top: 0 !important;
+}
+
+/* Fix color swatches in flex containers */
+div[style*="display: flex"] > div[style*="background:"] {
+  margin-top: 0 !important;
+}
+
+/* Fix color temperature swatches specifically */
+div[style*="display: flex"][style*="gap: 4px"] > div {
+  margin-top: 0 !important;
+}
+
+/* Fix color-grid swatches */
+.color-grid > div {
+  margin-top: 0 !important;
+}
+
+/* ------------------------------------------------------------
    Component Preview with Theme Switcher
 
    A preview container with an inline theme toggle.
@@ -234,10 +308,25 @@ nav.sidebar a[aria-current="page"] {
 
 /* Preview wrapper - contains toolbar and content */
 .preview-box {
-  margin: 1.5rem 0;
+  margin: 2.5rem 0; /* 40px - 5 units - Breathing space around previews */
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--sl-color-hairline);
+}
+
+/* Extra space when preview follows text */
+.sl-markdown-content p + .preview-box,
+.sl-markdown-content ul + .preview-box,
+.sl-markdown-content ol + .preview-box {
+  margin-top: 3rem; /* 48px - 6 units - Clear visual separation */
+}
+
+/* Space before text that follows preview */
+.sl-markdown-content .preview-box + p,
+.sl-markdown-content .preview-box + h2,
+.sl-markdown-content .preview-box + h3,
+.sl-markdown-content .preview-box + h4 {
+  margin-top: 3rem; /* 48px - 6 units - Clear separation after preview */
 }
 
 /* Toolbar with theme switcher */

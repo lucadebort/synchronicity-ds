@@ -3,27 +3,53 @@ title: Introduction
 description: Welcome to the Synchronicity Design System
 ---
 
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
 
 # Introduction
 
 **Synchronicity** is a contemplative design system built for applications that value mindfulness, clarity, and purposeful interaction. It provides a complete set of design tokens, components, and guidelines for building beautiful, accessible React Native applications.
 
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 2rem 0; padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
+  <div style="text-align: center;">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎨</div>
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">45+</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Components</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌓</div>
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">3</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Themes</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">♿</div>
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">WCAG AA</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Compliant</div>
+  </div>
+  <div style="text-align: center;">
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📱</div>
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">100%</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">React Native</div>
+  </div>
+</div>
+
 ## Philosophy
 
 Design systems are not just about consistency—they're about **intention**. Synchronicity is built on these principles:
 
-### Contemplative Design
-Every element is designed to create calm, focused experiences. From the warm gold accents to the breathing animations, Synchronicity encourages mindful interaction.
-
-### Accessibility First
-WCAG AA compliance is not optional. Every color pairing is tested for contrast, every component includes proper accessibility labels, and every interaction considers users of all abilities.
-
-### Mobile Native
-Built from the ground up for React Native, not adapted from web. Touch targets, haptic feedback, and platform-specific optimizations are core to the system.
-
-### Scalable Architecture
-The 3-tier token system (Primitives → Semantic → Component) ensures your application can grow while maintaining consistency.
+<CardGrid>
+  <Card title="🧘 Contemplative Design" icon="star">
+    Every element is designed to create calm, focused experiences. From the warm gold accents to the breathing animations, Synchronicity encourages mindful interaction.
+  </Card>
+  <Card title="♿ Accessibility First" icon="approve-check">
+    WCAG AA compliance is not optional. Every color pairing is tested for contrast, every component includes proper accessibility labels, and every interaction considers users of all abilities.
+  </Card>
+  <Card title="📱 Mobile Native" icon="rocket">
+    Built from the ground up for React Native, not adapted from web. Touch targets, haptic feedback, and platform-specific optimizations are core to the system.
+  </Card>
+  <Card title="🏗️ Scalable Architecture" icon="puzzle">
+    The 3-tier token system (Primitives → Semantic → Component) ensures your application can grow while maintaining consistency.
+  </Card>
+</CardGrid>
 
 ## What's Included
 
@@ -47,21 +73,78 @@ Start with the tokens package. You can use it without the components package if 
 
 ## Design Principles
 
+<div style="display: grid; gap: 2rem; margin: 2rem 0;">
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px; border-left: 4px solid #d4af37;">
+
 ### Gold as the Primary Accent
-Gold (#d4af37) is the signature color of Synchronicity. It represents wisdom, illumination, and value. Use it sparingly for maximum impact.
+
+<div style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0;">
+  <div style="width: 80px; height: 80px; background: #d4af37; border-radius: 8px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);"></div>
+  <div>
+    <div style="font-family: monospace; font-weight: 600; margin-bottom: 0.25rem;">#d4af37</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Gold represents wisdom, illumination, and value. Use it sparingly for maximum impact.</div>
+  </div>
+</div>
+
+</div>
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
 
 ### Three Themes, One System
-- **Light**: Warm cream backgrounds for daytime use
-- **Dark**: Deep void backgrounds, OLED-optimized
-- **True Black**: Pure black for maximum battery savings
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <div style="padding: 1rem; background: linear-gradient(135deg, #faf8f3 0%, #f5f2ea 100%); border-radius: 8px; border: 1px solid #dacfc5;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <span style="font-size: 1.5rem;">☀️</span>
+      <strong style="color: #2a2520;">Light</strong>
+    </div>
+    <div style="font-size: 0.875rem; color: #5a4f45;">Warm cream backgrounds for daytime use</div>
+  </div>
+  <div style="padding: 1rem; background: linear-gradient(135deg, #1a1a24 0%, #0f0f18 100%); border-radius: 8px; border: 1px solid #2a2a40;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <span style="font-size: 1.5rem;">🌙</span>
+      <strong style="color: #faf8f3;">Dark</strong>
+    </div>
+    <div style="font-size: 0.875rem; color: #8a8a9a;">Deep void backgrounds, OLED-optimized</div>
+  </div>
+  <div style="padding: 1rem; background: #000000; border-radius: 8px; border: 1px solid #1a1a1a;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+      <span style="font-size: 1.5rem;">⚫</span>
+      <strong style="color: #faf8f3;">True Black</strong>
+    </div>
+    <div style="font-size: 0.875rem; color: #8a8a9a;">Pure black for maximum battery savings</div>
+  </div>
+</div>
+
+</div>
+
+<div style="padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 12px;">
 
 ### Breathing Rhythm
+
 Motion in Synchronicity follows a breathing rhythm:
-- Breath in: 3.6 seconds
-- Hold: 1.2 seconds
-- Breath out: 4.8 seconds
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1rem 0;">
+  <div style="text-align: center; padding: 1rem; background: var(--sl-color-black); border-radius: 8px;">
+    <div style="font-size: 2rem; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">3.6s</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Breath in</div>
+  </div>
+  <div style="text-align: center; padding: 1rem; background: var(--sl-color-black); border-radius: 8px;">
+    <div style="font-size: 2rem; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">1.2s</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Hold</div>
+  </div>
+  <div style="text-align: center; padding: 1rem; background: var(--sl-color-black); border-radius: 8px;">
+    <div style="font-size: 2rem; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;">4.8s</div>
+    <div style="font-size: 0.875rem; color: var(--sl-color-gray-3);">Breath out</div>
+  </div>
+</div>
 
 This creates a calming, meditative quality to animations.
+
+</div>
+
+</div>
 
 ## Next Steps
 

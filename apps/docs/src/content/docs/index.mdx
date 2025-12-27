@@ -17,224 +17,182 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid, Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
 
-<div class="intro-section">
+<div class="intro-section" style="max-width: 65ch; margin: 0 auto; text-align: center; padding: 2rem 0 4rem;">
 
-## The Art of Contemplative Design
+A design system for applications that honor the user's attention. Born from I Ching divination practice, crafted for mindful experiences.
 
-Synchronicity is a design system crafted for applications that honor the user's attention. Born from the development of an I Ching divination app, it embodies principles of mindfulness, clarity, and purposeful restraint.
-
-Every token, every animation, every interaction has been considered—not just for function, but for feeling.
+**45 components** • **React Native** • **TypeScript** • **Dark-first**
 
 </div>
 
 ---
 
-## Core Principles
+## Philosophy
 
 <CardGrid stagger>
-  <Card title="Intentional Simplicity" icon="pencil">
-    Every element earns its place. We remove visual noise so content can breathe and users can focus on what matters.
+  <Card title="⚪ Intentional Simplicity">
+    Every element earns its place. Remove noise, let content breathe.
   </Card>
-  <Card title="Warm Luminosity" icon="sun">
-    Gold serves as the sacred accent—drawing attention with warmth rather than aggression, creating moments of visual significance.
+  <Card title="✨ Warm Luminosity">
+    Gold as the sacred accent—drawing attention with warmth, not aggression.
   </Card>
-  <Card title="Rhythmic Motion" icon="star">
-    Animations follow natural breathing patterns. Transitions feel organic, never mechanical. The interface moves with intention.
+  <Card title="〰️ Rhythmic Motion">
+    Animations follow breathing patterns. Organic transitions, never mechanical.
   </Card>
-  <Card title="Inclusive by Design" icon="approve-check">
-    WCAG AA compliance is the baseline, not the goal. Every color combination is tested. Every interaction is accessible.
-  </Card>
-</CardGrid>
-
----
-
-## Quick Start
-
-Get up and running in seconds:
-
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @synchronicity/react-native @synchronicity/tokens
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @synchronicity/react-native @synchronicity/tokens
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @synchronicity/react-native @synchronicity/tokens
-    ```
-  </TabItem>
-</Tabs>
-
-Then wrap your app with the theme provider:
-
-```tsx
-import { ThemeProvider } from '@synchronicity/react-native';
-import { Button, HexagramVisual } from '@synchronicity/react-native';
-
-export default function App() {
-  return (
-    <ThemeProvider theme="dark">
-      <Button variant="primary">Begin Reading</Button>
-      <HexagramVisual
-        lines={['yang', 'yin', 'yang', 'yang', 'yin', 'yin']}
-        size="lg"
-      />
-    </ThemeProvider>
-  );
-}
-```
-
----
-
-## 45 Thoughtfully Crafted Components
-
-From foundational UI elements to specialized divination tools, every component is designed with care.
-
-<CardGrid stagger>
-  <Card title="Form & Input" icon="document">
-    **11 components** for gathering input—Input, TextArea, Checkbox, Radio, Switch, Slider, Rating, DatePicker, TimePicker, NumberInput, SearchInput
-  </Card>
-  <Card title="Actions & Navigation" icon="right-arrow">
-    **10 components** for user action—Button, IconButton, FloatingActionButton, Chip, TabBar, Tabs, SegmentedControl, StepIndicator, Menu
-  </Card>
-  <Card title="Feedback & Display" icon="information">
-    **12 components** for communication—Alert, Banner, Toast, Badge, Tag, ProgressBar, Spinner, Skeleton, EmptyState, Avatar, Divider
-  </Card>
-  <Card title="Structure & Layout" icon="puzzle">
-    **6 components** for organization—Card, List, Accordion, Collapsible, Modal, BottomSheet, ActionSheet, Popover, Tooltip
-  </Card>
-  <Card title="I Ching Divination" icon="star">
-    **6 specialized components** for contemplative practice—HexagramVisual, HexagramLine, TrigramVisual, CoinFlip, ThreeCoins, ReadingCard
+  <Card title="♿ Inclusive Design">
+    WCAG AA is the baseline. Every color tested, every interaction accessible.
   </Card>
 </CardGrid>
-
-[Explore all components →](/components/)
-
----
-
-## I Ching Divination Components
-
-Built specifically for divination applications, these components handle traditional casting methods and reading displays.
-
-<CardGrid>
-  <Card title="Hexagram Display" icon="star">
-    Render the 64 hexagrams with support for changing lines. Includes `HexagramVisual`, `HexagramLine`, and `LineStack` for flexible layouts.
-  </Card>
-  <Card title="Coin Casting" icon="random">
-    Animated three-coin method with automatic line calculation. Realistic flip animations and result tracking with `CoinFlip` and `ThreeCoins`.
-  </Card>
-  <Card title="Trigram System" icon="puzzle">
-    Display the eight trigrams with Chinese characters and labels. Grid view for selection, pair view for upper/lower display.
-  </Card>
-  <Card title="Reading Cards" icon="document">
-    Beautiful cards for displaying reading summaries with hexagram visualization, dates, questions, and changing line indicators.
-  </Card>
-</CardGrid>
-
-Example coin casting flow:
-
-```tsx
-import { ThreeCoins, HexagramVisual } from '@synchronicity/react-native';
-
-function CastingScreen() {
-  const [lines, setLines] = useState<LineType[]>([]);
-  const [throwing, setThrowing] = useState(false);
-
-  const handleThrow = () => setThrowing(true);
-
-  const handleComplete = (result: ThrowResult) => {
-    setThrowing(false);
-    setLines(prev => [...prev, result.lineType]);
-  };
-
-  return (
-    <View>
-      <ThreeCoins
-        throwing={throwing}
-        onPress={handleThrow}
-        onThrowComplete={handleComplete}
-        showValue
-      />
-      {lines.length === 6 && (
-        <HexagramVisual lines={lines} size="xl" />
-      )}
-    </View>
-  );
-}
-```
-
-[View I Ching components →](/components/#i-ching-specific)
 
 ---
 
 ## Three Contemplative Themes
 
+<div class="theme-showcase" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 2rem 0;">
+
+<div style="background: linear-gradient(135deg, #faf8f3 0%, #f5f2ea 100%); border-radius: 12px; padding: 2rem; border: 1px solid #dacfc5;">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: #faf8f3; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center; font-size: 24px;">☀️</div>
+    <h3 style="margin: 0; color: #2a2520;">Light</h3>
+  </div>
+  <p style="color: #5a4f45; margin: 0;">Warm cream backgrounds with grounded gold accents. Paper-like warmth for focused reading.</p>
+  <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #faf8f3; border: 1px solid #dacfc5;" title="#faf8f3"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #f5f2ea; border: 1px solid #dacfc5;" title="#f5f2ea"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #d4af37; border: 1px solid #dacfc5;" title="#d4af37"></div>
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, #0f0f17 0%, #1a1a2e 100%); border-radius: 12px; padding: 2rem; border: 1px solid #2a2a40;">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: #1a1a2e; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center; font-size: 24px;">🌙</div>
+    <h3 style="margin: 0; color: #e8e6e3;">Dark</h3>
+  </div>
+  <p style="color: #a8a29e; margin: 0;">Deep void backgrounds with luminous gold. OLED-optimized for battery and depth.</p>
+  <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #0f0f17; border: 1px solid #2a2a40;" title="#0f0f17"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #1a1a2e; border: 1px solid #2a2a40;" title="#1a1a2e"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #d4af37; border: 1px solid #2a2a40;" title="#d4af37"></div>
+  </div>
+</div>
+
+<div style="background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%); border-radius: 12px; padding: 2rem; border: 1px solid #1a1a1a;">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: #000000; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center; font-size: 24px;">⚫</div>
+    <h3 style="margin: 0; color: #ffffff;">True Black</h3>
+  </div>
+  <p style="color: #a8a29e; margin: 0;">Pure black for maximum contrast. Dramatic, focused, uncompromising OLED savings.</p>
+  <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #000000; border: 1px solid #333333;" title="#000000"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #0a0a0a; border: 1px solid #333333;" title="#0a0a0a"></div>
+    <div style="width: 32px; height: 32px; border-radius: 6px; background: #d4af37; border: 1px solid #333333;" title="#d4af37"></div>
+  </div>
+</div>
+
+</div>
+
+All themes maintain **WCAG AA** contrast and include gold-tinted shadows for warmth.
+
+---
+
+## I Ching Divination Components
+
+The only design system built for contemplative practice.
+
 <CardGrid>
-  <Card title="Light" icon="sun">
-    Warm cream backgrounds with grounded gold accents. Paper-like warmth for focused reading. Perfect for bright environments.
+  <Card title="☰ Hexagram Display">
+    Render the 64 hexagrams with changing line support. `HexagramVisual`, `HexagramLine`, `LineStack`.
   </Card>
-  <Card title="Dark" icon="moon">
-    Deep void backgrounds with luminous gold. OLED-optimized for battery efficiency and visual depth. The default experience.
+  <Card title="🪙 Coin Casting">
+    Animated three-coin method with automatic calculation. Realistic physics, traditional values.
   </Card>
-  <Card title="True Black" icon="star">
-    Pure black for maximum contrast and OLED savings. Dramatic, focused, uncompromising. For those who prefer the void.
+  <Card title="☷ Trigram System">
+    The eight trigrams with Chinese characters. Grid selection, pair display, full Unicode support.
+  </Card>
+  <Card title="📜 Reading Cards">
+    Beautiful summaries with hexagram visualization, dates, questions, transformations.
   </Card>
 </CardGrid>
 
-All themes maintain WCAG AA contrast ratios and include gold-tinted shadows for consistent warmth.
+<div style="margin: 2rem 0; padding: 1.5rem; background: var(--sl-color-bg-sidebar); border-radius: 8px; border-left: 4px solid #d4af37;">
+
+**Example:** Complete coin casting flow in less than 20 lines
+
+```tsx
+function CastingScreen() {
+  const [lines, setLines] = useState<LineType[]>([]);
+  const [throwing, setThrowing] = useState(false);
+
+  return (
+    <View>
+      <ThreeCoins
+        throwing={throwing}
+        onPress={() => setThrowing(true)}
+        onThrowComplete={(result) => {
+          setThrowing(false);
+          setLines([...lines, result.lineType]);
+        }}
+        showValue
+      />
+      {lines.length === 6 && <HexagramVisual lines={lines} />}
+    </View>
+  );
+}
+```
+
+</div>
+
+[Explore I Ching components →](/components/#i-ching-specific)
 
 ---
 
-## Three-Tier Token Architecture
+## 45 Thoughtfully Crafted Components
 
-The token system follows a clear hierarchy, separating raw values from their meaning and usage:
+From foundational UI to specialized divination tools.
 
-| Tier | Purpose | Example |
-|------|---------|---------|
-| **Primitives** | Raw, theme-agnostic values | `gold-60`, `void-90`, `space-4` |
-| **Semantic** | Purpose-driven, theme-aware | `text-primary`, `background`, `spacing-md` |
-| **Component** | Specific to UI elements | `button-primary-background`, `radius-modal` |
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
 
-This architecture enables scalable theming, consistent design decisions, and maintainable code across your entire application.
+<div style="text-align: center; padding: 1rem;">
+  <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+  <strong>11</strong> Form & Input
+</div>
 
-[Learn more about tokens →](/tokens/architecture/)
+<div style="text-align: center; padding: 1rem;">
+  <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+  <strong>10</strong> Actions & Nav
+</div>
 
----
+<div style="text-align: center; padding: 1rem;">
+  <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+  <strong>12</strong> Feedback & Status
+</div>
 
-## Token Categories
+<div style="text-align: center; padding: 1rem;">
+  <div style="font-size: 2rem; margin-bottom: 0.5rem;">📦</div>
+  <strong>6</strong> Layout & Structure
+</div>
 
-| Category | Description |
-|----------|-------------|
-| **Color** | Gold spectrum, warm & cool grays, ethereal accents, semantic states |
-| **Typography** | System fonts with contemplative rhythm—display, heading, body, label, caption |
-| **Spacing** | 4px base scale with semantic mapping—xs through 3xl |
-| **Motion** | Duration and easing including breathing animation timings (3.6s in, 1.2s hold, 4.8s out) |
-| **Radius** | Gentle curves that soften without losing clarity—sm, md, lg, xl, full |
-| **Shadow** | Gold-tinted shadows for warmth, optimized for mobile performance |
-| **Haptics** | Tactile feedback patterns—selection, impact, notification |
+<div style="text-align: center; padding: 1rem;">
+  <div style="font-size: 2rem; margin-bottom: 0.5rem;">☯️</div>
+  <strong>6</strong> I Ching Divination
+</div>
+
+</div>
+
+[Browse all components →](/components/)
 
 ---
 
 ## Built for React Native
 
-Synchronicity is purpose-built for React Native applications with:
+🎨 Animated API • 📱 Mobile-first • ♿ Accessible • 🌙 OLED optimized • 📦 Tree-shakeable • 🎯 TypeScript
 
-- 🎨 **Animated API support** - Smooth, performant animations
-- 📱 **Mobile-first** - Touch targets, gestures, haptics
-- ♿ **Accessible** - Screen reader support, keyboard navigation
-- 🌙 **OLED optimized** - True black theme for battery savings
-- 📦 **Tree-shakeable** - Import only what you need
-- 🎯 **TypeScript** - Full type safety with IntelliSense
+<div style="max-width: 55ch; margin: 2rem auto; padding: 2rem; background: var(--sl-color-bg-sidebar); border-radius: 12px; text-align: center;">
 
----
+### Ready to begin?
 
-<Aside type="tip" title="Ready to begin?">
-Start with the [Introduction](/getting-started/introduction/) to understand the philosophy, explore the [Components](/components/) to see what's available, or dive into [Foundations](/foundations/overview/) to learn the design principles.
-</Aside>
+Start with the [Introduction](/getting-started/introduction/) • Explore [Components](/components/) • Learn [Foundations](/foundations/overview/)
+
+</div>
