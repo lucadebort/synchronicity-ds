@@ -1013,6 +1013,41 @@ div.gold-bullet-list > div {
 }
 
 /* ------------------------------------------------------------
+   Homepage Grid Layouts
+   ------------------------------------------------------------ */
+.theme-showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .theme-showcase {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 640px) {
+  .component-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .component-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------
    Responsive
    ------------------------------------------------------------ */
 @media (max-width: 768px) {
