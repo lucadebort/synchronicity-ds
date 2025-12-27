@@ -21,15 +21,15 @@ A contemplative design system for mindful applications. Born from I Ching divina
 
 ### Installation
 
+> **Note:** The npm package is not yet published. The component library is currently in active development.
+
+For now, you can explore the [documentation](https://synchronicity-ds.vercel.app/) and [design tokens](https://synchronicity-ds.vercel.app/tokens/architecture/).
+
+Once published, installation will be:
+
 ```bash
-# Install the React Native package
+# Install the React Native package (coming soon)
 npm install @synchronicity/react-native
-
-# Or with yarn
-yarn add @synchronicity/react-native
-
-# Or with pnpm
-pnpm add @synchronicity/react-native
 ```
 
 ### Basic Usage
